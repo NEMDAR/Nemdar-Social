@@ -95,4 +95,12 @@ class WorkspaceTests(unittest.TestCase):
   self.assertEqual(self.store.state(self.admin)['revision'],rev)
  def test_20_state_endpoint(self):
   r=self.request('/api/state',token=self.token);self.assertEqual(r['status'],200);self.assertIn('Content-Security-Policy',r['headers']);self.assertEqual(json.loads(r['body'])['user']['role'],'admin')
+ def test_21_surface_assessment_is_scoped_and_validated(self):
+  cid,_=self.client();other,_=self.client('Other assessment client');editor,_=self.user('editor',[cid])
+  state=self.action('assessment',{'clientId':cid,'urls':{'website':'https://example.com','instagram':'https://instagram.com/example'}},editor)
+  assessment=state['assessments'][-1]
+  self.assertEqual(assessment['mode'],'surface');self.assertEqual(set(assessment['urls']),{'website','instagram'})
+  self.assertFalse(any(item['clientId']==other for item in state['assessments']))
+  with self.assertRaises(Problem):self.action('assessment',{'clientId':cid,'urls':{'website':'javascript:alert(1)'}},editor)
+  with self.assertRaises(Problem):self.action('assessment',{'clientId':cid,'urls':{}},editor)
 if __name__=='__main__':unittest.main()
