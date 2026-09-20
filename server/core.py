@@ -204,7 +204,8 @@ class Store:
      if old['clientId']!=cid:raise Problem('غير مصرح',403)
      created=old.get('createdAt',timestamp())
     else:created=timestamp()
-    obj={'id':id,'clientId':cid,'urls':urls,'mode':'surface','createdAt':created,'updatedAt':timestamp(),'createdBy':user['id']}
+    from server.surface_audit import collect
+    obj={'id':id,'clientId':cid,'urls':urls,'snapshots':collect(urls),'mode':'surface','createdAt':created,'updatedAt':timestamp(),'createdBy':user['id']}
    elif action=='campaign':
     try: budget=float(p.get('budget',0))
     except (TypeError,ValueError): raise Problem('الميزانية غير صحيحة')
