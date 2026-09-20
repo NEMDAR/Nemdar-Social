@@ -77,3 +77,7 @@ python -m server.manage backup --output /secure-backups/social-2026-09-20.db
 التصحيح النهائي لعلامة Schema نُشر من commit `64d3f0d9da94a67870d3adb856dccf896e1a2de1` عبر deployment `tdczgi1myhmhd4hu9hn0dzth`، وانتهى كذلك بحالة `finished` والتطبيق `running:healthy`. تحقق HTTP من ظهور واجهة ربط Facebook، وبقاء صفحة الدخول متاحة، وبقاء بيانات الحالة محمية بدون جلسة.
 
 نُشر Tutorial الربط من commit `409813aac1d406847c0c6f19ce052ac46f7d6ba1` عبر deployment `tqqbunedmujm1jksoe4fbtua`. انتهى النشر بحالة `finished` واستقرت الخدمة على `running:healthy`. أعاد ملف Tutorial العام 200 واحتوى العنوان والصلاحيات المتوقعة، وظل `/api/state` يعيد 401 بدون جلسة.
+
+نُشر دعم صورة Facebook من commit `65e8bda02659c36c4b9a7e202a80346f81e2011c` عبر deployment `lmx4jt4c8a16ceiabpbcwxej` بحالة `finished` والتطبيق `running:healthy`. ظهر وصف دعم الصورة عبر HTTPS وبقيت حالة التطبيق محمية.
+
+نُشر موصل Instagram Professional من commit `73345b5d07dac02add89c8abb3d223ea5750a1f0` عبر deployment `pjq21twjy4mbvnhhoakxmnrj` بحالة `finished` والتطبيق `running:healthy`. تحقّق HTTPS من واجهة Instagram وTutorial، ورفض رابط وسائط مزور بـ403، ورفض `/api/state` بدون جلسة بـ401. لم يُدخل توكن حقيقي ولم يُنشر محتوى حي أثناء التحقق.
