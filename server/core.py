@@ -3,10 +3,12 @@ import base64, hashlib, hmac, json, os, secrets, sqlite3, time, uuid
 from datetime import datetime, timezone
 from contextlib import contextmanager
 from pathlib import Path
+from urllib.parse import urlparse
 
 PLATFORMS=['Facebook','Instagram','WhatsApp Business','Threads','YouTube','LinkedIn','Pinterest','TikTok','X','Google Business Profile']
-COLLECTIONS=['clients','brands','accounts','posts','leads','campaigns','media','audit','secrets']
+COLLECTIONS=['clients','brands','accounts','posts','leads','campaigns','media','assessments','audit','secrets']
 ROLES=['admin','editor','reviewer','viewer']
+ASSESSMENT_SOURCES=['website','instagram','facebook','tiktok','linkedin','youtube','googleBusiness']
 class Problem(Exception):
  def __init__(self,message,status=400): self.message,self.status=message,status
 
@@ -183,6 +185,26 @@ class Store:
      old=self.entity(db,id,'leads')
      if old['clientId']!=cid: raise Problem('غير مصرح',403)
     kind='leads';obj={'id':id,'clientId':cid,'name':text(p,'name'),'notes':text(p,'notes',5000,True),'criteria':criteria,'status':status}
+   elif action=='assessment':
+    raw=p.get('urls',{})
+    if not isinstance(raw,dict) or any(key not in ASSESSMENT_SOURCES for key in raw):raise Problem('مصادر التقييم غير صحيحة')
+    urls={}
+    for key in ASSESSMENT_SOURCES:
+     value=raw.get(key,'')
+     if not isinstance(value,str) or len(value)>2000:raise Problem('رابط التقييم غير صحيح')
+     value=value.strip()
+     if not value:continue
+     parsed=urlparse(value)
+     if parsed.scheme not in ['http','https'] or not parsed.hostname or parsed.username or parsed.password:raise Problem('رابط التقييم غير صحيح')
+     urls[key]=value
+    if not urls:raise Problem('أضف رابطاً واحداً على الأقل لبدء التقييم')
+    kind='assessments'
+    if p.get('id'):
+     old=self.entity(db,id,kind)
+     if old['clientId']!=cid:raise Problem('غير مصرح',403)
+     created=old.get('createdAt',timestamp())
+    else:created=timestamp()
+    obj={'id':id,'clientId':cid,'urls':urls,'mode':'surface','createdAt':created,'updatedAt':timestamp(),'createdBy':user['id']}
    elif action=='campaign':
     try: budget=float(p.get('budget',0))
     except (TypeError,ValueError): raise Problem('الميزانية غير صحيحة')

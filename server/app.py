@@ -32,7 +32,7 @@ class App:
     except (ValueError,UnicodeDecodeError):raise Problem('البيانات غير صالحة')
     if not isinstance(body,dict):raise Problem('البيانات غير صالحة')
    cookie_flags='; Path=/; HttpOnly; SameSite=Strict'+('; Secure' if self.secure else '')
-   if path=='/api/health' and method=='GET':payload={'ok':True,'version':'0.5.0'}
+   if path=='/api/health' and method=='GET':payload={'ok':True,'version':'0.6.0'}
    elif path=='/api/setup' and method=='POST':
     configured=os.environ.get('BOOTSTRAP_TOKEN_HASH','')
     supplied=body.get('token','')
