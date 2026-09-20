@@ -1,4 +1,5 @@
 import base64,io,json,os,tempfile,unittest
+from unittest.mock import patch
 from server.app import App
 from server.core import Problem
 
@@ -97,10 +98,13 @@ class WorkspaceTests(unittest.TestCase):
   r=self.request('/api/state',token=self.token);self.assertEqual(r['status'],200);self.assertIn('Content-Security-Policy',r['headers']);self.assertEqual(json.loads(r['body'])['user']['role'],'admin')
  def test_21_surface_assessment_is_scoped_and_validated(self):
   cid,_=self.client();other,_=self.client('Other assessment client');editor,_=self.user('editor',[cid])
-  state=self.action('assessment',{'clientId':cid,'urls':{'website':'https://example.com','instagram':'https://instagram.com/example'}},editor)
+  snapshots={'website':{'status':'available','title':'Example'},'instagram':{'status':'unavailable'},'observedAt':'2026-09-20T00:00:00+00:00'}
+  with patch('server.surface_audit.collect',return_value=snapshots):state=self.action('assessment',{'clientId':cid,'urls':{'website':'https://example.com','instagram':'https://instagram.com/example'}},editor)
   assessment=state['assessments'][-1]
   self.assertEqual(assessment['mode'],'surface');self.assertEqual(set(assessment['urls']),{'website','instagram'})
+  self.assertEqual(assessment['snapshots']['website']['title'],'Example')
   self.assertFalse(any(item['clientId']==other for item in state['assessments']))
-  with self.assertRaises(Problem):self.action('assessment',{'clientId':cid,'urls':{'website':'javascript:alert(1)'}},editor)
-  with self.assertRaises(Problem):self.action('assessment',{'clientId':cid,'urls':{}},editor)
+  with patch('server.surface_audit.collect',return_value={}):
+   with self.assertRaises(Problem):self.action('assessment',{'clientId':cid,'urls':{'website':'javascript:alert(1)'}},editor)
+   with self.assertRaises(Problem):self.action('assessment',{'clientId':cid,'urls':{}},editor)
 if __name__=='__main__':unittest.main()

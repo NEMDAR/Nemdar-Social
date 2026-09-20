@@ -16,7 +16,7 @@ test('verified connection upgrades the report without inventing insights',()=>{
  const report=buildAuditReport({urls:{instagram:'https://instagram.com/example'}},accounts,connections);
  assert.equal(report.level,'verified');
  assert.equal(report.connected.length,1);
- assert.equal(report.metrics.find(metric=>metric.name==='تطابق هوية الحساب').status,'available');
+ assert.equal(report.metrics.find(metric=>metric.name==='قابلية اكتشاف الهوية العامة').status,'available');
  assert.equal(report.metrics.find(metric=>metric.name.includes('Reach')).status,'unknown');
 });
 
