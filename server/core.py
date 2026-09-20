@@ -109,7 +109,7 @@ class Store:
   result['user']={k:user[k] for k in ['id','email','name','role']}
   from server.facebook import metadata
   result['connections']=metadata(self,user)
-  result['csrf']=user.get('csrf','');result['version']=4
+  result['csrf']=user.get('csrf','');result['version']=5
   return result
  def mutate(self,user,action,p,revision):
   if not isinstance(action,str) or any(not isinstance(p.get(k,''),str) for k in ['id','clientId']):raise Problem('معرف غير صالح')
