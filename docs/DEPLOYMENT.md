@@ -61,3 +61,5 @@ python -m server.manage backup --output /secure-backups/social-2026-09-20.db
 ## تحقق النشر
 
 التطبيق منشور على نسخة الكود `ecf6ac618a76ad4bf38916f8925867eefaeb950b`. نشر Coolify `f7ppayv8dmtlnkxokjjg2yxc` انتهى بنجاح، والتطبيق running:healthy. فحص HTTPS بتاريخ 2026-09-20 أعاد 200 مع `{"ok":true,"version":"0.4.0"}`.
+
+تحديث التقويم: نُشر commit `764341e6484d14492c175dcf4e8a426f4b614e19` بنجاح عبر deployment `utuyv7ra1aqbpponcvtlbcga`، بحالة finished / running:healthy. أعاد ملف التقويم الجديد 200، وحافظ /api/state على 401 بدون جلسة. أكد المالك إكمال إعداد المدير.
