@@ -41,6 +41,8 @@
 
 نُشر التصحيح النهائي عبر deployment `tdczgi1myhmhd4hu9hn0dzth` بحالة `finished` والتطبيق `running:healthy`. ظهر كود واجهة Facebook عبر HTTPS، وبقيت صفحة الدخول متاحة وحالة التطبيق محمية.
 
+أضيف Tutorial داخل صفحة ربط المنصات يشرح إضافة الحساب، إعداد تطبيق Meta، إنشاء User Token بالصلاحيات، استخراج Page Access Token من `/me/accounts`، فحص انتهاء الصلاحية، الربط، ثم إرسال منشور تجريبي بتأكيد يدوي. الروابط الخارجية تفتح بأمان، والتوكن لا يُطلب خارج نموذج التطبيق.
+
 ## المراجع التقنية المستخدمة
 
 - https://docs.python.org/3/library/hashlib.html
