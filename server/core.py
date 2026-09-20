@@ -40,6 +40,12 @@ class Store:
    CREATE TABLE IF NOT EXISTS vault(id TEXT PRIMARY KEY,cipher BLOB NOT NULL);
    CREATE TABLE IF NOT EXISTS attempts(key TEXT PRIMARY KEY,count INTEGER NOT NULL,until REAL NOT NULL);
    ''')
+   from server.dispatch import ensure_schema
+   ensure_schema(db)
+   from server.dispatch import enqueue
+   for row in db.execute("SELECT data FROM entities WHERE kind='posts' AND id NOT IN (SELECT post_id FROM dispatch_jobs)").fetchall():
+    post=json.loads(row[0])
+    if post.get('status')=='scheduled':enqueue(db,post)
  @contextmanager
  def db(self):
   db=sqlite3.connect(self.path,timeout=20);db.row_factory=sqlite3.Row
@@ -94,10 +100,12 @@ class Store:
     if self.allowed(user,row['client_id']):
      if row['kind']=='secrets' and user['role']!='admin': continue
      result[row['kind']].append(json.loads(row['data']))
+   from server.dispatch import jobs_for
+   result['jobs']=jobs_for(db,self,user)
    result['audit'].reverse()
    result['users']=[{k:r[k] for k in ['id','email','name','role','clients','active']} for r in db.execute('SELECT * FROM users')] if user['role']=='admin' else []
   result['user']={k:user[k] for k in ['id','email','name','role']}
-  result['csrf']=user.get('csrf','');result['version']=3
+  result['csrf']=user.get('csrf','');result['version']=4
   return result
  def mutate(self,user,action,p,revision):
   if not isinstance(action,str) or any(not isinstance(p.get(k,''),str) for k in ['id','clientId']):raise Problem('معرف غير صالح')
@@ -152,8 +160,15 @@ class Store:
      except ValueError: raise Problem('الموعد غير صحيح')
      if not when.tzinfo or when<=datetime.now(timezone.utc): raise Problem('اختر موعداً مستقبلياً مع منطقة زمنية')
      obj.update(status='scheduled',scheduledAt=when.astimezone(timezone.utc).isoformat(),dispatchStatus='blocked_no_connector')
+     from server.dispatch import enqueue
+     enqueue(db,obj)
     if action=='cancel':
+     from server.dispatch import cancel
+     cancel(db,id)
      obj['status']='approved';obj.pop('scheduledAt',None);obj.pop('dispatchStatus',None)
+   elif action=='retry-target':
+    from server.dispatch import retry
+    retry(db,id,cid)
    elif action=='lead':
     criteria={k:True if p.get(k)=='yes' else False if p.get(k)=='no' else None for k in ['budget','authority','need','timeline']}
     status='unqualified' if False in criteria.values() else 'qualified' if all(v is True for v in criteria.values()) else 'incomplete'

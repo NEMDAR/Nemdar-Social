@@ -1,5 +1,5 @@
 """WSGI entrypoint. Run behind HTTPS with Waitress for deployment."""
-import json,mimetypes,os,secrets,sys,traceback
+import json,mimetypes,os,secrets,sys,traceback,hashlib
 from http.cookies import SimpleCookie
 from pathlib import Path
 from urllib.parse import urlparse
@@ -32,7 +32,15 @@ class App:
     except (ValueError,UnicodeDecodeError):raise Problem('البيانات غير صالحة')
     if not isinstance(body,dict):raise Problem('البيانات غير صالحة')
    cookie_flags='; Path=/; HttpOnly; SameSite=Strict'+('; Secure' if self.secure else '')
-   if path=='/api/health' and method=='GET':payload={'ok':True,'version':'0.3.0'}
+   if path=='/api/health' and method=='GET':payload={'ok':True,'version':'0.4.0'}
+   elif path=='/api/setup' and method=='POST':
+    configured=os.environ.get('BOOTSTRAP_TOKEN_HASH','')
+    supplied=body.get('token','')
+    if not isinstance(supplied,str) or not configured or not secrets.compare_digest(hashlib.sha256(supplied.encode()).hexdigest(),configured):raise Problem('رابط الإعداد غير صالح',403)
+    email=body.get('email','')
+    if not isinstance(email,str) or '@' not in email or len(email)>200:raise Problem('البريد غير صحيح')
+    self.store.setup(email,body.get('password',''),body.get('name','Administrator')[:100])
+    payload={'ok':True}
    elif path=='/api/login' and method=='POST':
     email=body.get('email','');password=body.get('password','')
     if not isinstance(email,str) or len(email)>200 or not isinstance(password,str):raise Problem('بيانات غير صحيحة')
