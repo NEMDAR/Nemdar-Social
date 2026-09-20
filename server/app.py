@@ -32,7 +32,7 @@ class App:
     except (ValueError,UnicodeDecodeError):raise Problem('البيانات غير صالحة')
     if not isinstance(body,dict):raise Problem('البيانات غير صالحة')
    cookie_flags='; Path=/; HttpOnly; SameSite=Strict'+('; Secure' if self.secure else '')
-   if path=='/api/health' and method=='GET':payload={'ok':True,'version':'0.4.0'}
+   if path=='/api/health' and method=='GET':payload={'ok':True,'version':'0.5.0'}
    elif path=='/api/setup' and method=='POST':
     configured=os.environ.get('BOOTSTRAP_TOKEN_HASH','')
     supplied=body.get('token','')
@@ -50,6 +50,15 @@ class App:
     user=self.store.session(token)
     if method=='POST' and not secrets.compare_digest(env.get('HTTP_X_CSRF_TOKEN',''),user['csrf']):raise Problem('حدّث الصفحة ثم حاول مرة أخرى',403)
     if path=='/api/state' and method=='GET':payload=self.store.state(user)
+    elif path=='/api/facebook/connect' and method=='POST':
+     from server.facebook import connect
+     payload=connect(self.store,user,body)
+    elif path=='/api/facebook/disconnect' and method=='POST':
+     from server.facebook import disconnect
+     payload=disconnect(self.store,user,body.get('accountId'))
+    elif path=='/api/facebook/send' and method=='POST':
+     from server.facebook import send_target
+     payload=send_target(self.store,user,body)
     elif path=='/api/action' and method=='POST':
      if not isinstance(body.get('payload'),dict):raise Problem('بيانات الإجراء غير صالحة')
      payload=self.store.mutate(user,body.get('action'),body['payload'],body.get('revision'))

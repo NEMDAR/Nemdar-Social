@@ -53,7 +53,7 @@ class Dispatcher:
  publish returns a nonempty provider receipt ID. ready must be local and read-only.
  Unknown exceptions and crash recovery require manual reconciliation.
  """
- def __init__(self,store,adapters=None):self.store=store;self.adapters=adapters or {}
+ def __init__(self,store,adapters=None,actor='عامل النشر'):self.store=store;self.adapters=adapters or {};self.actor=actor
  def recover(self,now=None):
   now=time.time() if now is None else now
   with self.store.db() as db:
@@ -63,11 +63,11 @@ class Dispatcher:
     db.execute("UPDATE dispatch_jobs SET state='unknown',error='تعطل عامل النشر؛ تحقّق من المنصة قبل أي إعادة إرسال' WHERE id=?",(job['id'],));aggregate(db,self.store,job['post_id'])
    if rows:db.execute("UPDATE meta SET value=value+1 WHERE key='revision'")
   return len(rows)
- def run_one(self,now=None):
+ def run_one(self,now=None,job_id=None):
   now=time.time() if now is None else now;selected=None
   with self.store.db() as db:
    db.execute('BEGIN IMMEDIATE')
-   for job in db.execute("SELECT * FROM dispatch_jobs WHERE state IN ('queued','blocked') AND due<=? ORDER BY due",(now,)).fetchall():
+   for job in db.execute("SELECT * FROM dispatch_jobs WHERE state IN ('queued','blocked') AND due<=? AND (? IS NULL OR id=?) ORDER BY due",(now,job_id,job_id)).fetchall():
     post=self.store.entity(db,job['post_id'],'posts');account=self.store.entity(db,job['account_id'],'accounts');adapter=self.adapters.get(account['platform'])
     if not adapter or not adapter.ready(account):
      db.execute("UPDATE dispatch_jobs SET state='blocked' WHERE id=? AND state!='blocked'",(job['id'],));continue
@@ -85,5 +85,5 @@ class Dispatcher:
    # Compare-and-set: do not overwrite a task already reconciled elsewhere.
    changed=db.execute("UPDATE dispatch_jobs SET state=?,receipt=?,error=? WHERE id=? AND state='sending'",(state,receipt,error,job['id'])).rowcount
    if changed:
-    aggregate(db,self.store,job['post_id']);self.store.put(db,'audit',{'id':uid(),'clientId':job['client_id'],'action':'dispatch-'+state,'entityId':job['id'],'actor':'عامل النشر','at':timestamp()});db.execute("UPDATE meta SET value=value+1 WHERE key='revision'")
+    aggregate(db,self.store,job['post_id']);self.store.put(db,'audit',{'id':uid(),'clientId':job['client_id'],'action':'dispatch-'+state,'entityId':job['id'],'actor':self.actor,'at':timestamp()});db.execute("UPDATE meta SET value=value+1 WHERE key='revision'")
   return True

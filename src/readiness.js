@@ -7,6 +7,6 @@ export function readiness(state,clientId){
  {title:'تجهيز المحتوى',done:posts.length>0,route:'content',detail:`${posts.length} منشور في مساحة العميل.`},
  {title:'اعتماد أول محتوى',done:posts.some(p=>['approved','scheduled','published','partial'].includes(p.status)),route:'content',detail:'راجع المحتوى واعتمده قبل تحديد موعده.'},
  {title:'تحديد موعد النشر',done:posts.some(p=>p.scheduledAt&&['scheduled','published','partial'].includes(p.status)),route:'calendar',detail:'المواعيد بتوقيت دبي؛ حالة الإرسال مستقلة عن الجدولة.'},
- {title:'تفعيل الربط الخارجي',done:false,route:'connectors',detail:'موصلات النشر لم تُنفذ بعد. يلزم استكمال التكامل والتفويض قبل الإرسال الفعلي.'}
+ {title:'تفعيل الربط الخارجي',done:false,route:'connectors',detail:'موصل نصوص صفحات فيسبوك متاح للإعداد والإرسال اليدوي. نجاح الربط وحده لا يثبت صلاحية النشر.'}
  ];
 }
