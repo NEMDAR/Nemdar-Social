@@ -42,6 +42,8 @@ class Store:
    ''')
    from server.facebook import schema
    schema(db)
+   from server.instagram import schema as instagram_schema
+   instagram_schema(db)
    from server.dispatch import ensure_schema
    ensure_schema(db)
    from server.dispatch import enqueue
@@ -108,7 +110,8 @@ class Store:
    result['users']=[{k:r[k] for k in ['id','email','name','role','clients','active']} for r in db.execute('SELECT * FROM users')] if user['role']=='admin' else []
   result['user']={k:user[k] for k in ['id','email','name','role']}
   from server.facebook import metadata
-  result['connections']=metadata(self,user)
+  from server.instagram import metadata as instagram_metadata
+  result['connections']=metadata(self,user)+instagram_metadata(self,user)
   result['csrf']=user.get('csrf','');result['version']=5
   return result
  def mutate(self,user,action,p,revision):

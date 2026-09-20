@@ -46,6 +46,9 @@ class App:
     if not isinstance(email,str) or len(email)>200 or not isinstance(password,str):raise Problem('بيانات غير صحيحة')
     token,csrf=self.store.login(email,password,env.get('REMOTE_ADDR',''))
     extra.append(('Set-Cookie','session='+token+cookie_flags+'; Max-Age=28800'));payload={'ok':True,'csrf':csrf}
+   elif path.startswith('/api/public-media/') and method=='GET':
+    from server.instagram import public_media
+    payload,mime=public_media(self.store,path.rsplit('/',1)[-1],env.get('QUERY_STRING',''));extra.append(('Content-Disposition','inline'))
    elif path.startswith('/api/'):
     user=self.store.session(token)
     if method=='POST' and not secrets.compare_digest(env.get('HTTP_X_CSRF_TOKEN',''),user['csrf']):raise Problem('حدّث الصفحة ثم حاول مرة أخرى',403)
@@ -58,6 +61,15 @@ class App:
      payload=disconnect(self.store,user,body.get('accountId'))
     elif path=='/api/facebook/send' and method=='POST':
      from server.facebook import send_target
+     payload=send_target(self.store,user,body)
+    elif path=='/api/instagram/connect' and method=='POST':
+     from server.instagram import connect
+     payload=connect(self.store,user,body)
+    elif path=='/api/instagram/disconnect' and method=='POST':
+     from server.instagram import disconnect
+     payload=disconnect(self.store,user,body.get('accountId'))
+    elif path=='/api/instagram/send' and method=='POST':
+     from server.instagram import send_target
      payload=send_target(self.store,user,body)
     elif path=='/api/action' and method=='POST':
      if not isinstance(body.get('payload'),dict):raise Problem('بيانات الإجراء غير صالحة')

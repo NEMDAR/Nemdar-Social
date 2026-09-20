@@ -9,7 +9,7 @@ def initialize(store):
  path=Path(store.path).parent/'vault.key'
  if not path.exists():
   with store.db() as db:
-   if db.execute('SELECT 1 FROM vault LIMIT 1').fetchone() or db.execute('SELECT 1 FROM page_connections LIMIT 1').fetchone():
+   if db.execute('SELECT 1 FROM vault LIMIT 1').fetchone() or db.execute('SELECT 1 FROM page_connections LIMIT 1').fetchone() or db.execute('SELECT 1 FROM instagram_connections LIMIT 1').fetchone():
     raise RuntimeError('Existing encrypted data requires its original vault key; refusing replacement')
   try:
    fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)

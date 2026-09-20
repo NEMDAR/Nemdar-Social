@@ -62,7 +62,7 @@ def schema(db):
 def metadata(store,user):
  with store.db() as db:
   rows=db.execute('SELECT account_id,client_id,page_id,page_name,version,expires,verified_at FROM page_connections').fetchall()
- return [{**dict(r),'status':'identity_verified' if r['expires']>time.time() else 'expired'} for r in rows if store.allowed(user,r['client_id'])]
+ return [{**dict(r),'platform':'Facebook','status':'identity_verified' if r['expires']>time.time() else 'expired'} for r in rows if store.allowed(user,r['client_id'])]
 
 def connect(store,user,p,transport=graph):
  if user['role']!='admin':raise Problem('الإجراء يحتاج صلاحية مدير',403)
