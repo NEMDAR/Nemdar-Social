@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+<html class="h-full" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>نِمدار سوشيال — متابعة النشر وسجل معالجة الأخطاء</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-container": "#acbfff",
+            "primary-fixed-dim": "#b4c5ff",
+            "outline-variant": "#c3c6d7",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-fixed": "#ffdbcd",
+            "on-secondary": "#ffffff",
+            "inverse-primary": "#b4c5ff",
+            "surface-variant": "#e1e2ed",
+            "surface-tint": "#0053db",
+            "surface": "#faf8ff",
+            "error": "#ba1a1a",
+            "background": "#faf8ff",
+            "on-secondary-container": "#394c84",
+            "primary-fixed": "#dbe1ff",
+            "on-tertiary-fixed": "#360f00",
+            "on-tertiary-container": "#ffede6",
+            "tertiary-fixed-dim": "#ffb596",
+            "on-surface-variant": "#434655",
+            "on-primary": "#ffffff",
+            "surface-bright": "#faf8ff",
+            "on-secondary-fixed": "#00174b",
+            "primary": "#004ac6",
+            "surface-dim": "#d9d9e5",
+            "on-primary-container": "#eeefff",
+            "on-secondary-fixed-variant": "#31447b",
+            "error-container": "#ffdad6",
+            "tertiary": "#943700",
+            "surface-container-high": "#e7e7f3",
+            "surface-container-low": "#f3f3fe",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#bc4800",
+            "on-tertiary-fixed-variant": "#7d2d00",
+            "inverse-on-surface": "#f0f0fb",
+            "on-surface": "#191b23",
+            "on-background": "#191b23",
+            "on-primary-fixed-variant": "#003ea8",
+            "on-error": "#ffffff",
+            "inverse-surface": "#2e3039",
+            "surface-container-highest": "#e1e2ed",
+            "secondary": "#495c95",
+            "primary-container": "#2563eb",
+            "secondary-fixed-dim": "#b4c5ff",
+            "outline": "#737686",
+            "on-primary-fixed": "#00174b",
+            "surface-container": "#ededf9",
+            "secondary-fixed": "#dbe1ff",
+            "on-tertiary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Cairo", "Inter", "sans-serif"],
+            "display": ["Cairo", "Inter", "sans-serif"],
+            "body": ["Cairo", "Inter", "sans-serif"],
+            "label": ["Public Sans", "Cairo", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+      background-color: #F5F7FA;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Subtle custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c3c6d7;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #737686;
+    }
+  </style>
+</head>
+<body class="h-full overflow-hidden text-on-surface bg-[#F5F7FA] antialiased flex">
+<!-- ================= RIGHT SIDEBAR (Shared Component: SideNavBar) ================= -->
+<!-- Conforms strictly to style_component_shape, style_bg_color, and RTL hierarchy -->
+<aside class="fixed top-0 right-0 h-screen w-64 z-40 bg-inverse-surface dark:bg-inverse-surface border-l border-outline-variant/20 dark:border-outline/20 shadow-sm dark:shadow-none select-none">
+<div class="flex flex-col justify-between h-full p-4 font-body text-base leading-relaxed">
+<!-- Top Brand Section -->
+<div class="space-y-6">
+<!-- Brand & Logo -->
+<div class="flex items-center gap-3 px-2 pt-1">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-2xl" data-icon="hub">hub</span>
+</div>
+<div>
+<h1 class="font-headline text-base font-bold text-inverse-on-surface tracking-tight leading-tight">نِمدار سوشيال NEMDAR</h1>
+<p class="text-xs text-inverse-on-surface/60">وكالة رقمية متكاملة</p>
+</div>
+</div>
+<!-- Scope & Client Selector Chip -->
+<div class="bg-surface-variant/10 rounded-xl p-2.5 border border-outline-variant/10">
+<div class="flex items-center justify-between text-xs text-inverse-on-surface/70 mb-1">
+<span>العميل النشط</span>
+<span class="px-1.5 py-0.5 bg-primary/30 text-inverse-primary rounded text-[10px] font-medium">مباشر</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary-container/40 flex items-center justify-center text-white text-xs font-bold">م</div>
+<span class="text-sm font-semibold text-inverse-on-surface truncate">مجموعة المدار / أوربان لايف</span>
+</div>
+</div>
+<!-- Navigation Tab Links -->
+<nav class="space-y-1">
+<!-- 1. نظرة عامة -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium">نظرة عامة</span>
+</a>
+<!-- 2. العملاء والحسابات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="supervised_user_circle">supervised_user_circle</span>
+<span class="text-sm font-medium">العملاء والحسابات</span>
+</a>
+<!-- 3. استوديو المحتوى -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="auto_fix_high">auto_fix_high</span>
+<span class="text-sm font-medium">استوديو المحتوى</span>
+</a>
+<!-- 4. تقويم النشر (ACTIVE TAB) -->
+<a class="bg-primary text-on-primary font-medium rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98] shadow-sm" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="calendar_month" data-weight="fill" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<div class="flex items-center justify-between flex-1">
+<span class="text-sm font-bold">تقويم النشر</span>
+<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+</div>
+</a>
+<!-- 5. الحملات الإعلانية -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="campaign">campaign</span>
+<span class="text-sm font-medium">الحملات الإعلانية</span>
+</a>
+<!-- 6. الرسائل واللييدز -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="forum">forum</span>
+<div class="flex items-center justify-between flex-1">
+<span class="text-sm font-medium">الرسائل واللييدز</span>
+<span class="bg-primary-container text-white text-[10px] px-1.5 py-0.5 rounded-full font-label">4</span>
+</div>
+</a>
+<!-- 7. التحليلات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="analytics">analytics</span>
+<span class="text-sm font-medium">التحليلات</span>
+</a>
+<!-- 8. الإعدادات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+<span class="text-sm font-medium">الإعدادات</span>
+</a>
+</nav>
+</div>
+<!-- Footer Action & Profile -->
+<div class="space-y-3 pt-3 border-t border-outline-variant/15">
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="manage_accounts">manage_accounts</span>
+<span class="text-sm">فريق العمل والحساب</span>
+</a>
+<!-- Brand CTA pill -->
+<div class="bg-surface-variant/5 border border-outline-variant/20 rounded-xl p-2.5 flex items-center justify-between text-xs text-inverse-on-surface/90">
+<span class="truncate">عميل تجريبي / علامة تجارية</span>
+<span class="material-symbols-outlined text-base text-inverse-primary" data-icon="verified">verified</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- ================= MAIN LAYOUT WRAPPER ================= -->
+<div class="mr-64 flex flex-col flex-1 h-screen overflow-hidden">
+<!-- ================= TOP NAVIGATION BAR (Shared Component: TopNavBar) ================= -->
+<header class="fixed top-0 left-0 right-64 h-16 z-30 bg-surface-container-lowest border-b border-outline-variant/30 flex items-center justify-between px-6 select-none shadow-none">
+<!-- Right Side (RTL Start): Context & Live Breadcrumbs -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-on-surface text-base">نِمدار سوشيال</span>
+<span class="text-outline-variant">/</span>
+<span class="text-sm font-semibold text-primary">طابور النشر وسجل المعالجة</span>
+</div>
+<!-- Sample Mock Data Badge (Mandatory) -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface-container text-secondary text-xs font-bold rounded-lg border border-outline-variant/40">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          بيانات توضيحية
+        </span>
+<!-- Date Range Filter Selector -->
+<div class="flex items-center gap-1.5 text-xs text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/20">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span>سبتمبر 2026 (توقيت آسيا/دبي)</span>
+</div>
+</div>
+<!-- Left Side (RTL End): Actions & System Tray -->
+<div class="flex items-center gap-3">
+<!-- Filter Tune Button -->
+<button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" title="إعدادات العرض">
+<span class="material-symbols-outlined text-xl" data-icon="tune">tune</span>
+</button>
+<!-- Notifications with Active Alert -->
+<button class="relative p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" title="التنبيهات">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 left-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-white"></span>
+</button>
+<div class="h-5 w-px bg-outline-variant/40 mx-1"></div>
+<!-- Secondary CTA: Range selector / Sync -->
+<button class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-on-surface-variant bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 rounded-xl transition-all">
+<span class="material-symbols-outlined text-base" data-icon="sync">sync</span>
+<span>مزامنة فورية (API)</span>
+</button>
+<!-- Primary CTA: Create Post -->
+<button class="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-on-primary bg-primary-container hover:bg-primary rounded-xl shadow-sm transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-base" data-icon="add">add</span>
+<span>إنشاء محتوى +</span>
+</button>
+<!-- User Profile Avatar -->
+<div class="flex items-center gap-2 pr-2 border-r border-outline-variant/30">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">
+            ع.م
+          </div>
+</div>
+</div>
+</header>
+<!-- ================= OPERATIONAL WORKSPACE (CANVAS) ================= -->
+<main class="mt-16 flex-1 flex overflow-hidden">
+<!-- ================= MAIN QUEUE SECTION (Expanded Area) ================= -->
+<section class="flex-1 overflow-y-auto p-6 space-y-5">
+<!-- Queue Header & Info Bar -->
+<div class="space-y-3">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-3">
+<h2 class="text-xl font-bold font-headline text-on-surface">طابور النشر الميداني وتتبع المعالجة</h2>
+<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary-fixed text-on-primary-fixed border border-primary-fixed-dim">
+                  نظام آلي نشط
+                </span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1">
+                نطاق العرض: <span class="font-semibold text-on-surface">مجموعة المدار التجارية / أوربان لايف للأزياء</span> (كافة الحسابات الأربعة المرتبطة: Instagram, Facebook, TikTok, X)
+              </p>
+</div>
+<!-- Fast Search within Queue -->
+<div class="flex items-center gap-2">
+<div class="relative w-64">
+<input class="w-full pl-3 pr-9 py-1.5 text-xs bg-surface-container-lowest border border-outline-variant/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="بحث بعنوان المنشور أو المعرف..." type="text"/>
+<span class="material-symbols-outlined absolute right-2.5 top-2 text-outline text-base" data-icon="search">search</span>
+</div>
+</div>
+</div>
+<!-- Strict Information Compliance Banner -->
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-3 flex items-start gap-3 text-xs text-on-surface-variant leading-relaxed">
+<span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5" data-icon="verified_user">verified_user</span>
+<div>
+<strong class="text-on-surface font-semibold">تأكيد سياسة الأمان:</strong>
+              النظام يفصل فصلاً تاماً بين اعتماد المحتوى وبين توقيت الجدولة أو النشر الفوري. لا يتم صرف أي ميزانيات أو خصومات مالية في طابور النشر العضوي. التوقيت المعتمد: آسيا/دبي (GMT+4).
+            </div>
+</div>
+</div>
+<!-- Filter Tabs with Exact Counters -->
+<div class="flex items-center gap-2 border-b border-outline-variant/20 pb-2 overflow-x-auto">
+<!-- All -->
+<button class="px-3 py-1.5 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-lowest transition-colors flex items-center gap-1.5">
+<span>الكل</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-variant text-[11px]">12</span>
+</button>
+<!-- Waiting Approval -->
+<button class="px-3 py-1.5 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-lowest transition-colors flex items-center gap-1.5">
+<span>بانتظار الاعتماد</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-variant text-[11px]">2</span>
+</button>
+<!-- Scheduled Confirmed -->
+<button class="px-3 py-1.5 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-lowest transition-colors flex items-center gap-1.5">
+<span>مجدول ومؤكد</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-variant text-[11px]">5</span>
+</button>
+<!-- In Processing Now -->
+<button class="px-3 py-1.5 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-lowest transition-colors flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+<span>قيد المعالجة الآن</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-variant text-[11px]">1</span>
+</button>
+<!-- Published Successfully -->
+<button class="px-3 py-1.5 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-lowest transition-colors flex items-center gap-1.5">
+<span>تم النشر بنجاح</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-variant text-[11px]">3</span>
+</button>
+<!-- Partial Failure / Errors (Highlighted) -->
+<button class="px-3 py-1.5 rounded-lg text-xs font-bold text-error bg-error-container/40 border border-error/30 transition-colors flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-sm text-error" data-icon="warning">warning</span>
+<span>فشل جزئي / أخطاء</span>
+<span class="px-1.5 py-0.2 rounded-full bg-error text-white text-[11px] font-bold">1</span>
+</button>
+</div>
+<!-- Operations Queue Interactive Cards -->
+<div class="space-y-3">
+<!-- ================= JOB ROW 1 (SELECTED - PARTIAL FAILURE SIMULATION) ================= -->
+<div class="relative bg-surface-container-lowest border-2 border-primary rounded-xl p-4 shadow-md transition-all">
+<!-- Selected Indicator Pill -->
+<div class="absolute -top-2.5 right-4 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="troubleshoot">troubleshoot</span>
+              مُحدد حالياً للمعالجة
+            </div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mt-1">
+<!-- Content Item & Info -->
+<div class="flex items-start gap-3 min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high overflow-hidden shrink-0 border border-outline-variant/30 flex items-center justify-center relative">
+<img class="w-full h-full object-cover" data-alt="High quality commercial studio photograph of an elegant luxury autumn fashion collection for urban wear in Dubai. Featuring warm camel coats, silk scarves, and minimalist architectural styling under soft warm lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0jNbA3jDSkI9y-HGKKpN68LyId7A6fNYjVA3PXdfjLXO19NCWg92EWZ65FWnv4JzyviiJr7LhCgpAPGzxPFGibqnWATugA2ar7uX4B6fWBLKBOyeAfC9gRQPzfQ5yzIXWizEQKIkkH-l-1DQMcvs0oRY_-8i-9D_1W1u9lA0osAd0kFkgc23WJpeUH3PWPJHy3nK6ZaKthLdWaGymfo3kbFuj0fPxC5_01iuGj-pV_0Pf3ehpFu-Be5WNmaSZB6aABu4vQb05kbL-"/>
+<span class="absolute bottom-0.5 left-0.5 bg-black/60 text-white text-[9px] px-1 rounded">ألبوم</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono font-bold text-primary">#PUB-9942</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                      فشل جزئي (1 من 2 ناجح)
+                    </span>
+</div>
+<h3 class="text-sm font-bold text-on-surface mt-0.5">إطلاق تشكيلة خريف 2026 الحصرية (ألبوم صور)</h3>
+<div class="flex items-center gap-3 text-xs text-on-surface-variant mt-1 font-label">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="event">event</span>
+                      26 سبتمبر 2026 — 05:30 م (توقيت دبي)
+                    </span>
+<span class="text-outline-variant">•</span>
+<span>4 شرائح تصويرية</span>
+</div>
+</div>
+</div>
+<!-- Multi-Account Target Execution Status Grid -->
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2 bg-surface-container-low/70 p-2.5 rounded-xl border border-outline-variant/20">
+<!-- Instagram Target (Success) -->
+<div class="flex items-center justify-between bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-xs">IG</div>
+<div>
+<div class="text-xs font-bold text-on-surface">Instagram</div>
+<div class="text-[10px] text-on-surface-variant">@UrbanLife.DXB</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-flex items-center gap-1">
+<span>تم النشر بنجاح</span>
+<span class="material-symbols-outlined text-xs" data-icon="check_circle">check_circle</span>
+</span>
+<div class="text-[10px] text-outline font-mono">#IG-88412</div>
+</div>
+</div>
+<!-- Facebook Target (Failed) -->
+<div class="flex items-center justify-between bg-error-container/20 p-2 rounded-lg border border-error/30">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">FB</div>
+<div>
+<div class="text-xs font-bold text-on-surface">Facebook</div>
+<div class="text-[10px] text-on-surface-variant">Urban Life UAE</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs font-bold text-error bg-error-container/60 px-2 py-0.5 rounded border border-error/20 inline-flex items-center gap-1">
+<span>فشل النشر</span>
+<span class="material-symbols-outlined text-xs" data-icon="cancel">cancel</span>
+</span>
+<div class="text-[10px] text-error font-medium truncate max-w-[130px]">انتهت صلاحية الإذن المؤقت</div>
+</div>
+</div>
+</div>
+<!-- Contextual Action -->
+<div class="flex sm:flex-col items-center justify-center gap-2 shrink-0">
+<button class="w-full px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-lg shadow-sm hover:bg-primary/95 transition-colors flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="build">build</span>
+<span>معالجة الخطأ</span>
+</button>
+<button class="w-full px-3 py-1 text-[11px] font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors">
+                  سجل العمليات
+                </button>
+</div>
+</div>
+</div>
+<!-- ================= JOB ROW 2 (SCHEDULED CONFIRMED) ================= -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 hover:border-outline-variant transition-all">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<!-- Content Item & Info -->
+<div class="flex items-start gap-3 min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high overflow-hidden shrink-0 border border-outline-variant/30 flex items-center justify-center relative">
+<img class="w-full h-full object-cover" data-alt="Dynamic backstage visual of models getting ready during Dubai Fashion Week wearing contemporary modest urban high fashion with sharp styling under crisp stage floodlights and clean modern tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOi_5z6Zq0j-7s5s2fzsktoSxkpbUS2jAkQ8ZMcutY8X-ovqigkfidflHqof3hV9so-gUfbWbaaRD1BslP3LxO3oF8r05Chhp6hzxknDw5Wx63LUTioxcztAJtZo6gOJkxY0yOsiIWfVTgsv1sMaN8kkgQek0udBnp_ZafWVXg9_sa7ziYJFdxsZggvHapXq_SjHUMDWN-ZzT2lvrYBrtkvp8xXOgH9jI1s6lbqB7J-_I8GzX63Mt78tcABh4VS81Jzdk96ejL77K1"/>
+<span class="absolute bottom-0.5 left-0.5 bg-black/60 text-white text-[9px] px-1 rounded">فيديو</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono font-bold text-outline">#PUB-9943</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-primary border border-primary/20">
+                      مجدول وجاهز للتنفيذ التلقائي
+                    </span>
+</div>
+<h3 class="text-sm font-bold text-on-surface mt-0.5">تنسيقات عصرية لأسبوع الموضة في دبي</h3>
+<div class="flex items-center gap-3 text-xs text-on-surface-variant mt-1 font-label">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="event">event</span>
+                      27 سبتمبر 2026 — 08:00 م
+                    </span>
+<span class="text-outline-variant">•</span>
+<span>ريلز 45 ثانية</span>
+</div>
+</div>
+</div>
+<!-- Multi-Account Target Status -->
+<div class="flex-1 bg-surface-container-low/40 p-2.5 rounded-xl border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md bg-black text-white flex items-center justify-center font-bold text-xs">TT</div>
+<div>
+<span class="text-xs font-bold text-on-surface">TikTok Official</span>
+<span class="text-[10px] text-on-surface-variant block">@UrbanLife</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="lock_clock">lock_clock</span>
+<span>في انتظار إشارة مؤقت الخادم (تلقائي)</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-2 text-xs shrink-0">
+<button class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg border border-outline-variant/30 font-medium">
+                  معاينة
+                </button>
+<button class="px-3 py-1.5 text-error hover:bg-error-container/40 rounded-lg border border-error/20 font-semibold">
+                  إلغاء الجدولة
+                </button>
+</div>
+</div>
+</div>
+<!-- ================= JOB ROW 3 (WAITING APPROVAL - NOT SCHEDULED) ================= -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 hover:border-outline-variant transition-all">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<!-- Content Item & Info -->
+<div class="flex items-start gap-3 min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high overflow-hidden shrink-0 border border-outline-variant/30 flex items-center justify-center relative">
+<img class="w-full h-full object-cover" data-alt="Color palette swatch moodboard showing warm earth tones, deep terracotta, olive green, and sand gold for luxury Middle Eastern autumn fashion campaign with clean layout and soft daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhQwfJRgxCcT_uoZKSaAeW-s_t8VBveGTKBQb71S3KO06t1ysdzyWksgbWjKvBb78PaS-WoMP3GmrrKdlTbAZ4Oj65HKHsLVdKPlY-ubKER_NwSboLy7RFksmdyXFp7yTZJCA3IUbkwL6vJ_LJRH9HXAQwMwmshXZUgAdtfptbww0RyUUB6tzW9Ip2G1z55W3tkvO3Thq2BFDBWIwlmKone4WQDvI6FUsZYnN0Ty7Dc3KzpPqZFXY4S6tYFdEW-jmQ0t_e4hluHl23"/>
+<span class="absolute bottom-0.5 left-0.5 bg-black/60 text-white text-[9px] px-1 rounded">ستوري</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono font-bold text-outline">#PUB-9944</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                      بانتظار اعتماد العميل (م. مريم السويدي)
+                    </span>
+</div>
+<h3 class="text-sm font-bold text-on-surface mt-0.5">مسودة ستوري تفاعلية: استبيان ألوان الموسم</h3>
+<div class="flex items-center gap-3 text-xs text-on-surface-variant mt-1 font-label">
+<span class="flex items-center gap-1 text-amber-700 font-medium">
+<span class="material-symbols-outlined text-xs" data-icon="pending">pending</span>
+                      غير مجدول حتى صدور الموافقة
+                    </span>
+</div>
+</div>
+</div>
+<!-- Multi-Account Target Status -->
+<div class="flex-1 bg-surface-container-low/40 p-2.5 rounded-xl border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 rounded bg-surface-container text-xs font-semibold text-on-surface-variant">Instagram Stories</span>
+<span class="px-2 py-1 rounded bg-surface-container text-xs font-semibold text-on-surface-variant">Facebook Stories</span>
+</div>
+<span class="text-xs text-on-surface-variant">تاريخ الإنشاء: اليوم 02:15 م</span>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-2 text-xs shrink-0">
+<button class="px-3 py-1.5 bg-primary-container text-on-primary hover:bg-primary rounded-lg font-bold shadow-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+<span>إرسال تنبيه للاعتماد</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ================= JOB ROW 4 (PUBLISHED SUCCESSFULLY) ================= -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 hover:border-outline-variant transition-all opacity-90">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<!-- Content Item & Info -->
+<div class="flex items-start gap-3 min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high overflow-hidden shrink-0 border border-outline-variant/30 flex items-center justify-center relative">
+<img class="w-full h-full object-cover" data-alt="High-end studio still life of handcrafted leather bags, gold accent jewelry, and Italian sunglasses on sculpted travertine stone block in natural daylight with sharp crisp shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRed2Sfgy1unuv2u-X_ye2VvC5bqhK5h_4U0uAMS_HMVwt_96C3fMZZ75cHF1hRvkBr-Fa0C6uQm-MT5er10jplkmbpz-qo5FeroeGZiYgCscAbc1tikaMIhwB_ZvrQCCUdBfvrRTCg4kOGZ-6pmtlbHYi-MgkRnZ0iW1CoJC4buR4TB-T2SelKa_UMEYSkIEbJZFGqvFgVpElmwszLCjtf54ooZGKutOy1q1xNQopeTFt4G047kwdPabKFYh_UVn94gCV7NoziL-3"/>
+<span class="absolute bottom-0.5 left-0.5 bg-black/60 text-white text-[9px] px-1 rounded">منشور</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono font-bold text-outline">#PUB-9940</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="done_all">done_all</span>
+                      منشور ومكتمل (3/3 منصات)
+                    </span>
+</div>
+<h3 class="text-sm font-bold text-on-surface mt-0.5">إكسسوارات النخبة: تفاصيل تكتمل بها الإطلالة</h3>
+<div class="flex items-center gap-3 text-xs text-on-surface-variant mt-1 font-label">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="history">history</span>
+                      24 سبتمبر 2026 — 11:00 ص
+                    </span>
+<span class="text-outline-variant">•</span>
+<span class="text-emerald-700 font-semibold">معدل وصول أولي: 14.8k</span>
+</div>
+</div>
+</div>
+<!-- Multi-Account Target Badges -->
+<div class="flex-1 bg-surface-container-low/40 p-2.5 rounded-xl border border-outline-variant/20 flex items-center gap-2">
+<span class="px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[11px] font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+                  Instagram
+                </span>
+<span class="px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[11px] font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+                  Facebook
+                </span>
+<span class="px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[11px] font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+                  TikTok
+                </span>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-2 text-xs shrink-0">
+<button class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg border border-outline-variant/30 font-medium">
+                  عرض التقرير المباشر
+                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= REMEDIATION DRAWER (Left-Hand Side Panel) ================= -->
+<aside class="w-96 bg-surface-container-lowest border-r border-outline-variant/30 flex flex-col h-full overflow-hidden shadow-lg select-none">
+<!-- Drawer Header -->
+<div class="p-4 border-b border-outline-variant/20 bg-surface-container-low/50">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-600 text-xl" data-icon="error">error</span>
+<h2 class="text-sm font-bold font-headline text-on-surface">تفاصيل معالجة الخطأ</h2>
+</div>
+<span class="font-mono text-xs font-bold text-primary px-2 py-0.5 bg-primary-fixed rounded border border-primary-fixed-dim">
+              #PUB-9942
+            </span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1">
+            سجل التشخيص الميداني ومعالجة الفشل الجزئي المخصص
+          </p>
+</div>
+<!-- Scrollable Diagnostic Body -->
+<div class="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
+<!-- Exact Status Summary Cards -->
+<div class="space-y-2">
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-amber-900 leading-relaxed">
+<div class="font-bold flex items-center gap-1.5 mb-1 text-xs">
+<span class="material-symbols-outlined text-sm text-amber-700" data-icon="info">info</span>
+                حالة الإرسال المتشعبة
+              </div>
+              نجح النشر على إنستغرام وفشل الهدف المرتبط على فيسبوك.
+            </div>
+<!-- Crucial Safety Rule Notice -->
+<div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-blue-900 leading-relaxed">
+<div class="font-bold flex items-center gap-1.5 mb-1 text-xs">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="shield">shield</span>
+                قاعدة الأمان الصارمة:
+              </div>
+              تم إيقاف إعادة الإرسال العشوائي لمنع تكرار النشر على الحساب الذي نجح بالفعل. لن يتم إعادة استدعاء Instagram API مطلقاً.
+            </div>
+</div>
+<!-- Diagnostic Timeline (سجل التشخيص الفني المحاكي) -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-bold text-on-surface text-xs">سجل التشخيص الفني المحاكي (Live Log):</span>
+<span class="text-[10px] text-outline font-mono">26 سبتمبر 2026</span>
+</div>
+<div class="space-y-2 font-mono text-[11px] bg-inverse-surface text-inverse-on-surface p-3 rounded-xl border border-outline-variant/20">
+<!-- Log Item 1 -->
+<div class="flex items-start gap-2">
+<span class="text-primary-fixed-dim shrink-0">05:30:02 م</span>
+<span class="text-inverse-on-surface/80">إرسال الطلب عبر واجهة الربط Meta Graph API v21.0.</span>
+</div>
+<!-- Log Item 2 -->
+<div class="flex items-start gap-2">
+<span class="text-emerald-400 shrink-0">05:30:15 م</span>
+<span class="text-emerald-300">تم تأكيد نشر الوسائط بنجاح على @UrbanLife.DXB (Media ID: 18029381).</span>
+</div>
+<!-- Log Item 3 -->
+<div class="flex items-start gap-2">
+<span class="text-error shrink-0">05:30:18 م</span>
+<span class="text-red-300">فشل المصادقة على صفحة Facebook (Urban Life UAE). كود الخطأ: OAuthException 190.</span>
+</div>
+</div>
+</div>
+<!-- Technical Cause Detailed Box -->
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-3">
+<span class="text-[11px] font-bold text-on-surface block mb-1">سبب الخطأ التقني المسترجع:</span>
+<p class="text-on-surface-variant leading-relaxed text-[11px]">
+              "انتهت صلاحية توكن التفويض الإداري للحساب (<span class="font-mono text-error">Session Permission Expired</span>). يلزم تجديد جلسة الربط السحابي لصفحة المنشأة."
+            </p>
+</div>
+<!-- Actionable Resolution Protocol -->
+<div class="space-y-2 pt-2 border-t border-outline-variant/20">
+<span class="font-bold text-on-surface text-xs block">خطوات الحل الفورية:</span>
+<!-- Step 1 Button: Refresh Token -->
+<button class="w-full py-2 px-3 bg-surface-container-high hover:bg-surface-variant text-on-surface rounded-xl border border-outline-variant/40 font-semibold text-xs transition-colors flex items-center justify-between">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="key">key</span>
+<span>إعادة ربط وتحديث تفويض فيسبوك (بدون مغادرة الصفحة)</span>
+</span>
+<span class="material-symbols-outlined text-sm text-outline" data-icon="open_in_new">open_in_new</span>
+</button>
+<!-- Step 2 Primary CTA: Retry Failed Target Only -->
+<button class="w-full py-2.5 px-3 bg-primary text-white hover:bg-primary/90 rounded-xl font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.99]">
+<span class="material-symbols-outlined text-base" data-icon="replay">replay</span>
+<span>إعادة إرسال للهدف المتعثر فقط (Retry Failed Target Only)</span>
+</button>
+<!-- Explicit Reassurance -->
+<p class="text-[10px] text-emerald-800 bg-emerald-50 px-2 py-1 rounded text-center font-medium border border-emerald-200">
+              ✓ تأكيد: لن يتم تكرار النشر على إنستغرام نهائياً.
+            </p>
+<!-- Step 3: Cancel and resolve manually -->
+<button class="w-full py-1.5 px-3 text-outline hover:text-on-surface text-[11px] rounded-lg transition-colors text-center hover:bg-surface-container">
+              إلغاء المهمة المتبقية ووضع علامة "تم الحل يدوياً"
+            </button>
+</div>
+<!-- Permalink Status Notice -->
+<div class="p-2.5 rounded-lg bg-surface-container text-on-surface-variant text-[10px] border border-outline-variant/30 leading-normal">
+<strong class="text-on-surface block mb-0.5">رابط المنشور العام:</strong>
+            غير متوفر في هذه البيئة التوضيحية (Sample Mock Unavailable — No Public URLs Invented).
+          </div>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

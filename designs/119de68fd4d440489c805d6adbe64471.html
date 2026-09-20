@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>نِمدار سوشيال — إعداد عميل جديد (Onboarding Wizard)</title>
+<!-- Google Fonts: Cairo & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-container": "#acbfff",
+            "primary-fixed-dim": "#b4c5ff",
+            "outline-variant": "#c3c6d7",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-fixed": "#ffdbcd",
+            "on-secondary": "#ffffff",
+            "inverse-primary": "#b4c5ff",
+            "surface-variant": "#e1e2ed",
+            "surface-tint": "#0053db",
+            "surface": "#faf8ff",
+            "error": "#ba1a1a",
+            "background": "#faf8ff",
+            "on-secondary-container": "#394c84",
+            "primary-fixed": "#dbe1ff",
+            "on-tertiary-fixed": "#360f00",
+            "on-tertiary-container": "#ffede6",
+            "tertiary-fixed-dim": "#ffb596",
+            "on-surface-variant": "#434655",
+            "on-primary": "#ffffff",
+            "surface-bright": "#faf8ff",
+            "on-secondary-fixed": "#00174b",
+            "primary": "#004ac6",
+            "surface-dim": "#d9d9e5",
+            "on-primary-container": "#eeefff",
+            "on-secondary-fixed-variant": "#31447b",
+            "error-container": "#ffdad6",
+            "tertiary": "#943700",
+            "surface-container-high": "#e7e7f3",
+            "surface-container-low": "#f3f3fe",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#bc4800",
+            "on-tertiary-fixed-variant": "#7d2d00",
+            "inverse-on-surface": "#f0f0fb",
+            "on-surface": "#191b23",
+            "on-background": "#191b23",
+            "on-primary-fixed-variant": "#003ea8",
+            "on-error": "#ffffff",
+            "inverse-surface": "#101828",
+            "surface-container-highest": "#e1e2ed",
+            "secondary": "#495c95",
+            "primary-container": "#2563eb",
+            "secondary-fixed-dim": "#b4c5ff",
+            "outline": "#737686",
+            "on-primary-fixed": "#00174b",
+            "surface-container": "#ededf9",
+            "secondary-fixed": "#dbe1ff",
+            "on-tertiary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Cairo", "Inter", "sans-serif"],
+            "display": ["Cairo", "Inter", "sans-serif"],
+            "body": ["Cairo", "Inter", "sans-serif"],
+            "label": ["Cairo", "Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+      background-color: #F5F7FA;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f4;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c3c6d7;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-[#F5F7FA] text-on-surface antialiased min-h-screen flex flex-row selection:bg-primary-container selection:text-white">
+<!-- ========================================================================= -->
+<!-- RIGHT-HAND SIDEBAR (SideNavBar Component from JSON)                      -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 right-0 h-screen w-64 z-40 bg-[#101828] border-l border-outline-variant/20 shadow-sm flex flex-col justify-between p-4 select-none">
+<!-- Brand / Workspace Header -->
+<div>
+<div class="flex items-center gap-3 px-2 py-3 border-b border-white/10 mb-4">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-white font-bold text-lg shadow-inner">
+<span class="material-symbols-outlined text-2xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="overflow-hidden">
+<h1 class="font-headline text-base font-bold text-inverse-on-surface tracking-tight truncate">
+            نِمدار سوشيال NEMDAR
+          </h1>
+<p class="text-xs text-inverse-on-surface/60 font-body truncate">وكالة رقمية متكاملة</p>
+</div>
+</div>
+<!-- Quick Agency Context Selector -->
+<div class="mb-5 px-2">
+<div class="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-2.5 flex items-center justify-between cursor-pointer transition-colors">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#0D9488]"></span>
+<span class="text-xs font-semibold text-inverse-on-surface truncate">عميل تجريبي / علامة تجارية</span>
+</div>
+<span class="material-symbols-outlined text-inverse-on-surface/50 text-sm" data-icon="unfold_more">unfold_more</span>
+</div>
+</div>
+<!-- Primary Navigation List -->
+<nav class="space-y-1">
+<!-- 1: نظرة عامة -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>نظرة عامة</span>
+</a>
+<!-- 2: العملاء والحسابات (ACTIVE ITEM IN ONBOARDING CONTEXT) -->
+<a class="bg-primary text-on-primary font-semibold rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors text-sm shadow-sm" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="supervised_user_circle" style="font-variation-settings: 'FILL' 1;">supervised_user_circle</span>
+<span class="flex-1">العملاء والحسابات</span>
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+</a>
+<!-- 3: استوديو المحتوى -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="auto_fix_high">auto_fix_high</span>
+<span>استوديو المحتوى</span>
+</a>
+<!-- 4: تقويم النشر -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span>تقويم النشر</span>
+</a>
+<!-- 5: الحملات الإعلانية -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+<span>الحملات الإعلانية</span>
+</a>
+<!-- 6: الرسائل واللييدز -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span>الرسائل واللييدز</span>
+</a>
+<!-- 7: التحليلات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>التحليلات</span>
+</a>
+<!-- 8: الإعدادات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>الإعدادات</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Bottom / Team Profile -->
+<div class="pt-4 border-t border-white/10 space-y-2">
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="manage_accounts">manage_accounts</span>
+<span>فريق العمل والحساب</span>
+</a>
+<div class="flex items-center gap-3 px-3 py-2 rounded-xl bg-white/5">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">
+          ع.م
+        </div>
+<div class="flex-1 overflow-hidden">
+<p class="text-xs font-semibold text-inverse-on-surface truncate">علي المنصوري</p>
+<p class="text-[11px] text-inverse-on-surface/60 truncate">مدير الحسابات الإعلانية</p>
+</div>
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- TOP APP BAR (TopNavBar Component from JSON)                              -->
+<!-- ========================================================================= -->
+<header class="fixed top-0 left-0 right-64 h-16 z-30 bg-surface-container-lowest border-b border-outline-variant/30 flex items-center justify-between px-6">
+<!-- Right Area: Breadcrumb & Mandatory Demo Indicator -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 text-sm text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-outline" data-icon="corporate_fare">corporate_fare</span>
+<span class="hover:text-on-surface cursor-pointer">العملاء والحسابات</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-semibold">إضافة عميل جديد (Onboarding Wizard)</span>
+</div>
+<!-- Demo Badge Token (Exact label: بيانات توضيحية) -->
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/40 text-xs font-medium text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-[#0D9488]"></span>
+<span>بيانات توضيحية</span>
+</div>
+</div>
+<!-- Left Controls: Scope, Search, Actions, Profile -->
+<div class="flex items-center gap-3">
+<!-- Date Scope Indicator -->
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/30 text-xs text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="schedule">schedule</span>
+<span>سبتمبر 2026 (توقيت آسيا/دبي)</span>
+</div>
+<!-- Quick Action Buttons -->
+<button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" title="إشعارات" type="button">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" title="تفضيلات ومطابقة النماذج" type="button">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+<div class="h-5 w-px bg-outline-variant/40"></div>
+<!-- Quick Context Info -->
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high border border-outline-variant/30 flex items-center justify-center font-bold text-xs text-primary">
+          AL
+        </div>
+<div class="text-right hidden xl:block">
+<p class="text-xs font-semibold text-on-surface">مجموعة المدار التجارية</p>
+<p class="text-[11px] text-outline">معرف العميل: CL-9042</p>
+</div>
+</div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- MAIN WORKSPACE CONTENT CANVAS                                             -->
+<!-- ========================================================================= -->
+<main class="mr-64 mt-16 p-6 w-[calc(100%-16rem)] flex-1 min-h-[calc(100vh-4rem)] pb-24">
+<div class="max-w-7xl mx-auto space-y-5">
+<!-- Top Summary / Auto-Save Banner -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+<span class="material-symbols-outlined fill-icon" data-icon="cloud_done" style="font-variation-settings: 'FILL' 1;">cloud_done</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold px-2 py-0.5 bg-emerald-100/70 text-emerald-800 rounded-md">مسودة قيد الحفظ</span>
+<span class="text-xs text-on-surface-variant">تم حفظ المسودة تلقائياً منذ دقيقتين</span>
+</div>
+<div class="text-xs text-outline mt-0.5">
+              مسار الإجراء: <span class="font-medium text-on-surface">العملاء والحسابات / إضافة عميل جديد / مجموعة المدار التجارية</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-xs font-medium text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/30 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>المرجع الداخلي: <strong class="font-mono text-on-surface">NEM-OB-2026-088</strong></span>
+</div>
+<button class="text-xs text-on-surface-variant hover:text-primary font-medium flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="history">history</span>
+            سجل التعديلات
+          </button>
+</div>
+</div>
+<!-- HORIZONTAL STEPPER CARD (All 5 Steps) -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+<!-- Step 1: Completed -->
+<div class="flex items-center gap-3 p-2.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/20">
+<div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<div class="overflow-hidden">
+<div class="flex items-center gap-1.5">
+<span class="text-[11px] font-bold text-emerald-700">المرحلة 1</span>
+<span class="text-[10px] text-emerald-600">(مكتمل)</span>
+</div>
+<p class="text-xs font-semibold text-on-surface truncate">بيانات المنشأة وجهة الاتصال</p>
+</div>
+</div>
+<!-- Step 2: Completed -->
+<div class="flex items-center gap-3 p-2.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/20">
+<div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<div class="overflow-hidden">
+<div class="flex items-center gap-1.5">
+<span class="text-[11px] font-bold text-emerald-700">المرحلة 2</span>
+<span class="text-[10px] text-emerald-600">(مكتمل)</span>
+</div>
+<p class="text-xs font-semibold text-on-surface truncate">العلامات التجارية والأهداف</p>
+</div>
+</div>
+<!-- Step 3: ACTIVE STEP -->
+<div class="flex items-center gap-3 p-2.5 rounded-lg bg-primary-fixed/30 border-2 border-primary-container shadow-xs">
+<div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+              3
+            </div>
+<div class="overflow-hidden">
+<div class="flex items-center gap-1.5">
+<span class="text-[11px] font-bold text-primary">المرحلة 3 الحالية</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-ping"></span>
+</div>
+<p class="text-xs font-bold text-on-surface truncate">الجمهور ونبرة الصوت وحقيبة الهوية</p>
+</div>
+</div>
+<!-- Step 4: Upcoming Focus -->
+<div class="flex items-center gap-3 p-2.5 rounded-lg bg-surface-container-low/30 border border-outline-variant/20 opacity-80">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-xs shrink-0">
+              4
+            </div>
+<div class="overflow-hidden">
+<span class="text-[11px] font-medium text-outline">المرحلة 4 التالية</span>
+<p class="text-xs font-semibold text-on-surface-variant truncate">ربط الحسابات وتوزيع الصلاحيات</p>
+</div>
+</div>
+<!-- Step 5: Upcoming -->
+<div class="flex items-center gap-3 p-2.5 rounded-lg bg-surface-container-low/30 border border-outline-variant/20 opacity-70">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-xs shrink-0">
+              5
+            </div>
+<div class="overflow-hidden">
+<span class="text-[11px] font-medium text-outline">المرحلة 5</span>
+<p class="text-xs font-semibold text-on-surface-variant truncate">مراجعة وتأكيد التشغيل</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Multi-Brand Selector Subheader Tab -->
+<div class="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant/30 pb-2">
+<div class="flex items-center gap-2">
+<span class="text-xs text-outline font-medium">إعداد العلامة التجارية:</span>
+<!-- Selected Brand Tab -->
+<button class="px-3.5 py-1.5 rounded-lg bg-white border border-primary text-primary font-bold text-xs shadow-xs flex items-center gap-2" type="button">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>أوربان لايف للأزياء (العلامة الرئيسية)</span>
+<span class="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded">نشطة</span>
+</button>
+<!-- Add Secondary Brand to same Client -->
+<button class="px-3 py-1.5 rounded-lg border border-dashed border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors text-xs font-medium flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+<span>+ إضافة علامة تجارية تابعة لنفس العميل</span>
+</button>
+</div>
+<div class="text-xs text-outline flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="info">info</span>
+          يتم تطبيق معايير التأهيل وحقيبة الهوية لكل علامة تجارية على حدة
+        </div>
+</div>
+<!-- BENTO / SECTIONED GRID FOR STEP 3 & STEP 4 -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+<!-- ================================================================= -->
+<!-- LEFT/CENTER 8 COLUMNS: STRATEGIC BRIEF & BANT QUALIFICATION       -->
+<!-- ================================================================= -->
+<div class="lg:col-span-8 space-y-5">
+<!-- Card 1: Positioning & Audience Profile -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-5 shadow-sm space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+<div class="flex items-center gap-2.5">
+<div class="p-2 rounded-lg bg-primary-fixed/40 text-primary">
+<span class="material-symbols-outlined" data-icon="target">target</span>
+</div>
+<div>
+<h2 class="text-sm font-bold text-on-surface">استراتيجية التموضع والشريحة المستهدفة</h2>
+<p class="text-xs text-on-surface-variant">تحديد ركائز المحتوى ونطاق الصرف الإعلاني</p>
+</div>
+</div>
+<span class="text-xs font-semibold px-2.5 py-1 rounded bg-teal-50 text-[#0D9488] border border-teal-200">
+                مكتمل التوصيف
+              </span>
+</div>
+<!-- Field 1: Value Proposition -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold text-on-surface">
+                عرض القيمة والنشاط التجاري (Core Value Proposition):
+              </label>
+<div class="relative">
+<input class="w-full text-xs font-medium text-on-surface bg-surface-container-low/40 border border-outline-variant/40 rounded-lg p-2.5 pr-3 pl-8 focus:ring-1 focus:ring-primary focus:border-primary" type="text" value="أزياء وتجزئة عصرية فاخرة في دبي — تصاميم حصرية، تشكيلات موسمية راقية، وخدمة تسوق شخصي VIP."/>
+<span class="material-symbols-outlined absolute left-2.5 top-2.5 text-outline text-base" data-icon="edit_note">edit_note</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Field 2: Target Segment -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold text-on-surface">
+                  الشريحة والجمهور المستهدف (Demographics):
+                </label>
+<div class="bg-surface-container-low/30 border border-outline-variant/40 rounded-lg p-2.5 text-xs text-on-surface">
+<p class="font-medium text-on-surface">نساء ورجال في الإمارات والخليج (22-45 سنة)</p>
+<p class="text-[11px] text-outline mt-1">الاهتمامات: الأزياء المعاصرة، الفخامة المستدامة، عروض دبي مول، أسبوع الموضة.</p>
+</div>
+</div>
+<!-- Field 3: Monthly Spend Range -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold text-on-surface">
+                  نطاق الميزانية الشهرية المقترحة (Budget Range):
+                </label>
+<div class="bg-surface-container-low/30 border border-outline-variant/40 rounded-lg p-2.5 text-xs">
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary text-sm">40,000 د.إ - 90,000 د.إ شهرياً</span>
+<span class="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-semibold">نطاق مرن</span>
+</div>
+<p class="text-[11px] text-outline mt-1">توزيع: 60% ميتا (إنستغرام/فيسبوك) + 30% تيك توك + 10% إعادة استهداف.</p>
+</div>
+</div>
+</div>
+<!-- Region & Timezone Indicators -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+<div class="p-2.5 rounded-lg bg-surface-container-low/20 border border-outline-variant/30 flex items-center gap-2.5">
+<span class="material-symbols-outlined text-outline" data-icon="public">public</span>
+<div>
+<p class="text-[10px] text-outline">النطاق الجغرافي</p>
+<p class="text-xs font-bold text-on-surface">دولة الإمارات ودول الخليج</p>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low/20 border border-outline-variant/30 flex items-center gap-2.5">
+<span class="material-symbols-outlined text-outline" data-icon="schedule">schedule</span>
+<div>
+<p class="text-[10px] text-outline">المنطقة الزمنية</p>
+<p class="text-xs font-bold text-on-surface">توقيت آسيا/دبي (GMT+4)</p>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low/20 border border-outline-variant/30 flex items-center gap-2.5">
+<span class="material-symbols-outlined text-outline" data-icon="payments">payments</span>
+<div>
+<p class="text-[10px] text-outline">عملة التقارير والفواتير</p>
+<p class="text-xs font-bold text-on-surface">درهم إماراتي (د.إ AED)</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: BANT Lead Qualification Framework -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-5 shadow-sm space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+<div class="flex items-center gap-2.5">
+<div class="p-2 rounded-lg bg-emerald-50 text-[#0D9488]">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<h2 class="text-sm font-bold text-on-surface">معايير تأهيل الليدز والاستفسارات (BANT Qualification)</h2>
+<p class="text-xs text-on-surface-variant">المعايير المعتمدة لفلترة الرسائل والفرص الواردة قبل تحويلها لفريق مبيعات البوتيك</p>
+</div>
+</div>
+<div class="text-[11px] text-[#0D9488] font-bold bg-teal-50 px-2.5 py-1 rounded border border-teal-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                4 معايير نشطة
+              </div>
+</div>
+<!-- BANT 4-Card Compact Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<!-- N: Need -->
+<div class="p-3.5 rounded-xl border border-outline-variant/30 bg-surface-container-low/20 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-primary-container text-white text-xs font-bold flex items-center justify-center">N</span>
+<span class="text-xs font-bold text-on-surface">الاحتياج التجاري (Need)</span>
+</div>
+<span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-semibold">مؤهل عالي</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                  استفسار محدد عن مقاسات خاصة، فساتين مناسبات راقية، أو طلب حجز تجربة بوتيك في فرع دبي مول.
+                </p>
+<div class="text-[11px] text-outline flex items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-sm" data-icon="check">check</span>
+                  تفعيل الإشعار الفوري لمدير المعرض
+                </div>
+</div>
+<!-- B: Budget -->
+<div class="p-3.5 rounded-xl border border-outline-variant/30 bg-surface-container-low/20 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-[#0D9488] text-white text-xs font-bold flex items-center justify-center">B</span>
+<span class="text-xs font-bold text-on-surface">الميزانية الشرائية (Budget)</span>
+</div>
+<span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-semibold">حد أدنى محدد</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                  استعداد وتأكيد للشراء الفوري للقطع الحصرية بقيمة تفوق 1,500 د.إ للطلب الواحد.
+                </p>
+<div class="text-[11px] text-outline flex items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-sm" data-icon="filter_alt">filter_alt</span>
+                  استبعاد استفسارات الهدايا المجانية
+                </div>
+</div>
+<!-- T: Timeline -->
+<div class="p-3.5 rounded-xl border border-outline-variant/30 bg-surface-container-low/20 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-secondary text-white text-xs font-bold flex items-center justify-center">T</span>
+<span class="text-xs font-bold text-on-surface">الإطار الزمني (Timeline)</span>
+</div>
+<span class="text-[10px] text-primary bg-primary-fixed/40 px-2 py-0.5 rounded font-semibold">عاجل ومحدد</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                  نية شراء مباشرة أو تأكيد حجز موعد وزيارة للبوتيك خلال 48 ساعة إلى 7 أيام كحد أقصى.
+                </p>
+<div class="text-[11px] text-outline flex items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-sm" data-icon="timer">timer</span>
+                  تحويل فوري لقناة واتساب بزنس
+                </div>
+</div>
+<!-- A: Authority -->
+<div class="p-3.5 rounded-xl border border-outline-variant/30 bg-surface-container-low/20 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-amber-600 text-white text-xs font-bold flex items-center justify-center">A</span>
+<span class="text-xs font-bold text-on-surface">جهة القرار (Authority)</span>
+</div>
+<span class="text-[10px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded font-semibold">مشتري نهائي</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                  صاحب القرار المالي المباشر أو منسق العائلة الشخصي المسؤول عن مشتريات المناسبات.
+                </p>
+<div class="text-[11px] text-outline flex items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-sm" data-icon="badge">badge</span>
+                  تسجيل بطاقة العميل في CRM نِمدار
+                </div>
+</div>
+</div>
+</div>
+<!-- Card 3: Account Assignment Preview & Connect Later -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-5 shadow-sm space-y-4">
+<div class="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant/20 pb-3">
+<div class="flex items-center gap-2.5">
+<div class="p-2 rounded-lg bg-primary-fixed/40 text-primary">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+</div>
+<div>
+<h2 class="text-sm font-bold text-on-surface">ربط الحسابات وتوزيع الصلاحيات (معاينة أولية)</h2>
+<p class="text-xs text-on-surface-variant">المنصات والأصول الرقمية المرتبطة بعلامة أوربان لايف للأزياء</p>
+</div>
+</div>
+<!-- Clear Demo Statement -->
+<div class="bg-surface-container-low px-3 py-1 rounded-lg border border-outline-variant/40 text-[11px] text-on-surface-variant font-medium">
+                لا توجد متطلبات لكلمات سر أو توكنات حقيقية في هذه المرحلة التوضيحية
+              </div>
+</div>
+<!-- Platform Cards -->
+<div class="space-y-3">
+<!-- Instagram Item (Existing Reusable Asset) -->
+<div class="flex flex-wrap items-center justify-between p-3.5 rounded-xl border border-outline-variant/30 bg-surface-container-low/20 hover:border-primary/40 transition-colors gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined" data-icon="photo_camera">photo_camera</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-on-surface">Instagram: @UrbanLife.DXB</span>
+<span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded-md font-semibold">
+                        حساب موجود مسبقاً في المنظومة
+                      </span>
+</div>
+<p class="text-[11px] text-outline mt-0.5">إعادة استخدام الأصل الرقمي — الصلاحيات المفعلة: نشر محتوى، إعلانات مدفوعة، وقراءة الرسائل.</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="link">link</span>
+                    جاهز للتشغيل
+                  </span>
+<button class="text-xs text-outline hover:text-on-surface p-1" type="button">
+<span class="material-symbols-outlined text-base" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Facebook Item (Connected) -->
+<div class="flex flex-wrap items-center justify-between p-3.5 rounded-xl border border-outline-variant/30 bg-surface-container-low/20 hover:border-primary/40 transition-colors gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined" data-icon="public">public</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-on-surface">Facebook: Urban Life UAE</span>
+<span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md font-semibold">
+                        مكتمل الربط
+                      </span>
+</div>
+<p class="text-[11px] text-outline mt-0.5">صفحة متجر دبي مول الرسمية — الصلاحيات: إدارة الحملات الترويجية ومزامنة كتالوج المنتجات.</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                    متصل ونشط
+                  </span>
+<button class="text-xs text-outline hover:text-on-surface p-1" type="button">
+<span class="material-symbols-outlined text-base" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- TikTok Item (Connect Later) -->
+<div class="flex flex-wrap items-center justify-between p-3.5 rounded-xl border border-dashed border-outline-variant/60 bg-surface-container-low/10 hover:border-outline transition-colors gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gray-900 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-on-surface">TikTok: TikTok Ads Hub</span>
+<span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-md font-semibold">
+                        ربط لاحقاً
+                      </span>
+</div>
+<p class="text-[11px] text-outline mt-0.5">يمكن إتمام المزامنة وتفويض حساب الإعلانات بعد إطلاق الحملة الافتتاحية دون تعطيل الإعداد.</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-xs font-medium text-primary hover:bg-primary-fixed/30 px-3 py-1 rounded-lg border border-primary/30 transition-colors" type="button">
+                    + توصيل الحساب الآن
+                  </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ================================================================= -->
+<!-- RIGHT 4 COLUMNS: CLIENT APPROVER & BRAND KIT OVERVIEW             -->
+<!-- ================================================================= -->
+<div class="lg:col-span-4 space-y-5">
+<!-- Approver & Key Contact Card -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-5 shadow-sm space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="assignment_ind">assignment_ind</span>
+<h3 class="text-xs font-bold text-on-surface">جهة اعتماد المحتوى والميزانية</h3>
+</div>
+<span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-semibold">معتمد رسمي</span>
+</div>
+<!-- Client Contact Profile -->
+<div class="bg-surface-container-low/30 border border-outline-variant/30 rounded-xl p-4 space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                  م.س
+                </div>
+<div>
+<h4 class="text-xs font-bold text-on-surface">أ. مريم السويدي</h4>
+<p class="text-[11px] text-primary font-medium">مديرة التسويق والتواصل لدى العميل</p>
+<p class="text-[10px] text-outline">مجموعة المدار التجارية — دبي</p>
+</div>
+</div>
+<div class="space-y-2 pt-2 border-t border-outline-variant/20 text-xs">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="flex items-center gap-1.5 text-outline">
+<span class="material-symbols-outlined text-sm" data-icon="mail">mail</span>
+                    البريد الإلكتروني:
+                  </span>
+<span class="font-mono text-on-surface select-all text-[11px]">m.alsuwaidi@almadar.ae</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="flex items-center gap-1.5 text-outline">
+<span class="material-symbols-outlined text-sm" data-icon="call">call</span>
+                    الهاتف المباشر:
+                  </span>
+<span class="font-mono text-on-surface dir-ltr text-[11px]">+971 4 398 2210</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-200/60">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-emerald-700 text-sm" data-icon="chat">chat</span>
+<span class="text-[11px] font-bold">رمز واتساب المعتمد:</span>
+</div>
+<span class="font-mono text-[11px] font-semibold text-emerald-800">+971 50 842 1990</span>
+</div>
+</div>
+</div>
+<div class="text-[11px] text-outline leading-relaxed space-y-1">
+<p>• إشعارات الموافقات الأسبوعية تُرسل تلقائياً كل ثلاثاء الساعة 10:00 صباحاً.</p>
+<p>• للمسؤولة صلاحية الموافقة على الحملات التي لا تتجاوز 90,000 د.إ شهرياً.</p>
+</div>
+</div>
+<!-- Brand Kit & Visual Tone Quick Card -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-5 shadow-sm space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#0D9488]" data-icon="palette">palette</span>
+<h3 class="text-xs font-bold text-on-surface">حقيبة الهوية ونبرة الصوت</h3>
+</div>
+<span class="text-[10px] text-primary hover:underline cursor-pointer">تعديل الأصول</span>
+</div>
+<div class="space-y-3 text-xs">
+<div>
+<span class="text-[11px] font-bold text-outline block mb-1">نبرة الصوت المعتمدة (Brand Tone):</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-on-surface text-[11px] font-medium">فاخرة وهادئة</span>
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-on-surface text-[11px] font-medium">عصرية موثوقة</span>
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-on-surface text-[11px] font-medium">عربية فصحى راقية</span>
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-on-surface text-[11px] font-medium">مقتضبة بدون إلحاح</span>
+</div>
+</div>
+<div>
+<span class="text-[11px] font-bold text-outline block mb-1.5">لوحة ألوان العلامة (Brand Palette):</span>
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-[#101828] border border-black/10 shadow-xs" title="Navy Black #101828"></div>
+<div class="w-7 h-7 rounded-lg bg-[#0D9488] border border-black/10 shadow-xs" title="Teal Green #0D9488"></div>
+<div class="w-7 h-7 rounded-lg bg-[#D4AF37] border border-black/10 shadow-xs" title="Metallic Gold #D4AF37"></div>
+<div class="w-7 h-7 rounded-lg bg-[#F5F7FA] border border-black/10 shadow-xs" title="Cool Ivory #F5F7FA"></div>
+<span class="text-[11px] text-outline mr-1">+ 2 ألوان ثانوية</span>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant/20">
+<span class="text-[11px] font-bold text-outline block mb-1">الأصول المرفوعة:</span>
+<div class="flex items-center justify-between text-[11px] p-2 rounded-lg bg-surface-container-low/40">
+<span class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="attach_file">attach_file</span>
+                    UrbanLife_BrandKit_2026.pdf
+                  </span>
+<span class="text-outline font-mono">14.2 MB</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Wizard Progress Checklist Card -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 shadow-sm">
+<h4 class="text-xs font-bold text-on-surface mb-2.5 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-emerald-600" data-icon="task_alt">task_alt</span>
+              اكتمال متطلبات الإعداد
+            </h4>
+<div class="space-y-2 text-xs">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">الحقول الأساسية للمرحلة 3</span>
+<span class="font-bold text-emerald-700">4 / 4 مكتملة</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-emerald-600 h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+<p class="text-[10px] text-outline pt-1">
+                يمكنك الانتقال إلى مرحلة ربط الحسابات فوراً أو حفظ المسودة والعودة لاحقاً.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- ========================================================================= -->
+<!-- FOOTER STICKY ACTION BAR                                                  -->
+<!-- ========================================================================= -->
+<footer class="fixed bottom-0 left-0 right-64 h-16 z-30 bg-surface-container-lowest/95 backdrop-blur border-t border-outline-variant/30 px-8 flex items-center justify-between shadow-lg">
+<!-- Right side: Validation Status Badge -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
+<span class="material-symbols-outlined text-base text-emerald-600" data-icon="check_circle">check_circle</span>
+<span>جميع الحقول المطلوبة في هذه المرحلة مكتملة (4/4)</span>
+</div>
+<span class="text-xs text-outline hidden md:inline">• جاهز للانتقال للخطوة 4 (توزيع الصلاحيات)</span>
+</div>
+<!-- Left side: CTAs -->
+<div class="flex items-center gap-3">
+<!-- Cancel / Exit Button -->
+<button class="text-xs font-semibold text-on-surface-variant hover:text-error px-4 py-2 rounded-lg hover:bg-surface-container-low transition-colors" type="button">
+        إلغاء والعودة لقائمة العملاء
+      </button>
+<!-- Save as Draft Button -->
+<button class="text-xs font-bold text-on-surface bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs" type="button">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="save">save</span>
+<span>حفظ كمسودة</span>
+</button>
+<!-- Primary Next Step CTA Button -->
+<button class="text-xs font-bold text-white bg-primary-container hover:bg-primary px-5 py-2 rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-2 active:scale-98" type="button">
+<span>حفظ العميل والمتابعة</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+</button>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-[#F5F7FA]" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>نِمدار سوشيال — مكتبة الوسائط والأصول الرقمية</title>
+<!-- Google Fonts: Cairo & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-container": "#acbfff",
+            "primary-fixed-dim": "#b4c5ff",
+            "outline-variant": "#c3c6d7",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-fixed": "#ffdbcd",
+            "on-secondary": "#ffffff",
+            "inverse-primary": "#b4c5ff",
+            "surface-variant": "#e1e2ed",
+            "surface-tint": "#0053db",
+            "surface": "#faf8ff",
+            "error": "#ba1a1a",
+            "background": "#faf8ff",
+            "on-secondary-container": "#394c84",
+            "primary-fixed": "#dbe1ff",
+            "on-tertiary-fixed": "#360f00",
+            "on-tertiary-container": "#ffede6",
+            "tertiary-fixed-dim": "#ffb596",
+            "on-surface-variant": "#434655",
+            "on-primary": "#ffffff",
+            "surface-bright": "#faf8ff",
+            "on-secondary-fixed": "#00174b",
+            "primary": "#004ac6",
+            "surface-dim": "#d9d9e5",
+            "on-primary-container": "#eeefff",
+            "on-secondary-fixed-variant": "#31447b",
+            "error-container": "#ffdad6",
+            "tertiary": "#943700",
+            "surface-container-high": "#e7e7f3",
+            "surface-container-low": "#f3f3fe",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#bc4800",
+            "on-tertiary-fixed-variant": "#7d2d00",
+            "inverse-on-surface": "#f0f0fb",
+            "on-surface": "#191b23",
+            "on-background": "#191b23",
+            "on-primary-fixed-variant": "#003ea8",
+            "on-error": "#ffffff",
+            "inverse-surface": "#101828",
+            "surface-container-highest": "#e1e2ed",
+            "secondary": "#0d9488",
+            "primary-container": "#2563eb",
+            "secondary-fixed-dim": "#b4c5ff",
+            "outline": "#737686",
+            "on-primary-fixed": "#00174b",
+            "surface-container": "#ededf9",
+            "secondary-fixed": "#dbe1ff",
+            "on-tertiary": "#ffffff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            body: ["Cairo", "Inter", "sans-serif"],
+            headline: ["Cairo", "Inter", "sans-serif"],
+            display: ["Cairo", "Inter", "sans-serif"],
+            label: ["Cairo", "Public Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1F3F9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+  </style>
+</head>
+<body class="h-full antialiased bg-[#F5F7FA] text-on-surface flex overflow-hidden">
+<!-- ================= RIGHT SIDEBAR (SideNavBar Component Anchor) ================= -->
+<aside class="fixed top-0 right-0 h-screen w-64 z-40 bg-inverse-surface border-l border-outline-variant/20 shadow-sm flex flex-col justify-between p-4 select-none">
+<div class="flex flex-col gap-6">
+<!-- Brand & Agency Profile Anchor -->
+<div class="flex items-center gap-3 px-2 pt-1">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary font-black shadow-md">
+<span class="material-symbols-outlined text-2xl">auto_fix_high</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline text-lg font-bold text-inverse-on-surface tracking-tight leading-tight">نِمدار سوشيال NEMDAR</span>
+<span class="font-body text-xs text-inverse-on-surface/60 font-medium">وكالة رقمية متكاملة</span>
+</div>
+</div>
+<!-- Client / Brand Switcher CTA Tag -->
+<div class="bg-surface-variant/10 rounded-xl p-2.5 flex items-center justify-between border border-outline-variant/10 cursor-pointer hover:bg-surface-variant/20 transition-colors">
+<div class="flex items-center gap-2.5 overflow-hidden">
+<div class="w-7 h-7 rounded-lg bg-secondary/30 text-secondary-fixed flex items-center justify-center font-bold text-xs shrink-0">
+            أو
+          </div>
+<div class="truncate">
+<div class="text-[11px] text-inverse-on-surface/60 leading-none mb-1">العميل المختار</div>
+<div class="text-xs font-semibold text-inverse-on-surface truncate">أوربان لايف للأزياء</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-inverse-on-surface/60 text-lg">unfold_more</span>
+</div>
+<!-- Navigation Links (Exact Shared Component Anchors) -->
+<nav class="space-y-1 font-body text-base leading-relaxed">
+<!-- 1: نظرة عامة -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span>نظرة عامة</span>
+</a>
+<!-- 2: العملاء والحسابات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg">supervised_user_circle</span>
+<span>العملاء والحسابات</span>
+</a>
+<!-- 3: استوديو المحتوى (ACTIVE) -->
+<a class="bg-primary text-on-primary font-medium rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm shadow-sm" href="#">
+<span class="material-symbols-outlined text-lg material-symbols-fill">auto_fix_high</span>
+<div class="flex items-center justify-between flex-1">
+<span>استوديو المحتوى</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed">مفعل</span>
+</div>
+</a>
+<!-- 4: تقويم النشر -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg">calendar_month</span>
+<span>تقويم النشر</span>
+</a>
+<!-- 5: الحملات الإعلانية -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg">campaign</span>
+<span>الحملات الإعلانية</span>
+</a>
+<!-- 6: الرسائل واللييدز -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg">forum</span>
+<div class="flex items-center justify-between flex-1">
+<span>الرسائل واللييدز</span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+</a>
+<!-- 7: التحليلات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg">analytics</span>
+<span>التحليلات</span>
+</a>
+<!-- 8: الإعدادات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span>الإعدادات</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Footer -->
+<div class="pt-4 border-t border-outline-variant/10">
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg">manage_accounts</span>
+<span>فريق العمل والحساب</span>
+</a>
+<div class="mt-2 text-center text-[10px] text-inverse-on-surface/40">
+        الإصدار v4.8 • نِمدار سحابي
+      </div>
+</div>
+</aside>
+<!-- ================= MAIN LAYOUT AREA ================= -->
+<div class="mr-64 flex-1 flex flex-col h-screen overflow-hidden">
+<!-- ================= TOP NAVIGATION BAR (TopNavBar Component Anchor) ================= -->
+<header class="h-16 bg-surface-container-lowest border-b border-outline-variant/30 flex items-center justify-between px-6 z-30 shrink-0">
+<!-- Right Side: Breadcrumbs & Client Scope -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 text-sm text-on-surface-variant">
+<span class="font-medium text-on-surface">مجموعة المدار التجارية</span>
+<span class="material-symbols-outlined text-xs text-outline">chevron_left</span>
+<span class="font-medium text-on-surface">أوربان لايف للأزياء</span>
+<span class="material-symbols-outlined text-xs text-outline">chevron_left</span>
+<span class="font-bold text-primary">مكتبة الوسائط الرقمية</span>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant border border-outline-variant/40">
+          بيانات توضيحية
+        </span>
+</div>
+<!-- Left Side: Actions, Date Range, Search & Profile -->
+<div class="flex items-center gap-3">
+<!-- Date Range Badge Anchor -->
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-xl border border-outline-variant/30 text-xs font-medium text-on-surface-variant">
+<span class="material-symbols-outlined text-base text-outline">calendar_today</span>
+<span>سبتمبر 2026 (توقيت آسيا/دبي)</span>
+</div>
+<!-- Quick Action: Create Content Anchor -->
+<button class="flex items-center gap-2 bg-primary hover:bg-primary-container text-on-primary px-3.5 py-1.5 rounded-xl font-semibold text-xs transition-colors shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-base">add_circle</span>
+<span>إنشاء محتوى +</span>
+</button>
+<div class="h-5 w-px bg-outline-variant/40 mx-1"></div>
+<!-- Utility Icon Actions -->
+<button class="p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors relative" title="الإشعارات">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="التخصيص">
+<span class="material-symbols-outlined text-xl">tune</span>
+</button>
+<!-- User Profile Avatar -->
+<div class="flex items-center gap-2 mr-1">
+<div class="w-8 h-8 rounded-xl bg-surface-container-high overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="A refined professional studio portrait of a modern Arab media executive in a stylish minimal office in Dubai. High-key natural lighting, confident warm expression, neutral slate background, impeccably groomed modern look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgOXuil-ZU47wS2ZboeY0tIcUghE5hO-_ThbyoAPmv1xZNsbnxbVrg7I0dMxWR2EZMrPF1xCS54LO5zHXIIeKafwJtw1zT89rwr_gsSwpSH9LxPASyvvSYOIERZFtspji2p2PNro0kpAI_h2ABK8soubPTNg4CPizrtTOHN6Y4_tH1lqOamLTohaxHUdV2BW2wL0QQPd5xqO6H_2Ql7WbcGlL-EPHxAa85Xf29CgFIynVoPD5ipd1fa8BSBDHkkgyZw-SoQ6rKir7w"/>
+</div>
+</div>
+</div>
+</header>
+<!-- ================= SUBHEADER & WORKSPACE TOOLBAR ================= -->
+<div class="px-8 pt-5 pb-3 border-b border-outline-variant/20 bg-surface-container-lowest shrink-0 space-y-4">
+<!-- Top Title & Search / AI Button Row -->
+<div class="flex items-center justify-between gap-4">
+<div>
+<h1 class="text-xl font-bold text-on-surface tracking-tight">مكتبة الوسائط والأصول الرقمية</h1>
+<p class="text-xs text-on-surface-variant mt-0.5">إدارة ومزامنة الصور، الفيديوهات والشعارات عالية الدقة لحملات أوربان لايف</p>
+</div>
+<div class="flex items-center gap-3 flex-1 max-w-xl justify-end">
+<!-- Search Bar -->
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
+<input class="w-full pl-3 pr-9 py-2 bg-surface-container-low border border-outline-variant/40 rounded-xl text-xs text-on-surface focus:outline-none focus:border-primary transition-all placeholder:text-on-surface-variant/50" placeholder="بحث في الوسائط، الوسوم، أو أسماء الحملات..." type="text"/>
+</div>
+<!-- AI Asset Generation Entry (Disabled Button with Tooltip) -->
+<div class="relative group shrink-0">
+<button class="flex items-center gap-2 bg-surface-container text-outline px-3 py-2 rounded-xl text-xs font-semibold cursor-not-allowed border border-outline-variant/30" disabled="">
+<span class="material-symbols-outlined text-base">auto_awesome</span>
+<span>توليد بالذكاء الاصطناعي</span>
+</button>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-64 p-2 bg-inverse-surface text-inverse-on-surface text-[11px] rounded-lg shadow-xl text-center pointer-events-none z-50">
+              توليد بالذكاء الاصطناعي (يتطلب إعداد مزود الخدمة السحابية في الإعدادات)
+              <div class="w-2 h-2 bg-inverse-surface transform rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Category Filter Tabs & Folders Horizontal Bar -->
+<div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+<!-- Media Type Filters -->
+<div class="flex items-center gap-1.5 p-1 bg-surface-container-low rounded-xl border border-outline-variant/30">
+<button class="px-3 py-1 rounded-lg text-xs font-semibold bg-surface-container-lowest text-primary shadow-xs">
+            الكل (48)
+          </button>
+<button class="px-3 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface transition-colors">
+            الصور (28)
+          </button>
+<button class="px-3 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface transition-colors">
+            الفيديو والريلز (14)
+          </button>
+<button class="px-3 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface transition-colors">
+            الشعارات والهوية (6)
+          </button>
+</div>
+<!-- Folders Segment Bar -->
+<div class="flex items-center gap-2 overflow-x-auto text-xs font-medium">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary/10 text-primary border border-primary/30 font-semibold shrink-0">
+<span class="material-symbols-outlined text-sm">folder_open</span>
+<span>حملة خريف 2026</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-on-surface border border-outline-variant/30 transition-colors shrink-0">
+<span class="material-symbols-outlined text-sm text-outline">folder</span>
+<span>إكسسوارات النخبة</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-on-surface border border-outline-variant/30 transition-colors shrink-0">
+<span class="material-symbols-outlined text-sm text-outline">folder</span>
+<span>جلسات تصوير بوتيك دبي مول</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-primary hover:bg-primary-fixed/30 transition-colors shrink-0 font-semibold">
+<span class="material-symbols-outlined text-base">create_new_folder</span>
+<span>+ مجلد جديد</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ================= WORKSPACE CONTENT (Grid + Side Drawer) ================= -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Media Catalog Scrollable Area -->
+<main class="flex-1 overflow-y-auto p-8 space-y-6">
+<!-- Mini Compact Upload Dropzone Bar -->
+<div class="bg-surface-container-lowest border-2 border-dashed border-outline-variant/50 hover:border-primary/60 transition-colors rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">cloud_upload</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">اسحب الملفات هنا للرفع السريع أو استعراض من جهازك</p>
+<p class="text-[11px] text-on-surface-variant">الامتدادات المدعومة: MP4, MOV, WebP, PNG, JPG (حتى 250 ميجابايت للملف)</p>
+</div>
+</div>
+<!-- Active Processing Status Simulation -->
+<div class="w-full md:w-64 bg-surface-container-low p-2 rounded-xl border border-outline-variant/20 flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant font-medium">
+<span class="truncate max-w-[140px]">Dubai_Boulevard_Reel_4k.mp4</span>
+<span class="font-bold text-secondary">92% مكتمل</span>
+</div>
+<div class="w-full h-1.5 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 92%"></div>
+</div>
+</div>
+</div>
+<!-- Section Title & Asset Counters -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h2 class="text-sm font-bold text-on-surface">محتويات مجلد: حملة خريف 2026</h2>
+<span class="text-xs text-on-surface-variant">(6 عناصر معروضة)</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span>الترتيب حسب: الأحدث تعديلاً</span>
+<span class="material-symbols-outlined text-base cursor-pointer">sort</span>
+</div>
+</div>
+<!-- Bento & Asset Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+<!-- Card 1: SELECTED VIDEO (Active State with Blue Border) -->
+<div class="bg-surface-container-lowest rounded-2xl border-2 border-primary-container shadow-md overflow-hidden flex flex-col group relative transition-all">
+<div class="absolute top-3 right-3 z-10 flex items-center gap-1.5">
+<span class="bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-md shadow-sm">
+                محدد حالياً
+              </span>
+<span class="bg-inverse-surface/80 backdrop-blur-sm text-inverse-on-surface text-[10px] font-medium px-2 py-0.5 rounded-md">
+                v2.1
+              </span>
+</div>
+<!-- Thumbnail Container -->
+<div class="relative h-60 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Dubai Autumn 2026 luxury campaign video still featuring an elegant female model in a sharp camel trench coat strolling down Sheikh Mohammed bin Rashid Boulevard. Modern glass skyscrapers softly blurred in the background under crisp late afternoon golden light. Premium fashion editorial color grading with deep blues and warm camels." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxTIn05CusYpneTyB9kIZiVGHI14m1Y0DAofdRC-HeSvs4rUe0z7X5BnOoPz1iaBXclXMHcnSip-Dkzwlb_bGh3QznRJvZLobPrh4135hXDF359eHpKGeKElOc_9jLMrSOxMTFBw7dDHtqDpivj2FJQF2Mcf49ZtOqhLndrqH2Zw91e29b21LCqPlNjvNwutnfw7ig8O0lTdLakX54_Nx1P326B6QPwp9GBdMMZwR19ik8dyU0bO0Hfk1XabYvdxsVqwV3SFlDGEdb"/>
+<!-- Video Duration & Format Overlay -->
+<div class="absolute bottom-3 right-3 bg-inverse-surface/85 backdrop-blur-sm text-inverse-on-surface text-[10px] font-semibold px-2 py-1 rounded-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">play_arrow</span>
+<span>0:32 دقيقة</span>
+</div>
+<div class="absolute bottom-3 left-3 bg-inverse-surface/85 backdrop-blur-sm text-inverse-on-surface text-[10px] font-mono px-2 py-1 rounded-lg">
+                1080x1920 (9:16)
+              </div>
+</div>
+<!-- Card Body -->
+<div class="p-3.5 flex flex-col justify-between flex-1 gap-3">
+<div>
+<div class="flex items-center justify-between gap-2">
+<h3 class="text-xs font-bold text-on-surface truncate" title="Urban_Autumn_Hero_Dubai_9x16.mp4">
+                    Urban_Autumn_Hero_Dubai_9x16.mp4
+                  </h3>
+<span class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-secondary/15 text-secondary">
+                    معتمد للاستخدام
+                  </span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-outline">schedule</span>
+<span>تم التعديل منذ ساعتين بواسطة سلمى</span>
+</p>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/20 text-xs">
+<span class="text-primary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span>معروض في المفتش</span>
+</span>
+<span class="text-on-surface-variant font-mono text-[11px]">48.4 MB</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Image Card -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 hover:border-outline transition-all shadow-xs hover:shadow-sm overflow-hidden flex flex-col group">
+<div class="relative h-60 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Editorial flatlay product photography of luxury Italian leather handbags, minimalist rose gold sunglasses, and silk scarves arranged elegantly on cool textured white marble surface. Soft daylight casting subtle natural shadows, high aesthetic detail, crisp Dubai boutique luxury vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsn_yXiR0fH7IzYlxVINO_PUgPzFtVZOQdMhV32ckFCQ29zKpEi5VhCsp3WdcbDhs6UiVpiTaplJ9tPh5ZSIjR0iTx_2UINhO7K05hjsrR6QA-wMkPWdliCvmBEM7WtqS-CYoThpAYn9DPymxk_dpWeurSvUHegxypixjdbv0KR7EQnb3YK2S59VEkg44hIsQFlbyKcIx86dbRqdr5XNj8itH2yj3Rmlwc22s_N1iuhXyUezTAviXd-9W9QGKW_dkWv4l_9f7TNN--"/>
+<div class="absolute bottom-3 left-3 bg-inverse-surface/80 backdrop-blur-sm text-inverse-on-surface text-[10px] font-mono px-2 py-1 rounded-lg">
+                1080x1080 (1:1)
+              </div>
+</div>
+<div class="p-3.5 flex flex-col justify-between flex-1 gap-3">
+<div>
+<div class="flex items-center justify-between gap-2">
+<h3 class="text-xs font-bold text-on-surface truncate" title="Accessories_Flatlay_01.jpg">
+                    Accessories_Flatlay_01.jpg
+                  </h3>
+<span class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-secondary/15 text-secondary">
+                    معتمد
+                  </span>
+</div>
+<div class="mt-1 flex items-center gap-3 text-[11px] text-on-surface-variant">
+<span class="flex items-center gap-1 text-primary font-medium">
+<span class="material-symbols-outlined text-xs">repeat</span>
+<span>مستخدم في 3 منشورات</span>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/20 text-xs">
+<span class="text-on-surface-variant text-[11px]">صورة فوتوغرافية</span>
+<span class="text-on-surface-variant font-mono text-[11px]">3.2 MB</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Behind the Scenes Video -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 hover:border-outline transition-all shadow-xs hover:shadow-sm overflow-hidden flex flex-col group">
+<div class="relative h-60 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Behind the scenes documentary style shot of a high fashion production crew shooting in a modern concrete studio in Dubai. Professional lighting rigs, camera monitors, director reviewing takes with a stylist in the foreground, energetic creative atmosphere with cool cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmkwuw3Jwh2ZZ4YslxnNMtI0wOegirOh-ZNJis7OgY98dPKyTjAyQBsNesbtFkG2DARYIoiNt8U9KqQuqndDcTHlsfoszagGxTkfw90ZW7_nEYjN-GHxXDGFI2QZrAFVetCTtsDSC2j-uU7ywqxVmcmaYH5FnXCW6XYQoGxpgAwP3bsDZZ5pYVyw32bTJ2evjhHDYUxHMmGh1kre9b1l-EcRi6FKOdyoPvtyU5xLIUVK1YWhu3xohKYKx06-M8067mIlaVGeHsp8q7"/>
+<div class="absolute bottom-3 right-3 bg-inverse-surface/85 backdrop-blur-sm text-inverse-on-surface text-[10px] font-semibold px-2 py-1 rounded-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">play_arrow</span>
+<span>0:15 دقيقة</span>
+</div>
+<div class="absolute bottom-3 left-3 bg-inverse-surface/85 backdrop-blur-sm text-inverse-on-surface text-[10px] font-mono px-2 py-1 rounded-lg">
+                1080x1920 (9:16)
+              </div>
+</div>
+<div class="p-3.5 flex flex-col justify-between flex-1 gap-3">
+<div>
+<div class="flex items-center justify-between gap-2">
+<h3 class="text-xs font-bold text-on-surface truncate" title="Reel_BehindTheScenes.mp4">
+                    Reel_BehindTheScenes.mp4
+                  </h3>
+<span class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant">
+                    قيد المراجعة
+                  </span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1">كواليس التحضير في أسبوع دبي للموضة</p>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/20 text-xs">
+<span class="text-on-surface-variant text-[11px]">فيديو ريلز</span>
+<span class="text-on-surface-variant font-mono text-[11px]">18.9 MB</span>
+</div>
+</div>
+</div>
+<!-- Card 4: Dress Portrait Image -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 hover:border-outline transition-all shadow-xs hover:shadow-sm overflow-hidden flex flex-col group">
+<div class="relative h-60 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="High fashion portrait of an elegant Gulf model wearing a deep sapphire blue silk tailored modern abaya and coat inside Dubai Mall luxury pavilion. Minimalist architectural glass backdrop with warm ambient reflections, refined makeup, pristine fashion lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2UeNloOWQWZGuX5Zw1UoZjZaZ81uTnmzQeBO5b4UM23DUcUpMohnnnqOVHl0QXbm4kzfWELkUt9UpSWx-5k3PqgiFfGfl5k-9JGoyDIOQA1kTFuCu1sCAwiJ7XhnXBVVveqV6oyzD6vvqWeqlAprZbKkXQjWvlKp5RbimwE3dVnSlXF3D_z_iDZLpsmO7_QGr-OSP31HwlgVIc5iECB7W-w61f_F66jYQSDjl_LYMehpc2D2IWqBy6_9maBCvEbOGZXdWGYjqmNT5"/>
+<div class="absolute bottom-3 left-3 bg-inverse-surface/80 backdrop-blur-sm text-inverse-on-surface text-[10px] font-mono px-2 py-1 rounded-lg">
+                1080x1350 (4:5)
+              </div>
+</div>
+<div class="p-3.5 flex flex-col justify-between flex-1 gap-3">
+<div>
+<div class="flex items-center justify-between gap-2">
+<h3 class="text-xs font-bold text-on-surface truncate" title="Silk_Navy_Dress_DubaiMall.jpg">
+                    Silk_Navy_Dress_DubaiMall.jpg
+                  </h3>
+<span class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-secondary/15 text-secondary">
+                    معتمد
+                  </span>
+</div>
+<div class="mt-1 flex items-center gap-3 text-[11px] text-on-surface-variant">
+<span class="flex items-center gap-1 text-primary font-medium">
+<span class="material-symbols-outlined text-xs">repeat</span>
+<span>مستخدم في منشورين</span>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/20 text-xs">
+<span class="text-on-surface-variant text-[11px]">صورة فوتوغرافية</span>
+<span class="text-on-surface-variant font-mono text-[11px]">5.1 MB</span>
+</div>
+</div>
+</div>
+<!-- Card 5: Vector Logo Identity -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 hover:border-outline transition-all shadow-xs hover:shadow-sm overflow-hidden flex flex-col group">
+<div class="h-60 bg-[#161B26] flex items-center justify-center p-8 relative">
+<!-- Simulated Gold & White Monogram Vector Brandmark -->
+<div class="text-center space-y-2">
+<div class="w-16 h-16 mx-auto rounded-2xl border-2 border-[#D4AF37] flex items-center justify-center text-[#D4AF37] text-2xl font-black tracking-wider shadow-inner">
+                  UL
+                </div>
+<div class="text-white text-sm font-semibold tracking-widest font-headline">URBAN LIFE</div>
+<div class="text-[#D4AF37] text-[10px] tracking-widest">DUBAI AUTUMN 2026</div>
+</div>
+<div class="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm text-white text-[10px] font-mono px-2 py-1 rounded-lg">
+                SVG Vector
+              </div>
+</div>
+<div class="p-3.5 flex flex-col justify-between flex-1 gap-3">
+<div>
+<div class="flex items-center justify-between gap-2">
+<h3 class="text-xs font-bold text-on-surface truncate" title="Brand_Wordmark_White_Gold.svg">
+                    Brand_Wordmark_White_Gold.svg
+                  </h3>
+<span class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                    أصل معتمد
+                  </span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1">شعار رسمي بدقة غير محدودة (متجهي)</p>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/20 text-xs">
+<span class="text-on-surface-variant text-[11px]">هوية بصرية</span>
+<span class="text-on-surface-variant font-mono text-[11px]">420 KB</span>
+</div>
+</div>
+</div>
+<!-- Card 6: Small Error / Retry State Card -->
+<div class="bg-error-container/20 rounded-2xl border border-error/30 p-4 flex flex-col justify-between">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-xl bg-error/15 text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-xl">error</span>
+</div>
+<div class="space-y-1">
+<h4 class="text-xs font-bold text-error">فشل في رفع ملف</h4>
+<p class="text-[11px] text-on-error-container leading-relaxed">
+                  الملف <span class="font-mono font-semibold">raw_footage_cam02.cr3</span> ذو صيغة غير مدعومة للمعالجة السريعة. يرجى تحويله إلى ProRes أو MP4.
+                </p>
+</div>
+</div>
+<div class="flex items-center justify-end gap-2 pt-4 border-t border-error/20">
+<button class="px-2.5 py-1 text-xs text-on-surface-variant hover:text-on-surface transition-colors">
+                إغلاق
+              </button>
+<button class="px-3 py-1 bg-error text-on-error hover:bg-error/90 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-xs">refresh</span>
+<span>إعادة المحاولة</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- ================= LEFT SIDE: INSPECTOR DRAWER FOR SELECTED VIDEO ================= -->
+<aside class="w-96 bg-surface-container-lowest border-r border-outline-variant/30 flex flex-col h-full overflow-y-auto shrink-0 z-20 shadow-lg">
+<!-- Drawer Header -->
+<div class="p-4 border-b border-outline-variant/30 flex items-center justify-between bg-surface-container-lowest sticky top-0 z-10">
+<div class="flex items-center gap-2 overflow-hidden">
+<span class="material-symbols-outlined text-primary text-xl">movie</span>
+<div class="truncate">
+<h3 class="text-xs font-bold text-on-surface truncate" title="Urban_Autumn_Hero_Dubai_9x16.mp4">
+                تفاصيل الأصل الرقمي
+              </h3>
+<p class="text-[11px] text-on-surface-variant truncate font-mono">Urban_Autumn_Hero_Dubai_9x16.mp4</p>
+</div>
+</div>
+<button class="p-1 text-outline hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="إغلاق اللوحة">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<!-- Drawer Content Body -->
+<div class="p-5 space-y-6 flex-1">
+<!-- Video Player Preview Box -->
+<div class="space-y-2">
+<div class="relative rounded-xl overflow-hidden bg-black aspect-[9/14] max-h-72 w-full mx-auto border border-outline-variant/30 shadow-inner group">
+<img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" data-alt="Cinematic frame capture from the Autumn 2026 Dubai fashion campaign showing model in movement along modern glass pavilion, soft golden backlight, rich cinematic teal and camel tones, sharp focal depth, high fashion aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDj4TAA3DTqcXt9MEZhY05BIMDYPbsbXS5IWSFp4u6IFjGnRN0Kc4ZwBS_n5L9RHE6QYmSuoJuGFHTni1VLtgLUZ6FeREiI8YMkmIwoUiPHEkWxyZrpt4CXHo3YF8qHR9B61cPhzCgCSxvwCwvvxdRWQecH8GqZv_7H47bAwuBRnUbnfW1789mC4PAz5bh-e_aDMnlrR540qNie6Hm-3n6WjKTEwOnv4IkuZ7ts-bSY0T5VBsCXn9-x7g2jAyMQ6BqAxxCEU9JJ3Qd"/>
+<!-- Video Controls Overlay -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-12 h-12 rounded-full bg-primary/90 text-on-primary flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl material-symbols-fill mr-0.5">play_arrow</span>
+</button>
+</div>
+<!-- Badges on Preview -->
+<div class="absolute top-2.5 right-2.5 bg-black/70 backdrop-blur-sm text-white font-mono text-[10px] px-2 py-0.5 rounded">
+                4K / 60fps
+              </div>
+<div class="absolute bottom-2.5 right-2.5 left-2.5 flex items-center justify-between bg-black/60 backdrop-blur-sm text-white text-[10px] px-2.5 py-1 rounded">
+<span>00:14 / 00:32</span>
+<span class="material-symbols-outlined text-xs">volume_up</span>
+</div>
+</div>
+</div>
+<!-- Crop & Aspect Ratio Variants Toggle Tabs -->
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface block">تنسيقات ونسب العرض المجهزة:</label>
+<div class="grid grid-cols-3 gap-1.5 p-1 bg-surface-container-low rounded-xl border border-outline-variant/30 text-center">
+<button class="py-1.5 rounded-lg text-xs font-bold bg-surface-container-lowest text-primary shadow-xs border border-primary/20">
+                9:16
+                <span class="block text-[9px] font-normal text-primary">ريلز وتيك توك</span>
+</button>
+<button class="py-1.5 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface transition-colors">
+                4:5
+                <span class="block text-[9px] font-normal text-on-surface-variant/70">إنستغرام فييد</span>
+</button>
+<button class="py-1.5 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface transition-colors">
+                1:1
+                <span class="block text-[9px] font-normal text-on-surface-variant/70">فيسبوك وموقع</span>
+</button>
+</div>
+</div>
+<!-- Arabic Alt Text & Captions -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="text-xs font-bold text-on-surface">النص البديل والوصف الذكي (Alt Text):</label>
+<button class="text-[11px] text-primary hover:underline font-semibold">نسخ النص</button>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/30 text-xs leading-relaxed text-on-surface font-medium">
+              "عارضة أزياء تتألق بمعطف كلاسيكي جملي ضمن تشكيلة خريف 2026 أمام معالم دبي العصرية في بوليفارد الشيخ محمد بن راشد."
+            </div>
+</div>
+<!-- Where Used in Scheduled Posts -->
+<div class="space-y-2.5">
+<label class="text-xs font-bold text-on-surface flex items-center justify-between">
+<span>سجل الاستخدام في الجدولة</span>
+<span class="text-[10px] bg-secondary/15 text-secondary px-2 py-0.5 rounded-full font-bold">2 حملة نشطة</span>
+</label>
+<div class="space-y-2">
+<div class="p-2.5 rounded-xl border border-outline-variant/30 bg-surface-container-lowest flex items-start gap-2.5">
+<div class="w-6 h-6 rounded-lg bg-[#E1306C]/15 text-[#E1306C] flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</div>
+<div class="flex-1">
+<div class="text-xs font-semibold text-on-surface">منشور إنستغرام مجدول</div>
+<div class="text-[11px] text-on-surface-variant">24 سبتمبر 2026 - 07:00 م (حملة الخريف)</div>
+</div>
+</div>
+<div class="p-2.5 rounded-xl border border-outline-variant/30 bg-surface-container-lowest flex items-start gap-2.5">
+<div class="w-6 h-6 rounded-lg bg-black text-white flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">
+<span class="material-symbols-outlined text-sm">music_note</span>
+</div>
+<div class="flex-1">
+<div class="text-xs font-semibold text-on-surface">إعلان تيك توك مدفوع</div>
+<div class="text-[11px] text-secondary font-medium">حملة صيف/خريف دبي (قيد المراجعة)</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Usage Rights & Licensing Note -->
+<div class="p-3 rounded-xl bg-surface-container-high/40 border border-outline-variant/30 space-y-1.5">
+<div class="flex items-center gap-1.5 text-xs font-bold text-on-surface">
+<span class="material-symbols-outlined text-sm text-secondary">verified_user</span>
+<span>حقوق الاستخدام والتراخيص</span>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">
+              حقوق تصوير تجارية حصرية لصالح مجموعة المدار التجارية — مرخصة رقمياً حتى سبتمبر 2027 عبر وكالة نِمدار.
+            </p>
+</div>
+</div>
+<!-- Drawer Action Footer Buttons -->
+<div class="p-4 border-t border-outline-variant/30 bg-surface-container-lowest space-y-2 sticky bottom-0">
+<button class="w-full py-2.5 px-4 bg-primary hover:bg-primary-container text-on-primary rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2 shadow-sm active:scale-98">
+<span class="material-symbols-outlined text-base">post_add</span>
+<span>إرفاق بمسودة محتوى جديدة +</span>
+</button>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2 px-3 border border-outline-variant/40 hover:bg-surface-container-low text-on-surface rounded-xl font-semibold text-xs transition-colors flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline">download</span>
+<span>تحميل الأصل (48MB)</span>
+</button>
+<button class="py-2 px-3 border border-outline-variant/40 hover:bg-surface-container-low text-on-surface rounded-xl font-semibold text-xs transition-colors flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline">edit_note</span>
+<span>تعديل البيانات</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</body></html>

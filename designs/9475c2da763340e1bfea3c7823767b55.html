@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>نِمدار سوشيال NEMDAR - صندوق الوارد الموحد وتأهيل العملاء المحتملين</title>
+<!-- Fonts: Cairo Arabic & Inter Latin -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=Public+Sans:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim from Design System -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed-dim": "#b4c5ff",
+            "error-container": "#ffdad6",
+            "secondary-container": "#acbfff",
+            "on-secondary-fixed": "#00174b",
+            "on-surface": "#191b23",
+            "on-tertiary-fixed-variant": "#7d2d00",
+            "on-error": "#ffffff",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "surface-bright": "#faf8ff",
+            "tertiary-fixed": "#ffdbcd",
+            "secondary": "#495c95",
+            "surface-container-high": "#e7e7f3",
+            "on-primary-fixed-variant": "#003ea8",
+            "surface-dim": "#d9d9e5",
+            "on-secondary-fixed-variant": "#31447b",
+            "tertiary": "#943700",
+            "inverse-on-surface": "#f0f0fb",
+            "outline-variant": "#c3c6d7",
+            "secondary-fixed": "#dbe1ff",
+            "surface-variant": "#e1e2ed",
+            "surface-container-highest": "#e1e2ed",
+            "on-primary-container": "#eeefff",
+            "tertiary-container": "#bc4800",
+            "primary": "#004ac6",
+            "on-background": "#191b23",
+            "background": "#faf8ff",
+            "on-primary-fixed": "#00174b",
+            "on-secondary-container": "#394c84",
+            "error": "#ba1a1a",
+            "inverse-surface": "#2e3039",
+            "surface-container": "#ededf9",
+            "on-primary": "#ffffff",
+            "surface": "#faf8ff",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#b4c5ff",
+            "tertiary-fixed-dim": "#ffb596",
+            "on-tertiary-container": "#ffede6",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#434655",
+            "on-tertiary-fixed": "#360f00",
+            "primary-fixed-dim": "#b4c5ff",
+            "primary-container": "#2563eb",
+            "outline": "#737686",
+            "primary-fixed": "#dbe1ff",
+            "surface-container-low": "#f3f3fe",
+            "surface-tint": "#0053db"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Cairo", "Inter", "sans-serif"],
+            "display": ["Cairo", "Inter", "sans-serif"],
+            "body": ["Cairo", "Inter", "sans-serif"],
+            "label": ["Public Sans", "Cairo", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: rgba(115, 118, 134, 0.25);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="h-full bg-surface-container-low text-on-surface antialiased overflow-hidden select-none">
+<!-- ========================================================= -->
+<!-- 1. RIGHT SIDEBAR (Shared Component: SideNavBar)           -->
+<!-- ========================================================= -->
+<aside class="fixed top-0 right-0 h-screen w-64 z-40 bg-inverse-surface border-l border-outline-variant/20 shadow-sm flex flex-col justify-between p-4 select-none">
+<!-- Agency Brand Header -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2 py-1">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">hub</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline text-lg font-bold text-inverse-on-surface tracking-tight leading-tight">نِمدار سوشيال NEMDAR</span>
+<span class="text-xs text-inverse-on-surface/60 font-medium">وكالة رقمية متكاملة</span>
+</div>
+</div>
+<!-- Client Quick Switcher Button / Indicator -->
+<div class="px-3 py-2 rounded-xl bg-surface-variant/10 border border-outline-variant/10 flex items-center justify-between">
+<div class="flex items-center gap-2 overflow-hidden">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-semibold text-inverse-on-surface truncate">عميل تجريبي / علامة تجارية</span>
+</div>
+<span class="material-symbols-outlined text-xs text-inverse-on-surface/70">unfold_more</span>
+</div>
+<!-- Navigation Tabs List -->
+<nav class="flex flex-col gap-1 mt-1 font-body text-base leading-relaxed">
+<!-- 1. نظرة عامة -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="text-sm font-medium">نظرة عامة</span>
+</a>
+<!-- 2. العملاء والحسابات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">supervised_user_circle</span>
+<span class="text-sm font-medium">العملاء والحسابات</span>
+</a>
+<!-- 3. استوديو المحتوى -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">auto_fix_high</span>
+<span class="text-sm font-medium">استوديو المحتوى</span>
+</a>
+<!-- 4. تقويم النشر -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">calendar_month</span>
+<span class="text-sm font-medium">تقويم النشر</span>
+</a>
+<!-- 5. الحملات الإعلانية -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">campaign</span>
+<span class="text-sm font-medium">الحملات الإعلانية</span>
+</a>
+<!-- 6. الرسائل والليدز [ACTIVE TAB WITH REQUIRED BADGE] -->
+<a class="bg-primary text-on-primary font-medium rounded-xl px-3 py-2.5 flex items-center justify-between shadow-sm transition-colors active:scale-[0.98]" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">forum</span>
+<span class="text-sm font-semibold">الرسائل والليدز</span>
+</div>
+<span class="bg-primary-container text-on-primary text-xs px-2 py-0.5 rounded-full font-bold shadow-inner">3 عاجل</span>
+</a>
+<!-- 7. التحليلات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">analytics</span>
+<span class="text-sm font-medium">التحليلات</span>
+</a>
+<!-- 8. الإعدادات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="text-sm font-medium">الإعدادات</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Footer Account Area -->
+<div class="border-t border-outline-variant/15 pt-3">
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center justify-between transition-colors" href="#">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-lg">manage_accounts</span>
+<span class="text-xs font-medium">فريق العمل والحساب</span>
+</div>
+<span class="text-[10px] bg-surface-variant/20 text-inverse-on-surface/70 px-1.5 py-0.5 rounded font-mono">v3.4</span>
+</a>
+</div>
+</aside>
+<!-- ========================================================= -->
+<!-- 2. TOP NAVIGATION BAR (Shared Component: TopNavBar)        -->
+<!-- ========================================================= -->
+<header class="fixed top-0 left-0 right-64 h-16 z-30 bg-surface-container-lowest border-b border-outline-variant/30 flex items-center justify-between px-6">
+<!-- Active Brand & Context Information -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-bold text-sm">
+          AL
+        </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="text-xs text-on-surface-variant font-medium">مجموعة الفطيم القابضة</span>
+<span class="text-xs text-outline font-bold">›</span>
+<span class="text-sm font-bold text-on-surface font-headline">أوربان لايف دبي</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-[11px] px-2 py-0.5 rounded-md font-semibold mr-1">حساب موثق</span>
+</div>
+<!-- Disclaimer Badge required by prompt and Design System -->
+<div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>بيانات توضيحية - لا ضمان لنتائج تحويل المبيعات</span>
+</div>
+</div>
+</div>
+<!-- Channel Multi-Filter Tabs -->
+<div class="hidden xl:flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-outline-variant/30 mr-6">
+<button class="px-3 py-1 text-xs font-semibold rounded-lg bg-surface-container-lowest text-primary shadow-xs">الكل</button>
+<button class="px-2.5 py-1 text-xs font-medium text-on-surface-variant hover:text-on-surface flex items-center gap-1.5 transition-colors">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+          WhatsApp Business
+        </button>
+<button class="px-2.5 py-1 text-xs font-medium text-on-surface-variant hover:text-on-surface flex items-center gap-1.5 transition-colors">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+          Instagram DM
+        </button>
+<button class="px-2.5 py-1 text-xs font-medium text-on-surface-variant hover:text-on-surface flex items-center gap-1.5 transition-colors">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+          Facebook Messenger
+        </button>
+<button class="px-2.5 py-1 text-xs font-medium text-on-surface-variant hover:text-on-surface flex items-center gap-1.5 transition-colors">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+          TikTok
+        </button>
+</div>
+</div>
+<!-- Actions & User Profile -->
+<div class="flex items-center gap-3">
+<!-- Date Range Button -->
+<button class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-outline-variant/40 bg-surface-container-low hover:bg-surface-container text-xs font-medium text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">calendar_today</span>
+<span>نطاق التاريخ: آخر 30 يوماً</span>
+</button>
+<!-- Primary CTA Action -->
+<button class="bg-primary text-on-primary px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-primary-container active:scale-[0.98] transition-all flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-base">add</span>
+<span>إنشاء محتوى +</span>
+</button>
+<div class="h-5 w-[1px] bg-outline-variant/40 mx-1"></div>
+<!-- Icon Actions -->
+<div class="flex items-center gap-1 text-on-surface-variant">
+<button class="p-2 rounded-xl hover:bg-surface-container-low relative transition-colors" title="إشعارات الوارد">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 rounded-xl hover:bg-surface-container-low transition-colors" title="تصفية وعوامل متقدمة">
+<span class="material-symbols-outlined text-xl">tune</span>
+</button>
+</div>
+<!-- Profile Avatar -->
+<div class="flex items-center gap-2 pr-1">
+<div class="w-8 h-8 rounded-full ring-2 ring-primary/20 overflow-hidden bg-surface-variant flex items-center justify-center font-bold text-xs text-primary">
+          ع.م
+        </div>
+</div>
+</div>
+</header>
+<!-- ========================================================= -->
+<!-- 3. MAIN WORKSPACE: THREE-COLUMN PRODUCTIVITY ENGINE       -->
+<!-- ========================================================= -->
+<main class="fixed top-16 left-0 right-64 bottom-0 flex overflow-hidden bg-surface-container-low">
+<!-- ------------------------------------------------------- -->
+<!-- COLUMN 1: CONVERSATIONS LIST (320px)                    -->
+<!-- ------------------------------------------------------- -->
+<section class="w-[320px] flex-shrink-0 bg-surface-container-lowest border-l border-outline-variant/30 flex flex-col h-full">
+<!-- Search and Header Filter -->
+<div class="p-3 border-b border-outline-variant/20 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1;">inbox</span>
+<h2 class="text-sm font-bold text-on-surface font-headline">صندوق المحادثات الواردة</h2>
+</div>
+<span class="text-xs bg-surface-container px-2 py-0.5 rounded-full font-semibold text-on-surface-variant">24 محادثة</span>
+</div>
+<!-- Search Input -->
+<div class="relative">
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-outline text-base">search</span>
+<input class="w-full pl-3 pr-9 py-1.5 text-xs bg-surface-container-low border border-outline-variant/40 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline" placeholder="بحث بالاسم، الرقم، أو الحملة..." type="text"/>
+</div>
+<!-- Status Filter Chips Tabs -->
+<div class="flex items-center gap-1 overflow-x-auto custom-scrollbar pb-1 text-[11px]">
+<button class="px-2.5 py-1 rounded-lg bg-primary text-on-primary font-bold shrink-0">الكل</button>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-medium shrink-0 flex items-center gap-1">
+            ليدز جديدة
+            <span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+</button>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-medium shrink-0">قيد المتابعة</button>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-medium shrink-0">مؤهل للبيع</button>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-medium shrink-0">غير مؤهل</button>
+</div>
+</div>
+<!-- Conversations Scrollable Feed -->
+<div class="flex-1 overflow-y-auto custom-scrollbar divide-y divide-outline-variant/15">
+<!-- Conversation Item 1 (ACTIVE / SELECTED) -->
+<div class="p-3 bg-primary/5 border-r-4 border-primary transition-colors cursor-pointer hover:bg-primary/10 relative">
+<div class="flex items-start justify-between mb-1.5">
+<div class="flex items-center gap-2">
+<div class="relative">
+<div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-xs">
+                  سم
+                </div>
+<span class="absolute -bottom-0.5 -left-0.5 w-3.5 h-3.5 bg-primary-container text-on-primary rounded-full flex items-center justify-center text-[9px] shadow-xs">
+<span class="material-symbols-outlined text-[10px]">chat</span>
+</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-on-surface">سارة المنصوري</h3>
+<span class="bg-primary text-on-primary text-[10px] px-1.5 py-0.2 rounded font-bold">VIP 92/100</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-mono text-right" dir="ltr">+971 50 *** 9122</span>
+</div>
+</div>
+<span class="text-[10px] text-primary font-medium">منذ 12 دقيقة</span>
+</div>
+<p class="text-xs text-on-surface font-medium line-clamp-1 mb-2 pr-1">
+            "نعم بالتأكيد، الموعد المناسب لي غداً الساعة 6 مساءً والميزانية..."
+          </p>
+<div class="flex items-center justify-between text-[10px] pt-1 border-t border-primary/10">
+<span class="inline-flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[12px] text-primary">sell</span>
+              حملة: صيف دبي 2025
+            </span>
+<span class="text-primary font-bold">جاهز للإحالة</span>
+</div>
+</div>
+<!-- Conversation Item 2 -->
+<div class="p-3 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-start justify-between mb-1.5">
+<div class="flex items-center gap-2">
+<div class="relative">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface font-bold text-xs">
+                  خ.ع
+                </div>
+<span class="absolute -bottom-0.5 -left-0.5 w-3.5 h-3.5 bg-secondary text-on-secondary rounded-full flex items-center justify-center text-[9px]">
+<span class="material-symbols-outlined text-[10px]">photo_camera</span>
+</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-on-surface">د. خالد العمري</h3>
+<span class="bg-surface-variant text-on-surface-variant text-[10px] px-1.5 py-0.2 rounded font-medium">78/100</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-label text-right" dir="ltr">@khalid_omari</span>
+</div>
+</div>
+<span class="text-[10px] text-outline font-medium">منذ 34 دقيقة</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-1 mb-2 pr-1">
+            استفسار عن توفر مقاسات خاصة لبدلات الكتان الرجالية للمناسبات...
+          </p>
+<div class="flex items-center justify-between text-[10px] pt-1 border-t border-outline-variant/10 text-on-surface-variant">
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+              في انتظار الرد
+            </span>
+<span class="text-secondary font-semibold">Instagram DM</span>
+</div>
+</div>
+<!-- Conversation Item 3 -->
+<div class="p-3 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-start justify-between mb-1.5">
+<div class="flex items-center gap-2">
+<div class="relative">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface font-bold text-xs">
+                  ف.ك
+                </div>
+<span class="absolute -bottom-0.5 -left-0.5 w-3.5 h-3.5 bg-outline text-on-primary rounded-full flex items-center justify-center text-[9px]">
+<span class="material-symbols-outlined text-[10px]">chat_bubble</span>
+</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<h3 class="text-xs font-bold text-on-surface">فاطمة الكعبي</h3>
+<span class="bg-error-container text-on-error-container text-[10px] px-1.5 py-0.2 rounded font-medium">غير محدد</span>
+</div>
+<span class="text-[11px] text-on-surface-variant">Facebook Messenger</span>
+</div>
+</div>
+<span class="text-[10px] text-outline font-medium">منذ ساعة</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-1 mb-2 pr-1">
+            سؤال عام عن الشحن والتوصيل المجاني إلى إمارة أبوظبي...
+          </p>
+<div class="flex items-center justify-between text-[10px] pt-1 border-t border-outline-variant/10 text-on-surface-variant">
+<span class="inline-flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[12px]">warning</span>
+              حقول التأهيل غير مكتملة
+            </span>
+<span class="text-outline">ليد خام</span>
+</div>
+</div>
+<!-- Conversation Item 4 (Sample additional context for density) -->
+<div class="p-3 hover:bg-surface-container-low transition-colors cursor-pointer opacity-75">
+<div class="flex items-start justify-between mb-1">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface font-bold text-xs">
+                م.س
+              </div>
+<div>
+<h3 class="text-xs font-bold text-on-surface">ماجد السويدي</h3>
+<span class="text-[11px] text-on-surface-variant">WhatsApp API</span>
+</div>
+</div>
+<span class="text-[10px] text-outline">منذ ساعتين</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-1">تمت الإحالة للمبيعات - في مرحلة الفوترة والتوصيل.</p>
+</div>
+</div>
+</section>
+<!-- ------------------------------------------------------- -->
+<!-- COLUMN 2: ACTIVE CHAT CONVERSATION THREAD (460px)       -->
+<!-- ------------------------------------------------------- -->
+<section class="w-[460px] flex-shrink-0 bg-surface flex flex-col h-full border-l border-outline-variant/30">
+<!-- Chat Header -->
+<div class="p-3 bg-surface-container-lowest border-b border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-sm">
+              سم
+            </div>
+<span class="absolute bottom-0 left-0 w-3 h-3 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-bold text-on-surface font-headline">سارة المنصوري</h3>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">verified</span>
+                WhatsApp API الرسمي
+              </span>
+</div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span>معرّف الحملة: <strong class="font-mono text-on-surface">#Summer25_Leads</strong></span>
+<span>•</span>
+<span class="text-primary font-medium">الاستجابة الفورية نشطة</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant transition-colors" title="سجل بيانات العميل">
+<span class="material-symbols-outlined text-lg">history</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant transition-colors" title="إجراءات إضافية">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Messages Thread Stream -->
+<div class="flex-1 p-4 overflow-y-auto custom-scrollbar flex flex-col gap-3.5 bg-surface-container-low/40">
+<!-- Timestamp separator -->
+<div class="flex items-center justify-center my-1">
+<span class="text-[11px] bg-surface-container text-on-surface-variant px-3 py-1 rounded-full">اليوم • 11:24 صباحاً</span>
+</div>
+<!-- 1. Customer Message -->
+<div class="flex flex-col items-start max-w-[88%] self-start">
+<div class="flex items-center gap-1 mb-1 text-[11px] text-on-surface-variant pr-1">
+<span class="font-semibold text-on-surface">سارة المنصوري</span>
+<span>• 11:24 ص</span>
+</div>
+<div class="bg-surface-container-lowest text-on-surface p-3.5 rounded-2xl rounded-tr-xs border border-outline-variant/30 text-xs leading-relaxed shadow-xs">
+            مرحباً، شاهدت إعلان الفستان الحريري في تشكيلة الصيف وأود الاستفسار عن توفره في فرع دبي مول لحجز تجربة خاصة.
+          </div>
+</div>
+<!-- 2. AI Bot / Smart Automation Response -->
+<div class="flex flex-col items-end max-w-[90%] self-end">
+<div class="flex items-center gap-1.5 mb-1 text-[11px] text-on-surface-variant pl-1">
+<span class="bg-secondary-fixed text-on-secondary-fixed text-[10px] px-1.5 rounded font-bold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[11px]">smart_toy</span>
+              روبوت الوكالة الذكي
+            </span>
+<span>• 11:25 ص</span>
+</div>
+<div class="bg-primary text-on-primary p-3.5 rounded-2xl rounded-tl-xs text-xs leading-relaxed shadow-xs">
+            أهلاً بكِ أستاذة سارة! يسعدنا خدمتكِ. التشكيلة متوفرة في صالة VIP بدبي مول، هل تودين حجز موعد مع مستشارة الأزياء غداً؟
+          </div>
+<div class="flex items-center gap-1 text-[10px] text-outline mt-1 pl-1">
+<span class="material-symbols-outlined text-[13px] text-primary">done_all</span>
+<span>تمت القراءة بنجاح</span>
+</div>
+</div>
+<!-- 3. Customer Decisive Reply -->
+<div class="flex flex-col items-start max-w-[90%] self-start">
+<div class="flex items-center gap-1 mb-1 text-[11px] text-on-surface-variant pr-1">
+<span class="font-semibold text-on-surface">سارة المنصوري</span>
+<span>• 11:28 ص (منذ 12 دقيقة)</span>
+</div>
+<div class="bg-surface-container-lowest text-on-surface p-3.5 rounded-2xl rounded-tr-xs border border-primary/40 bg-primary/[0.02] text-xs leading-relaxed shadow-xs ring-1 ring-primary/20">
+            نعم بالتأكيد، الموعد المناسب لي غداً الساعة 6 مساءً، والميزانية المتوقعة حوالي 5,000 إلى 8,000 درهم.
+          </div>
+<div class="flex items-center gap-1.5 mt-1.5 pr-1">
+<span class="bg-primary-container text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]">bolt</span>
+              تم استخراج نية الشراء العالية تلقائياً
+            </span>
+</div>
+</div>
+<!-- Internal Agency System Log Badge -->
+<div class="p-2.5 rounded-xl bg-surface-container border border-outline-variant/30 flex items-center gap-2.5 my-1">
+<span class="material-symbols-outlined text-primary text-base">verified_user</span>
+<p class="text-[11px] text-on-surface-variant leading-snug">
+            قام نظام التأهيل الذكي برفع درجة الليد إلى <strong class="text-primary">92/100</strong> استناداً إلى الميزانية المحددة والإطار الزمني (خلال 48 ساعة).
+          </p>
+</div>
+</div>
+<!-- Quick Reply Templates Actions Bar -->
+<div class="p-2.5 bg-surface-container-lowest border-t border-outline-variant/20 flex flex-col gap-2">
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant px-1">
+<span class="font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-primary">offline_bolt</span>
+            قوالب الردود الجاهزة المعتمدة:
+          </span>
+<span class="text-[10px] text-outline">نقرة واحدة للإرسال</span>
+</div>
+<div class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1">
+<button class="px-2.5 py-1 text-xs rounded-lg border border-outline-variant/40 bg-surface-container-low hover:bg-surface-container text-on-surface font-medium whitespace-nowrap transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-secondary">menu_book</span>
+            إرسال كتالوج VIP
+          </button>
+<button class="px-2.5 py-1 text-xs rounded-lg border border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary font-bold whitespace-nowrap transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">event_available</span>
+            تأكيد الحجز
+          </button>
+<button class="px-2.5 py-1 text-xs rounded-lg border border-outline-variant/40 bg-surface-container-low hover:bg-surface-container text-on-surface font-medium whitespace-nowrap transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-tertiary">send_to_mobile</span>
+            تحويل لمندوب المبيعات
+          </button>
+</div>
+<!-- Chat Input Form & Internal Switch -->
+<div class="border border-outline-variant/40 rounded-xl bg-surface p-2 flex flex-col gap-2 focus-within:border-primary transition-colors">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-1 px-1">
+<div class="flex items-center gap-2">
+<label class="inline-flex items-center gap-1 text-[11px] text-on-surface-variant cursor-pointer">
+<input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5" type="checkbox"/>
+<span>ملاحظة داخلية للفريق (لن يراها العميل)</span>
+</label>
+</div>
+<span class="text-[10px] text-outline font-mono">WhatsApp Cloud API</span>
+</div>
+<textarea class="w-full text-xs bg-transparent border-0 p-1 text-on-surface placeholder:text-outline focus:ring-0 resize-none" placeholder="اكتب ردك هنا للأستاذة سارة... أو اكتب '/' لإدراج قالب فوري" rows="2"></textarea>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-on-surface transition-colors" title="إرفاق ملف أو كتالوج PDF">
+<span class="material-symbols-outlined text-lg">attach_file</span>
+</button>
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-on-surface transition-colors" title="إدراج صورة منتج">
+<span class="material-symbols-outlined text-lg">image</span>
+</button>
+<button class="p-1 hover:bg-surface-container rounded text-outline hover:text-on-surface transition-colors" title="إدراج رمز تعبيري">
+<span class="material-symbols-outlined text-lg">mood</span>
+</button>
+</div>
+<button class="bg-primary text-on-primary px-3.5 py-1.5 rounded-lg text-xs font-bold hover:bg-primary-container active:scale-[0.98] transition-all flex items-center gap-1 shadow-xs">
+<span>إرسال</span>
+<span class="material-symbols-outlined text-sm transform -rotate-180">send</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ------------------------------------------------------- -->
+<!-- COLUMN 3: LEAD QUALIFICATION & CRM SCORING CARD (380px) -->
+<!-- ------------------------------------------------------- -->
+<section class="flex-1 min-w-[360px] max-w-[400px] bg-surface-container-lowest border-l border-outline-variant/30 flex flex-col h-full overflow-y-auto custom-scrollbar">
+<!-- Card Title & Status Badge -->
+<div class="p-4 border-b border-outline-variant/20 flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<h2 class="text-sm font-bold text-on-surface font-headline">بطاقة تأهيل الليد وتوزيع المبيعات</h2>
+</div>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-xs font-bold px-2 py-0.5 rounded-md">SQL مؤكد</span>
+</div>
+<!-- Explainable Lead Score Meter -->
+<div class="bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/30 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant font-medium">مؤشر الجودة والجاهزية للتحويل</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="text-3xl font-extrabold text-primary font-headline">92</span>
+<span class="text-xs text-outline font-semibold">/ 100</span>
+<span class="mr-2 text-xs font-bold text-primary flex items-center">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+                ليد مؤهل VIP
+              </span>
+</div>
+<span class="text-[11px] text-on-surface-variant mt-1">درجة ذكية قابلة للتفسير والتدقيق المالي</span>
+</div>
+<!-- Circular Score Representation -->
+<div class="relative w-14 h-14 flex items-center justify-center">
+<svg class="w-14 h-14 transform -rotate-90">
+<circle class="text-surface-variant" cx="28" cy="28" fill="transparent" r="24" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary" cx="28" cy="28" fill="transparent" r="24" stroke="currentColor" stroke-dasharray="150" stroke-dashoffset="12" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<span class="material-symbols-outlined absolute text-primary text-xl">star</span>
+</div>
+</div>
+</div>
+<!-- Structured Qualification Criteria Checklist -->
+<div class="p-4 flex flex-col gap-3 border-b border-outline-variant/20">
+<h3 class="text-xs font-bold text-on-surface font-headline flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">fact_check</span>
+          معايير التأهيل الهيكلي (BANT &amp; Intent):
+        </h3>
+<div class="space-y-2 text-xs">
+<!-- 1. الحاجة / الطلب -->
+<div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/20 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant font-medium">الحاجة / الطلب (Need):</span>
+<span class="text-primary font-bold flex items-center gap-0.5 text-[11px]">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+                مكتمل ✓
+              </span>
+</div>
+<p class="text-on-surface font-semibold text-[11px]">حجز تجربة أزياء VIP لشراء فستان مناسبة خاصة</p>
+</div>
+<!-- 2. الميزانية المرصودة -->
+<div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/20 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant font-medium">الميزانية المرصودة (Budget):</span>
+<span class="text-primary font-bold flex items-center gap-0.5 text-[11px]">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+                مكتمل ✓
+              </span>
+</div>
+<div class="flex items-center justify-between">
+<p class="text-on-surface font-semibold text-[11px]">5,000 - 8,000 د.إ</p>
+<span class="bg-primary/10 text-primary px-1.5 py-0.2 rounded text-[10px] font-bold">نطاق عالي</span>
+</div>
+</div>
+<!-- 3. الإطار الزمني للشراء -->
+<div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/20 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant font-medium">الإطار الزمني للشراء (Timeline):</span>
+<span class="text-primary font-bold flex items-center gap-0.5 text-[11px]">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+                مكتمل ✓
+              </span>
+</div>
+<div class="flex items-center justify-between">
+<p class="text-on-surface font-semibold text-[11px]">غداً الساعة 6 مساءً (خلال 48 ساعة)</p>
+<span class="bg-error-container text-on-error-container px-1.5 py-0.2 rounded text-[10px] font-bold">عاجل</span>
+</div>
+</div>
+<!-- 4. صانع القرار -->
+<div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/20 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant font-medium">صانع القرار (Decision Maker):</span>
+<span class="text-primary font-bold flex items-center gap-0.5 text-[11px]">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+                مكتمل ✓
+              </span>
+</div>
+<p class="text-on-surface font-semibold text-[11px]">المشتري المباشر بنفسها (سيدة أعمال)</p>
+</div>
+<!-- 5. إذن التواصل والمتابعة -->
+<div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/20 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant font-medium">إذن التواصل (Permission):</span>
+<span class="text-primary font-bold flex items-center gap-0.5 text-[11px]">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+                مكتمل ✓
+              </span>
+</div>
+<p class="text-on-surface font-semibold text-[11px]">ممنوح عبر واتساب المعتمد رسمياً</p>
+</div>
+<!-- 6. حقل قيد التحقق (Unknown State) -->
+<div class="p-2.5 rounded-xl bg-surface-container-high/40 border border-dashed border-outline-variant flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant font-medium">برنامج الولاء (Loyalty):</span>
+<span class="text-outline font-medium flex items-center gap-0.5 text-[10px]">
+<span class="material-symbols-outlined text-xs">help</span>
+                قيد التحقق
+              </span>
+</div>
+<p class="text-outline text-[11px]">كود العضوية في مكافآت الفطيم (غير محدد حتى الآن)</p>
+</div>
+</div>
+</div>
+<!-- Qualified Status & Reasoning Box -->
+<div class="p-4 flex flex-col gap-3 flex-1 justify-between bg-surface-container-low/20">
+<div class="p-3 rounded-xl bg-surface-container border border-outline-variant/30 flex flex-col gap-1.5">
+<div class="flex items-center gap-1.5 text-xs font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-base">verified</span>
+<span>سبب التأهيل النهائي (Reasoning):</span>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">
+            عميل محتمل عالي الأهمية (<strong class="text-primary">SQL</strong>) - توفر الميزانية الكافية والجاهزية للشراء الفوري غداً في دبي مول. مخاطر الإلغاء منخفضة جداً.
+          </p>
+</div>
+<!-- Handover / Sales Delegation Controls -->
+<div class="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-xs flex flex-col gap-3">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-bold text-on-surface">تعيين وإسناد الليد إلى مندوب المعرض:</label>
+<div class="relative mt-1">
+<select class="w-full text-xs bg-surface-container-low border border-outline-variant/40 rounded-xl py-2 px-3 text-on-surface font-semibold focus:outline-none focus:ring-1 focus:ring-primary appearance-none">
+<option selected="">مروان الشامسي (مدير مبيعات كبار الشخصيات VIP)</option>
+<option>ريم المهيري (مستشارة أزياء - صالة دبي مول)</option>
+<option>حميد الهاشمي (فريق الطلبات الخاصة)</option>
+</select>
+<span class="material-symbols-outlined absolute left-3 top-2 text-outline text-base pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- One-Click Handoff Action Button -->
+<button class="w-full bg-primary text-on-primary py-2.5 px-4 rounded-xl text-xs font-bold hover:bg-primary-container active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-base">assignment_turned_in</span>
+<span>إحالة الليد إلى فريق المبيعات بنقرة واحدة</span>
+</button>
+<div class="flex items-center justify-between text-[10px] text-outline px-1">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-primary">sync</span>
+              مزامنة فورية مع Salesforce / HubSpot
+            </span>
+<span>ID: #LD-99214</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

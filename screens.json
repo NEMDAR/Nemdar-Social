@@ -1,0 +1,62 @@
+[
+  {
+    "id": "84fc3aba9a404cdd9865384b133bf414",
+    "title": "نِمدار سوشيال — التحليلات المتقدمة وإعدادات الوكالة",
+    "file": "designs/84fc3aba9a404cdd9865384b133bf414.html",
+    "sha256": "38ec21504978147c689bac48b8bbc49dcc2562c295eac7337855d3953cf41628"
+  },
+  {
+    "id": "0c55db3acba545e9bc897d2409edb365",
+    "title": "نِمدار سوشيال — استوديو المحتوى والذكاء الاصطناعي",
+    "file": "designs/0c55db3acba545e9bc897d2409edb365.html",
+    "sha256": "fc4396e9b01c46e19edff86cbb91690884f3402af70fc4946fc0856e0d0455c5"
+  },
+  {
+    "id": "acf576f23e4b4f5283c9d41229c65689",
+    "title": "نِمدار سوشيال — لوحة التحكم العامة",
+    "file": "designs/acf576f23e4b4f5283c9d41229c65689.html",
+    "sha256": "ae8f3940ed795efa3c8cb36fd5ee530a1899a9333d3899d40a060a35291d8742"
+  },
+  {
+    "id": "01a25f5e265447518d73419538144950",
+    "title": "نِمدار سوشيال — مركز العملاء والحسابات",
+    "file": "designs/01a25f5e265447518d73419538144950.html",
+    "sha256": "c224376270c48a25cb8131d0fe62d5fbf4f28575773c18194c866f8989e3c073"
+  },
+  {
+    "id": "3b2591ecb59d4acdab916d7c1db4b9e3",
+    "title": "نِمدار سوشيال — تقويم النشر وجدولة المحتوى",
+    "file": "designs/3b2591ecb59d4acdab916d7c1db4b9e3.html",
+    "sha256": "9f738735d4809c83b147f80ad2c3b9f78cb2133703c0aa8b6d140d01b20db6c9"
+  },
+  {
+    "id": "9475c2da763340e1bfea3c7823767b55",
+    "title": "نِمدار سوشيال — صندوق الوارد وتأهيل الليدز",
+    "file": "designs/9475c2da763340e1bfea3c7823767b55.html",
+    "sha256": "a424eda4e4b50f1819f80be6f2c80ee5c51565e00ad7d4ac855c7c3c8773aa69"
+  },
+  {
+    "id": "58bf062fcde14df4a532b230d50517b7",
+    "title": "نِمدار سوشيال — إدارة الحملات الإعلانية",
+    "file": "designs/58bf062fcde14df4a532b230d50517b7.html",
+    "sha256": "1d58c05367422e09a583014da36e76edfc2a36d1a8b62fc69507fb415acd883f"
+  },
+  {
+    "id": "d3a6c81ce60a4c64bca708c6af1866ad",
+    "title": "نِمدار سوشيال — متابعة النشر وسجل معالجة الأخطاء",
+    "file": "designs/d3a6c81ce60a4c64bca708c6af1866ad.html",
+    "sha256": "080f8826ee46f13ba399bed17effdf94037c2c7e01e86838701c823259b79187"
+  },
+  {
+    "id": "b41c6bc5490e4a76aef024af1dab7025",
+    "title": "نِمدار سوشيال — مكتبة الوسائط والأصول الرقمية",
+    "file": "designs/b41c6bc5490e4a76aef024af1dab7025.html",
+    "sha256": "139cfa35266b6f9433b0eb3cc5ba4811971841cdd02bc26b51aeec7170c209a1"
+  },
+  {
+    "id": "119de68fd4d440489c805d6adbe64471",
+    "title": "نِمدار سوشيال — إعداد عميل جديد",
+    "file": "designs/119de68fd4d440489c805d6adbe64471.html",
+    "sha256": "f398cc0e46aaad47f3d37517324d581a5d6c3a85ccd607d81f4af7f9417dfee8"
+  }
+]

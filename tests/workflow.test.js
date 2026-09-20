@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {qualify,schedule,failedTargets,addAccount} from '../src/workflow.js';
+test('missing BANT evidence never qualifies a lead',()=>assert.equal(qualify({budget:true,need:true,authority:true}),'incomplete'));
+test('all four criteria qualify',()=>assert.equal(qualify({budget:true,need:true,authority:true,timeline:true}),'qualified'));
+test('approval is distinct from scheduling',()=>assert.throws(()=>schedule({status:'draft',accountIds:['a']},'2030-01-01'),/Approval/));
+test('scheduling retains selected accounts and normalizes timezone',()=>assert.equal(schedule({status:'approved',accountIds:['a','b']},'2030-01-01T12:00:00+04:00').scheduledAt,'2030-01-01T08:00:00.000Z'));
+test('retry excludes successful targets',()=>assert.deepEqual(failedTargets({targets:[{id:'ig',status:'published'},{id:'fb',status:'failed'}]}).map(t=>t.id),['fb']));
+test('multiple accounts on the same platform are supported',()=>assert.equal(addAccount([{clientId:'c',platform:'instagram',externalId:'1'}],{clientId:'c',platform:'instagram',externalId:'2'}).length,2));
+test('duplicate account assignment is rejected',()=>assert.throws(()=>addAccount([{clientId:'c',platform:'instagram',externalId:'1'}],{clientId:'c',platform:'instagram',externalId:'1'})));

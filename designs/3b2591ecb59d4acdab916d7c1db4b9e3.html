@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background font-body text-on-surface antialiased" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>تقويم النشر وجدولة المحتوى | نِمدار سوشيال NEMDAR</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Arabic Cairo & Latin Inter Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed-dim": "#b4c5ff",
+            "error-container": "#ffdad6",
+            "secondary-container": "#acbfff",
+            "on-secondary-fixed": "#00174b",
+            "on-surface": "#191b23",
+            "on-tertiary-fixed-variant": "#7d2d00",
+            "on-error": "#ffffff",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "surface-bright": "#faf8ff",
+            "tertiary-fixed": "#ffdbcd",
+            "secondary": "#495c95",
+            "surface-container-high": "#e7e7f3",
+            "on-primary-fixed-variant": "#003ea8",
+            "surface-dim": "#d9d9e5",
+            "on-secondary-fixed-variant": "#31447b",
+            "tertiary": "#943700",
+            "inverse-on-surface": "#f0f0fb",
+            "outline-variant": "#c3c6d7",
+            "secondary-fixed": "#dbe1ff",
+            "surface-variant": "#e1e2ed",
+            "surface-container-highest": "#e1e2ed",
+            "on-primary-container": "#eeefff",
+            "tertiary-container": "#bc4800",
+            "primary": "#004ac6",
+            "on-background": "#191b23",
+            "background": "#faf8ff",
+            "on-primary-fixed": "#00174b",
+            "on-secondary-container": "#394c84",
+            "error": "#ba1a1a",
+            "inverse-surface": "#2e3039",
+            "surface-container": "#ededf9",
+            "on-primary": "#ffffff",
+            "surface": "#faf8ff",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#b4c5ff",
+            "tertiary-fixed-dim": "#ffb596",
+            "on-tertiary-container": "#ffede6",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#434655",
+            "on-tertiary-fixed": "#360f00",
+            "primary-fixed-dim": "#b4c5ff",
+            "primary-container": "#2563eb",
+            "outline": "#737686",
+            "primary-fixed": "#dbe1ff",
+            "surface-container-low": "#f3f3fe",
+            "surface-tint": "#0053db"
+          },
+          fontFamily: {
+            headline: ["Cairo", "Inter", "sans-serif"],
+            display: ["Cairo", "Inter", "sans-serif"],
+            body: ["Cairo", "Inter", "sans-serif"],
+            label: ["Inter", "Cairo", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f3f3fe;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #c3c6d7;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="h-full overflow-hidden bg-background text-on-surface">
+<!-- ========================================================================= -->
+<!-- 1. RIGHT SIDEBAR NAVIGATION (SHARED COMPONENT JSON COMPLIANT) -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 right-0 h-screen w-64 z-40 bg-inverse-surface border-l border-outline-variant/20 shadow-sm flex flex-col justify-between p-4 select-none font-body text-base leading-relaxed">
+<!-- Top Brand & Header Section -->
+<div class="flex flex-col gap-6">
+<!-- Agency Brand Block -->
+<div class="flex items-center gap-3 px-2 pt-2">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-2xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex flex-col">
+<h1 class="font-headline text-lg font-bold text-inverse-on-surface tracking-tight leading-snug">نِمدار سوشيال NEMDAR</h1>
+<span class="text-xs text-inverse-on-surface/60">وكالة رقمية متكاملة</span>
+</div>
+</div>
+<!-- Quick Client Selector Chip -->
+<div class="bg-surface-variant/10 rounded-xl p-2.5 flex items-center justify-between border border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-xs font-medium text-inverse-on-surface/90">عميل تجريبي / علامة تجارية</span>
+</div>
+<span class="material-symbols-outlined text-inverse-on-surface/60 text-sm" data-icon="unfold_more">unfold_more</span>
+</div>
+<!-- Navigation Links List (8 items mapped directly) -->
+<nav aria-label="شريط التنقل الرئيسي" class="flex flex-col gap-1.5">
+<!-- 0: نظرة عامة (Inactive) -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium">نظرة عامة</span>
+</a>
+<!-- 1: العملاء والحسابات (Inactive) -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="supervised_user_circle">supervised_user_circle</span>
+<span class="text-sm font-medium">العملاء والحسابات</span>
+</a>
+<!-- 2: استوديو المحتوى (Inactive) -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="auto_fix_high">auto_fix_high</span>
+<span class="text-sm font-medium">استوديو المحتوى</span>
+</a>
+<!-- 3: تقويم النشر (ACTIVE COMPONENT) -->
+<a class="bg-primary text-on-primary font-medium rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors shadow-sm" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="calendar_month" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="text-sm font-semibold">تقويم النشر</span>
+<span class="mr-auto text-[10px] bg-white/20 text-white px-2 py-0.5 rounded-full font-sans font-semibold">نشط</span>
+</a>
+<!-- 4: الحملات الإعلانية (Inactive) -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="campaign">campaign</span>
+<span class="text-sm font-medium">الحملات الإعلانية</span>
+</a>
+<!-- 5: الرسائل واللييدز (Inactive) -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="forum">forum</span>
+<span class="text-sm font-medium">الرسائل واللييدز</span>
+<span class="mr-auto w-2 h-2 rounded-full bg-secondary-container"></span>
+</a>
+<!-- 6: التحليلات (Inactive) -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="analytics">analytics</span>
+<span class="text-sm font-medium">التحليلات</span>
+</a>
+<!-- 7: الإعدادات (Inactive) -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+<span class="text-sm font-medium">الإعدادات</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Footer Tab -->
+<div class="pt-4 border-t border-outline-variant/10 flex flex-col gap-2">
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="manage_accounts">manage_accounts</span>
+<span class="text-xs font-medium">فريق العمل والحساب</span>
+</a>
+<!-- Quick Agency Operator Card -->
+<div class="flex items-center gap-3 p-2 bg-surface-variant/5 rounded-xl border border-outline-variant/10">
+<div class="relative w-9 h-9 rounded-full bg-primary/20 border border-primary/40 overflow-hidden flex items-center justify-center font-bold text-inverse-on-surface text-sm">
+          NS
+        </div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-xs font-semibold text-inverse-on-surface truncate">ريم السويدي</p>
+<p class="text-[11px] text-inverse-on-surface/60 truncate">كبير مديري الحسابات</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- 2. TOP APP BAR (SHARED COMPONENT JSON COMPLIANT) -->
+<!-- ========================================================================= -->
+<header class="fixed top-0 left-0 right-64 h-16 z-30 bg-surface-container-lowest border-b border-outline-variant/30 flex items-center justify-between px-6 font-body text-sm leading-normal">
+<!-- Right side (Start in RTL): Client breadcrumbs & Demo label -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-xl" data-icon="corporate_fare">corporate_fare</span>
+<span class="font-headline font-semibold text-sm text-on-surface">مجموعة الفطيم القابضة</span>
+<span class="text-outline-variant">/</span>
+<div class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1 rounded-lg border border-outline-variant/40">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-medium text-xs text-on-surface">أوربان لايف دبي</span>
+</div>
+</div>
+<!-- Immutable Demo Badge from JSON -->
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-secondary-fixed text-on-secondary-fixed border border-secondary-fixed-dim">
+        بيانات توضيحية
+      </span>
+</div>
+<!-- Left side (End in RTL): Actions, Global Date Pill, and Buttons -->
+<div class="flex items-center gap-3">
+<!-- Date Navigator: يونيو 2025 -->
+<div class="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded-xl border border-outline-variant/30 text-xs font-medium text-on-surface">
+<button class="p-1 hover:bg-surface-container-highest rounded-lg transition-colors" title="الشهر السابق">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+<div class="flex items-center gap-1.5 px-2">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="event">event</span>
+<span class="font-headline font-semibold text-on-surface">يونيو 2025</span>
+</div>
+<button class="p-1 hover:bg-surface-container-highest rounded-lg transition-colors" title="الشهر القادم">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+</div>
+<!-- JSON Secondary Action: نطاق التاريخ -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-outline-variant/50 text-xs font-medium text-on-surface hover:bg-surface-container-low transition-colors active:scale-[0.99]">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="calendar_today">calendar_today</span>
+<span>نطاق التاريخ: آخر 30 يوماً</span>
+</button>
+<!-- Trailing Icon Actions from JSON -->
+<div class="flex items-center gap-1 border-r border-l border-outline-variant/30 px-2">
+<button class="relative p-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors" title="الإشعارات">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span>
+</button>
+<button class="p-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors" title="خيارات العرض والتخصيص">
+<span class="material-symbols-outlined text-xl" data-icon="tune">tune</span>
+</button>
+</div>
+<!-- JSON Primary Action: إنشاء محتوى + -->
+<button class="flex items-center gap-2 bg-primary hover:bg-primary-container text-on-primary px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm active:scale-[0.98]">
+<span class="material-symbols-outlined text-base" data-icon="add">add</span>
+<span>إنشاء محتوى +</span>
+</button>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- 3. MAIN WORKSPACE CONTAINER -->
+<!-- ========================================================================= -->
+<div class="mr-64 pt-16 h-screen flex flex-col bg-[#F5F7FA] overflow-hidden">
+<!-- Sub-header Filtering & Controls Bar -->
+<div class="px-6 py-3.5 bg-surface-container-lowest border-b border-outline-variant/30 flex items-center justify-between gap-4 flex-shrink-0">
+<!-- Calendar View Switcher Pills -->
+<div class="flex items-center gap-4">
+<div class="inline-flex p-1 bg-surface-container-low rounded-xl border border-outline-variant/40 text-xs font-medium">
+<button class="px-3 py-1 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="view_week">view_week</span>
+<span>أسبوعي</span>
+</button>
+<button class="px-3.5 py-1 rounded-lg bg-surface-container-lowest text-primary font-bold shadow-sm border border-outline-variant/20 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="calendar_view_month">calendar_view_month</span>
+<span>شهري (Month - نشط)</span>
+</button>
+<button class="px-3 py-1 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="format_list_bulleted">format_list_bulleted</span>
+<span>قائمة</span>
+</button>
+</div>
+<div class="h-5 w-[1px] bg-outline-variant/40"></div>
+<!-- Metric summaries for the month -->
+<div class="hidden xl:flex items-center gap-4 text-xs">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="font-bold text-on-surface text-sm">28</span>
+<span>منشور مجدول</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="font-bold text-amber-600 text-sm">5</span>
+<span>بانتظار الاعتماد</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="font-bold text-emerald-600 text-sm">19</span>
+<span>معتمد وجاهز</span>
+</div>
+</div>
+</div>
+<!-- Filter Dropdowns: Channels & Status -->
+<div class="flex items-center gap-2.5">
+<!-- Platform Selector Filter -->
+<div class="flex items-center gap-1.5 bg-surface-container-low border border-outline-variant/40 rounded-xl px-3 py-1.5 text-xs text-on-surface">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="filter_alt">filter_alt</span>
+<span class="text-on-surface-variant font-medium">المنصة:</span>
+<select class="bg-transparent border-0 p-0 text-xs font-semibold text-on-surface focus:ring-0 cursor-pointer">
+<option selected="">كافة المنصات (All Channels)</option>
+<option>انستغرام (Instagram)</option>
+<option>تيك توك (TikTok)</option>
+<option>فيسبوك (Facebook)</option>
+<option>لينكد إن (LinkedIn)</option>
+<option>واتساب للأعمال (WhatsApp)</option>
+</select>
+</div>
+<!-- Status Filter -->
+<div class="flex items-center gap-1.5 bg-surface-container-low border border-outline-variant/40 rounded-xl px-3 py-1.5 text-xs text-on-surface">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="offline_pin">offline_pin</span>
+<span class="text-on-surface-variant font-medium">الحالة:</span>
+<select class="bg-transparent border-0 p-0 text-xs font-semibold text-on-surface focus:ring-0 cursor-pointer">
+<option selected="">كافة الحالات</option>
+<option>مسودة (Draft)</option>
+<option>بانتظار الاعتماد (Pending)</option>
+<option>معتمد وجاهز (Approved)</option>
+<option>مجدول للنشر (Scheduled)</option>
+<option>تم النشر (Published)</option>
+</select>
+</div>
+<!-- Today Quick Button -->
+<button class="px-3 py-1.5 bg-surface-container-highest hover:bg-outline-variant/40 rounded-xl text-xs font-semibold text-on-surface transition-colors">
+          اليوم
+        </button>
+</div>
+</div>
+<!-- Master Layout: Calendar Grid (Right/Center) + Selected Post Slide-over Approval Drawer (Left) -->
+<div class="flex-1 flex overflow-hidden relative">
+<!-- ========================================================================= -->
+<!-- 4. MONTHLY CONTENT CALENDAR GRID (7 COLUMNS: الأحد إلى السبت) -->
+<!-- ========================================================================= -->
+<main class="flex-1 flex flex-col p-5 overflow-y-auto custom-scrollbar">
+<!-- Weekday Headers -->
+<div class="grid grid-cols-7 gap-3 mb-2 text-center text-xs font-bold text-on-surface-variant select-none">
+<div class="py-1 bg-surface-container-lowest rounded-lg border border-outline-variant/20 shadow-xs">الأحد</div>
+<div class="py-1 bg-surface-container-lowest rounded-lg border border-outline-variant/20 shadow-xs">الإثنين</div>
+<div class="py-1 bg-surface-container-lowest rounded-lg border border-outline-variant/20 shadow-xs">الثلاثاء</div>
+<div class="py-1 bg-surface-container-lowest rounded-lg border border-outline-variant/20 shadow-xs">الأربعاء</div>
+<div class="py-1 bg-surface-container-lowest rounded-lg border border-outline-variant/20 shadow-xs">الخميس</div>
+<div class="py-1 bg-surface-container-lowest rounded-lg border border-outline-variant/20 shadow-xs">الجمعة</div>
+<div class="py-1 bg-surface-container-lowest rounded-lg border border-outline-variant/20 shadow-xs">السبت</div>
+</div>
+<!-- Calendar Cells Matrix (Focus Week 4 of June 2025) -->
+<div class="grid grid-cols-7 gap-3 flex-1 auto-rows-fr">
+<!-- Col 1: الأحد 22 يونيو -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-2.5 flex flex-col gap-2 min-h-[190px] hover:border-primary/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface-variant">22 يونيو</span>
+<button class="opacity-0 hover:opacity-100 p-0.5 rounded text-outline hover:text-primary transition-opacity" title="إضافة منشور">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<!-- Empty state illustration hint -->
+<div class="flex-1 flex flex-col items-center justify-center border border-dashed border-outline-variant/30 rounded-lg text-outline-variant/70 text-[11px] p-2 text-center">
+<span>لا توجد منشورات</span>
+</div>
+</div>
+<!-- Col 2: الإثنين 23 يونيو (POST CARD 3: FACEBOOK OFFER) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-2.5 flex flex-col gap-2 min-h-[190px] hover:border-primary/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface-variant">23 يونيو</span>
+<span class="text-[10px] text-outline font-sans">1 منشور</span>
+</div>
+<!-- Post Card 3 -->
+<div class="group relative bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 rounded-xl p-2.5 flex flex-col gap-2 cursor-pointer transition-all shadow-xs hover:shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-md bg-[#1877F2]/10 text-[#1877F2] flex items-center justify-center font-bold text-xs">f</span>
+<span class="text-[11px] font-semibold text-on-surface truncate max-w-[80px]">UrbanLife</span>
+</div>
+<!-- Status badge 'مسودة' (gray) -->
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-variant text-on-surface-variant">
+                  مسودة
+                </span>
+</div>
+<p class="text-xs font-medium text-on-surface line-clamp-2 leading-relaxed">
+                خصومات حصرية لحاملي بطاقات الفطيم
+              </p>
+<div class="flex items-center justify-between text-[10px] text-outline pt-1 border-t border-outline-variant/20">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span>
+                  11:00 ص
+                </span>
+<span class="flex items-center gap-0.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-xs" data-icon="attach_file">attach_file</span>
+                  كوبون
+                </span>
+</div>
+</div>
+</div>
+<!-- Col 3: الثلاثاء 24 يونيو (POST CARD 1: INSTAGRAM CAROUSEL - SELECTED) -->
+<div class="bg-primary/5 rounded-xl border-2 border-primary/40 p-2.5 flex flex-col gap-2 min-h-[190px] relative shadow-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-primary">24 يونيو</span>
+<span class="text-[10px] bg-primary text-on-primary px-1.5 py-0.2 rounded font-sans font-bold">محدد</span>
+</div>
+<span class="text-[10px] text-primary font-medium font-sans">1 منشور</span>
+</div>
+<!-- Post Card 1: Active In Drawer -->
+<div class="relative bg-surface-container-lowest border-2 border-primary rounded-xl p-2.5 flex flex-col gap-2 cursor-pointer shadow-md transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-md bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center text-[10px]">
+<span class="material-symbols-outlined text-xs" data-icon="photo_library">photo_library</span>
+</span>
+<span class="text-[11px] font-bold text-on-surface truncate">@UrbanLife.DXB</span>
+</div>
+<!-- Status badge 'بانتظار المراجعة' (amber) -->
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                  بانتظار المراجعة
+                </span>
+</div>
+<!-- Media thumbnail preview -->
+<div class="relative h-20 rounded-lg overflow-hidden bg-surface-container-high border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="High-end luxury fashion models wearing summer collection linen apparel outdoors in Dubai modern urban architecture under natural sunset light, light color palette with deep blues and crisp whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAma1wudl5VknYXHO9J5fPiyBWYXz7npUFjL1wfIPakNIkYjmi8i1POEVuEczNGqVTZCuV7peaAb7cHlHIVynEspygDRVPJZ_MJtC8OAxtqr3IqQdZttbjIG1WPldjVpov3YrUSHFfcIQqaH2wAPE7wk0MrChW47OVVJvA7LzeYFlYQrax6eL1PuXzStgfMfic-P_6WApmQqvN0SBBbXJJZ2stZIXLAgQeoB4BBTEDazdKsx71F3peY4SFHF2830tfcc33Wv11SXSfQ"/>
+<div class="absolute bottom-1 right-1 bg-black/60 backdrop-blur-sm text-white text-[9px] px-1.5 py-0.5 rounded flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[10px]" data-icon="view_carousel">view_carousel</span>
+                  5 صور
+                </div>
+</div>
+<p class="text-xs font-bold text-on-surface line-clamp-1">
+                إطلاق كولكشن الصيف
+              </p>
+<div class="flex items-center justify-between text-[10px] text-on-surface-variant pt-1 border-t border-outline-variant/20">
+<span class="flex items-center gap-1 text-primary font-semibold">
+<span class="material-symbols-outlined text-xs" data-icon="alarm">alarm</span>
+                  الثلاثاء 24 يونيو - 07:00 م
+                </span>
+</div>
+</div>
+</div>
+<!-- Col 4: الأربعاء 25 يونيو (POST CARD 4: LINKEDIN ARTICLE) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-2.5 flex flex-col gap-2 min-h-[190px] hover:border-primary/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface-variant">25 يونيو</span>
+<span class="text-[10px] text-outline font-sans">1 منشور</span>
+</div>
+<!-- Post Card 4 -->
+<div class="group bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 rounded-xl p-2.5 flex flex-col gap-2 cursor-pointer transition-all shadow-xs hover:shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-md bg-[#0A66C2] text-white flex items-center justify-center font-bold text-[10px]">in</span>
+<span class="text-[11px] font-semibold text-on-surface truncate max-w-[80px]">الفطيم للتجزئة</span>
+</div>
+<!-- Status badge 'مجدول للنشر' (blue) -->
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-800 border border-blue-200">
+                  مجدول للنشر
+                </span>
+</div>
+<p class="text-xs font-medium text-on-surface line-clamp-2 leading-relaxed">
+                مستقبل تجزئة الأزياء في الشرق الأوسط
+              </p>
+<div class="flex items-center justify-between text-[10px] text-outline pt-1 border-t border-outline-variant/20">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span>
+                  02:15 م
+                </span>
+<span class="flex items-center gap-0.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-xs" data-icon="article">article</span>
+                  مقال قيادي
+                </span>
+</div>
+</div>
+</div>
+<!-- Col 5: الخميس 26 يونيو (POST CARD 2: TIKTOK VIDEO REEL) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-2.5 flex flex-col gap-2 min-h-[190px] hover:border-primary/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface-variant">26 يونيو</span>
+<span class="text-[10px] text-outline font-sans">1 منشور</span>
+</div>
+<!-- Post Card 2 -->
+<div class="group bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 rounded-xl p-2.5 flex flex-col gap-2 cursor-pointer transition-all shadow-xs hover:shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-md bg-black text-white flex items-center justify-center font-bold text-[10px]">
+<span class="material-symbols-outlined text-xs" data-icon="play_arrow">play_arrow</span>
+</span>
+<span class="text-[11px] font-semibold text-on-surface truncate max-w-[80px]">TikTok @urban</span>
+</div>
+<!-- Status badge 'معتمد وجاهز' (emerald green) -->
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                  معتمد وجاهز
+                </span>
+</div>
+<!-- Media thumbnail preview -->
+<div class="relative h-16 rounded-lg overflow-hidden bg-surface-container-high border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Dynamic vertical video frame showing Emirati fashion influencer creating a viral summer lookbook against modern Dubai storefront lighting, energetic modern styling with teal and blue tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABtee9rcNrBSarwXV4HR0mHaeDTSVJSnQ8grdmVpeWZ0U72rP0pKIAs6muObMaDZ0gKSq3mKJuCMJx-dwv7Ti40SEfsG0lUttoR_iOzwlRkfDi-Acn4n5G_xRfQL6L-AqhVVtnYK_KrTz--iffRitqkeaUeEuAtnwiTouTu2bdRc9zEsxXMjjUGUkx1WV57kst_bFAjbn9tRE_MogpMjT8jYdH-F0sQYZF2XR44oZyFkR63m4xlr1BMF6VsKJNucWjdQh14kDP-efX"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="w-6 h-6 rounded-full bg-white/80 text-black flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="play_arrow">play_arrow</span>
+</span>
+</div>
+</div>
+<p class="text-xs font-semibold text-on-surface line-clamp-1">
+                تحدي ستايل الصيف مع المؤثرين
+              </p>
+<div class="flex items-center justify-between text-[10px] text-outline pt-1 border-t border-outline-variant/20">
+<span class="flex items-center gap-1 text-emerald-700 font-medium">
+<span class="material-symbols-outlined text-xs" data-icon="event_available">event_available</span>
+                  الخميس 26 يونيو - 08:30 م
+                </span>
+</div>
+</div>
+</div>
+<!-- Col 6: الجمعة 27 يونيو (POST CARD 5: INSTAGRAM STORY FLASH SALE) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-2.5 flex flex-col gap-2 min-h-[190px] hover:border-primary/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface-variant">27 يونيو</span>
+<span class="text-[10px] text-outline font-sans">1 منشور</span>
+</div>
+<!-- Post Card 5 -->
+<div class="group bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 rounded-xl p-2.5 flex flex-col gap-2 cursor-pointer transition-all shadow-xs hover:shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-md bg-purple-600 text-white flex items-center justify-center text-[10px]">
+<span class="material-symbols-outlined text-xs" data-icon="history_toggle_off">history_toggle_off</span>
+</span>
+<span class="text-[11px] font-semibold text-on-surface truncate">ستوري لايف</span>
+</div>
+<!-- Status badge 'تم النشر' (purple badge) -->
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200">
+                  تم النشر
+                </span>
+</div>
+<p class="text-xs font-medium text-on-surface line-clamp-2 leading-relaxed">
+                Instagram Story Flash Sale عروض الفلاش الأسبوعية
+              </p>
+<div class="flex items-center justify-between text-[10px] text-outline pt-1 border-t border-outline-variant/20">
+<span class="flex items-center gap-1 text-purple-700">
+<span class="material-symbols-outlined text-xs" data-icon="check_circle">check_circle</span>
+                  نُشر 04:00 م
+                </span>
+<span class="text-[10px] font-sans font-semibold text-on-surface">3.4k تفاعل</span>
+</div>
+</div>
+</div>
+<!-- Col 7: السبت 28 يونيو -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-2.5 flex flex-col gap-2 min-h-[190px] hover:border-primary/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface-variant">28 يونيو</span>
+<button class="opacity-0 hover:opacity-100 p-0.5 rounded text-outline hover:text-primary transition-opacity" title="جدولة منشور جديد">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center border border-dashed border-outline-variant/30 rounded-lg text-outline-variant/70 text-[11px] p-2 text-center">
+<span>عطلة نهاية الأسبوع</span>
+</div>
+</div>
+</div>
+<!-- Quick Summary Bar at Bottom of Calendar Canvas -->
+<div class="mt-4 p-3 bg-surface-container-lowest rounded-xl border border-outline-variant/30 flex items-center justify-between text-xs text-on-surface-variant">
+<div class="flex items-center gap-3">
+<span class="font-bold text-on-surface">دليل حالات النشر:</span>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-surface-variant"></span>
+<span>مسودة</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span>بانتظار المراجعة</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>معتمد وجاهز</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+<span>مجدول للنشر</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-purple-500"></span>
+<span>تم النشر</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-primary" data-icon="sync">sync</span>
+<span>آخر مزامنة مع Meta &amp; TikTok API: منذ دقيقتين</span>
+</div>
+</div>
+</main>
+<!-- ========================================================================= -->
+<!-- 5. SELECTED POST APPROVAL SLIDE-OVER DRAWER (درج مراجعة واعتماد المنشور) -->
+<!-- ========================================================================= -->
+<aside class="w-[440px] bg-surface-container-lowest border-r border-outline-variant/40 shadow-xl flex flex-col z-20 flex-shrink-0 h-full overflow-hidden">
+<!-- Drawer Header -->
+<div class="p-4 border-b border-outline-variant/30 flex items-center justify-between bg-surface-container-lowest">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="rate_review">rate_review</span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-sm text-on-surface">مراجعة وتدقيق المنشور: #POST-8841</h2>
+<span class="text-[11px] text-outline font-sans">Instagram Carousel • مجدول</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded-lg text-outline hover:bg-surface-container-low transition-colors" title="توسيع للوضع الكامل">
+<span class="material-symbols-outlined text-lg" data-icon="open_in_full">open_in_full</span>
+</button>
+<button class="p-1.5 rounded-lg text-outline hover:bg-surface-container-low transition-colors" title="إغلاق الدرج">
+<span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Drawer Content Body -->
+<div class="flex-1 overflow-y-auto p-5 space-y-5 custom-scrollbar">
+<!-- A. Status Progress Tracker (مسار التدقيق والاعتماد) -->
+<div class="bg-surface-container-low rounded-xl p-3.5 border border-outline-variant/30">
+<p class="text-xs font-bold text-on-surface mb-3 flex items-center justify-between">
+<span>مسار موافقة المحتوى</span>
+<span class="text-[10px] text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full font-semibold">بانتظار العميل</span>
+</p>
+<div class="relative flex flex-col gap-3 text-xs">
+<!-- Step 1: مسودة فكرة -->
+<div class="flex items-start gap-2.5">
+<div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+</div>
+<div class="flex-1">
+<p class="font-semibold text-on-surface text-xs">مسودة الفكرة وتجهيز الكوبي والوسائط</p>
+<p class="text-[10px] text-outline">تم الإنجاز بواسطة صانع المحتوى (سارة ناصر) • 21 يونيو</p>
+</div>
+</div>
+<!-- Step 2: مراجعة الوكالة الداخلية -->
+<div class="flex items-start gap-2.5">
+<div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-xs" data-icon="check">check</span>
+</div>
+<div class="flex-1">
+<p class="font-semibold text-on-surface text-xs">مراجعة الوكالة الداخلية (مكتملة)</p>
+<p class="text-[10px] text-outline">مكتملة بواسطة: <span class="font-semibold text-on-surface">ريم السويدي</span> (كبير مديري الحسابات) • 22 يونيو</p>
+</div>
+</div>
+<!-- Step 3: اعتماد العميل (Current Active Step) -->
+<div class="flex items-start gap-2.5">
+<div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center flex-shrink-0 mt-0.5 animate-pulse">
+<span class="material-symbols-outlined text-xs" data-icon="hourglass_top">hourglass_top</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-amber-900 text-xs">اعتماد العميل النهائي (قيد الانتظار)</p>
+<p class="text-[10px] text-amber-800">بانتظار مدير التسويق: <span class="font-bold">م. فيصل الفطيم</span></p>
+</div>
+</div>
+</div>
+</div>
+<!-- B. Post Preview Card with Media Thumbnail and Arabic Caption -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 overflow-hidden shadow-xs">
+<!-- Simulated Instagram Header -->
+<div class="p-3 border-b border-outline-variant/20 flex items-center justify-between bg-surface-container-lowest">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-rose-600 p-[2px]">
+<div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+<span class="font-bold text-[10px] text-on-surface">UL</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface">UrbanLife Dubai</span>
+<span class="text-[10px] text-outline">موقع النشر: دبي، الإمارات العربية المتحدة</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="more_horiz">more_horiz</span>
+</div>
+<!-- High-Res Media Thumbnail -->
+<div class="relative aspect-square bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Luxury fashion model wearing lightweight linen outfit from the summer collection in a high-end Dubai open mall with sleek minimalist architecture and warm sunny day illumination, refined editorial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-kBFdf2zGXMN1_QZPkuZUO2BSXAYDRQNWzfc53CUvonOo2fp0NZ5bxF6rMKX0l0MQiwkX3kMcTKEOGy6FO2XX7cNHgTxuhvhEn_hhhTTNpQNgyiYdPcdMlKU_8kLL_1ixNI1-piR6lzoZTlFSVTCI4c6PHYP8GFB5hDfsuxokrY2GNQf9b4KesW4O3qvma2N7pLhL1CfcLfZQw2iUr2rlA8myzpXisaPWmK-q_KIVCvlKczAompvUYK1yR9rPQW-atSrQ6gjz7UDs"/>
+<!-- Carousel Indicator Overlay -->
+<div class="absolute top-2.5 left-2.5 bg-black/60 backdrop-blur-md text-white px-2 py-0.5 rounded-full text-[10px] font-sans font-bold flex items-center gap-1">
+<span>1/5</span>
+<span class="material-symbols-outlined text-xs" data-icon="style">style</span>
+</div>
+</div>
+<!-- Interaction Icons Bar -->
+<div class="p-3 flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xl" data-icon="favorite">favorite</span>
+<span class="material-symbols-outlined text-xl" data-icon="mode_comment">mode_comment</span>
+<span class="material-symbols-outlined text-xl" data-icon="send">send</span>
+</div>
+<span class="material-symbols-outlined text-xl" data-icon="bookmark">bookmark</span>
+</div>
+<!-- Arabic Caption Preview -->
+<div class="px-3.5 pb-3.5 space-y-1.5 text-xs text-on-surface leading-relaxed">
+<p>
+<span class="font-bold">UrbanLife Dubai</span>
+                استعدوا لأناقة لا تُضاهى مع انطلاق كولكشن صيف 2025 الحصري! تشكيلة متكاملة من الأقمشة الطبيعية الباردة والتصاميم العصرية التي تواكب حيوية دبي. ✨🌴
+              </p>
+<p class="text-primary font-medium text-[11px] dir-ltr text-right">
+                #UrbanLifeDXB #SummerCollection2025 #DubaiFashion #AlFuttaim #أناقة_الصيف
+              </p>
+<div class="pt-2 flex items-center gap-2 text-[11px] text-outline border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span>
+<span>الموعد المبرمج للنشر: <b class="text-on-surface">الثلاثاء 24 يونيو 2025 - 07:00 مساءً</b></span>
+</div>
+</div>
+</div>
+<!-- C. Reviewer Notes Section (تعليقات المراجعة والتعديل) -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="chat">chat</span>
+<span>سجل ملاحظات التدقيق والاعتماد</span>
+</h3>
+<span class="text-[10px] text-outline">2 تعليق</span>
+</div>
+<!-- Previous Comments -->
+<div class="space-y-2">
+<div class="bg-surface-container-low p-2.5 rounded-xl text-xs border border-outline-variant/20">
+<div class="flex items-center justify-between mb-1">
+<span class="font-bold text-on-surface text-[11px]">ريم السويدي (مدير الحساب)</span>
+<span class="text-[10px] text-outline">أمس 04:30 م</span>
+</div>
+<p class="text-on-surface-variant text-[11px] leading-normal">
+                  تم التدقيق اللغوي للنسخة العربية واعتماد صور الكاروسيل بدقة عالية بما يتوافق مع هوية مجموعة الفطيم. بانتظار الموافقة النهائية من الأستاذ فيصل.
+                </p>
+</div>
+<div class="bg-amber-50/70 p-2.5 rounded-xl text-xs border border-amber-200/60">
+<div class="flex items-center justify-between mb-1">
+<span class="font-bold text-amber-900 text-[11px]">م. فيصل الفطيم (العميل)</span>
+<span class="text-[10px] text-amber-700">اليوم 10:15 ص</span>
+</div>
+<p class="text-amber-900/90 text-[11px] leading-normal">
+                  يرجى التأكد من إضافة رابط الهبوط المباشر في البايو الخاص بحملة الصيف قبل موعد النشر في السابعة مساءً.
+                </p>
+</div>
+</div>
+<!-- Add New Note Field -->
+<div class="pt-1">
+<div class="relative">
+<textarea class="w-full text-xs p-2.5 rounded-xl border border-outline-variant/40 bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-outline-variant" placeholder="أضف ملاحظة توجيهية لفريق العمل أو العميل..." rows="2"></textarea>
+<button class="absolute left-2 bottom-2 p-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" title="إرسال الملاحظة">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Action Buttons Footer -->
+<div class="p-4 border-t border-outline-variant/30 bg-surface-container-lowest flex flex-col gap-2 flex-shrink-0">
+<!-- Main Action: زر أخضر بارز لاعتماد ونشر المنشور -->
+<button class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-base" data-icon="task_alt">task_alt</span>
+<span>اعتماد ونشر المنشور (Approve &amp; Schedule)</span>
+</button>
+<div class="grid grid-cols-2 gap-2">
+<!-- Secondary Action: طلب تعديلات -->
+<button class="py-2 px-3 rounded-xl border border-outline-variant/50 hover:bg-surface-container-low text-on-surface font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors active:scale-[0.99]">
+<span class="material-symbols-outlined text-sm text-amber-600" data-icon="edit_note">edit_note</span>
+<span>طلب تعديلات (Revise)</span>
+</button>
+<!-- Danger Action: رفض المنشور -->
+<button class="py-2 px-3 rounded-xl border border-error/30 text-error hover:bg-error-container/20 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors active:scale-[0.99]">
+<span class="material-symbols-outlined text-sm" data-icon="cancel">cancel</span>
+<span>رفض المنشور مع السبب</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</body></html>

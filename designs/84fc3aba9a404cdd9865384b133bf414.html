@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEMDAR Social - لوحة التحليلات المتقدمة وإعدادات الوكالة والخزنة</title>
+<!-- Google Fonts: Cairo and Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=Public+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed-dim": "#b4c5ff",
+            "error-container": "#ffdad6",
+            "secondary-container": "#acbfff",
+            "on-secondary-fixed": "#00174b",
+            "on-surface": "#191b23",
+            "on-tertiary-fixed-variant": "#7d2d00",
+            "on-error": "#ffffff",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "surface-bright": "#faf8ff",
+            "tertiary-fixed": "#ffdbcd",
+            "secondary": "#495c95",
+            "surface-container-high": "#e7e7f3",
+            "on-primary-fixed-variant": "#003ea8",
+            "surface-dim": "#d9d9e5",
+            "on-secondary-fixed-variant": "#31447b",
+            "tertiary": "#943700",
+            "inverse-on-surface": "#f0f0fb",
+            "outline-variant": "#c3c6d7",
+            "secondary-fixed": "#dbe1ff",
+            "surface-variant": "#e1e2ed",
+            "surface-container-highest": "#e1e2ed",
+            "on-primary-container": "#eeefff",
+            "tertiary-container": "#bc4800",
+            "primary": "#004ac6",
+            "on-background": "#191b23",
+            "background": "#faf8ff",
+            "on-primary-fixed": "#00174b",
+            "on-secondary-container": "#394c84",
+            "error": "#ba1a1a",
+            "inverse-surface": "#2e3039",
+            "surface-container": "#ededf9",
+            "on-primary": "#ffffff",
+            "surface": "#faf8ff",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#b4c5ff",
+            "tertiary-fixed-dim": "#ffb596",
+            "on-tertiary-container": "#ffede6",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#434655",
+            "on-tertiary-fixed": "#360f00",
+            "primary-fixed-dim": "#b4c5ff",
+            "primary-container": "#2563eb",
+            "outline": "#737686",
+            "primary-fixed": "#dbe1ff",
+            "surface-container-low": "#f3f3fe",
+            "surface-tint": "#0053db"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Cairo", "Inter", "sans-serif"],
+            "display": ["Cairo", "Inter", "sans-serif"],
+            "body": ["Cairo", "Inter", "sans-serif"],
+            "label": ["Public Sans", "Cairo", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f3f3fe;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c3c6d7;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased overflow-x-hidden min-h-screen">
+<!-- ========================================================================= -->
+<!-- SHARED COMPONENT: SideNavBar (Right-hand Sidebar RTL)                    -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 right-0 h-screen w-64 z-40 bg-inverse-surface border-l border-outline-variant/20 shadow-sm flex flex-col justify-between p-4 select-none">
+<div class="flex flex-col gap-6">
+<!-- Header Logo & Agency Details -->
+<div class="flex items-center gap-3 px-2 pt-1">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary font-bold shadow-sm">
+<span class="material-symbols-outlined text-2xl">hub</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline text-lg font-bold text-inverse-on-surface tracking-tight leading-snug">نِمدار سوشيال NEMDAR</span>
+<span class="text-xs text-inverse-on-surface/60 font-medium">وكالة رقمية متكاملة</span>
+</div>
+</div>
+<!-- Navigation Tabs (8 items as in JSON, Active: التحليلات) -->
+<nav aria-label="شريط التنقل الرئيسي" class="flex flex-col gap-1.5">
+<!-- 0: نظرة عامة -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="font-body text-base leading-relaxed">نظرة عامة</span>
+</a>
+<!-- 1: العملاء والحسابات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">supervised_user_circle</span>
+<span class="font-body text-base leading-relaxed">العملاء والحسابات</span>
+</a>
+<!-- 2: استوديو المحتوى -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">auto_fix_high</span>
+<span class="font-body text-base leading-relaxed">استوديو المحتوى</span>
+</a>
+<!-- 3: تقويم النشر -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">calendar_month</span>
+<span class="font-body text-base leading-relaxed">تقويم النشر</span>
+</a>
+<!-- 4: الحملات الإعلانية -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">campaign</span>
+<span class="font-body text-base leading-relaxed">الحملات الإعلانية</span>
+</a>
+<!-- 5: الرسائل واللييدز -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-xl">forum</span>
+<span class="font-body text-base leading-relaxed">الرسائل واللييدز</span>
+</a>
+<!-- 6: التحليلات (ACTIVE ITEM) -->
+<a class="bg-primary text-on-primary font-medium rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors shadow-sm" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-body text-base leading-relaxed font-bold">التحليلات</span>
+<span class="mr-auto w-2 h-2 rounded-full bg-secondary-fixed"></span>
+</a>
+<!-- 7: الإعدادات (Quick Link to toggle Drawer) -->
+<button class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors active:scale-[0.98] w-full text-right" id="toggle-settings-btn">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="font-body text-base leading-relaxed">الإعدادات</span>
+<span class="mr-auto text-[10px] px-2 py-0.5 rounded-full bg-surface-variant/20 text-inverse-on-surface/80 font-label">الخزنة</span>
+</button>
+</nav>
+</div>
+<!-- Sidebar Bottom / Account Status Card -->
+<div class="flex flex-col gap-3 pt-4 border-t border-outline-variant/15">
+<div class="p-3 bg-surface-variant/10 rounded-xl border border-outline-variant/10 flex items-center justify-between">
+<div class="flex items-center gap-2.5 overflow-hidden">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-bold text-xs">
+            AF
+          </div>
+<div class="truncate">
+<p class="text-xs font-semibold text-inverse-on-surface truncate">الفطيم القابضة</p>
+<p class="text-[11px] text-inverse-on-surface/60 truncate">عميل تجريبي / علامة تجارية</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-inverse-on-surface/50 text-base">swap_vert</span>
+</div>
+<!-- Footer User Link from JSON -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg">manage_accounts</span>
+<span>فريق العمل والحساب</span>
+</a>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- SHARED COMPONENT: TopNavBar (Desktop Header)                             -->
+<!-- ========================================================================= -->
+<header class="fixed top-0 left-0 right-64 h-16 z-30 bg-surface-container-lowest border-b border-outline-variant/30 shadow-none flex items-center justify-between px-6">
+<!-- Right side (in RTL): Brand Path & Demo Status Tag -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-sm">
+<span class="font-headline font-semibold text-on-surface text-base flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-xl">corporate_fare</span>
+          مجموعة الفطيم القابضة
+        </span>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface-variant font-medium">أوربان لايف دبي</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface-container text-primary text-xs font-medium rounded-full border border-outline-variant/30">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span>بيانات توضيحية - نموذج أداء تقديري</span>
+</div>
+</div>
+<!-- Center / Multi-Dimension Filters Cluster -->
+<div class="hidden xl:flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-xl border border-outline-variant/30 text-xs">
+<!-- Filter 1: Account -->
+<div class="flex items-center gap-1.5 text-on-surface-variant font-medium border-l border-outline-variant/30 pl-3">
+<span class="material-symbols-outlined text-base text-outline">account_circle</span>
+<span>الحساب:</span>
+<select class="bg-transparent text-on-surface font-semibold focus:outline-none cursor-pointer border-none py-0 pl-4 pr-1 text-xs">
+<option>جميع الحسابات (4)</option>
+<option>Urban Life Instagram AE</option>
+<option>Urban Life TikTok Flagship</option>
+<option>Urban Life Search Direct</option>
+</select>
+</div>
+<!-- Filter 2: Platform -->
+<div class="flex items-center gap-1.5 text-on-surface-variant font-medium border-l border-outline-variant/30 pl-3">
+<span class="material-symbols-outlined text-base text-outline">hub</span>
+<span>المنصة:</span>
+<span class="font-semibold text-on-surface bg-surface-container-lowest px-2 py-0.5 rounded border border-outline-variant/20">Meta, Google, TikTok</span>
+</div>
+<!-- Filter 3: Date Range -->
+<div class="flex items-center gap-1.5 text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-base text-outline">date_range</span>
+<span>النطاق:</span>
+<span class="font-semibold text-on-surface">الربع الثاني Q2 2025</span>
+</div>
+</div>
+<!-- Left side (in RTL): Actions & Profile image -->
+<div class="flex items-center gap-3">
+<!-- Date Range Secondary Action button -->
+<button class="hidden md:inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors border border-outline-variant/30">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>نطاق التاريخ: آخر 30 يوماً</span>
+</button>
+<!-- Primary Action CTA -->
+<button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl bg-primary text-on-primary hover:bg-primary/90 transition-transform active:scale-[0.98] shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>إنشاء محتوى +</span>
+</button>
+<!-- Action Icons from JSON: notifications, tune -->
+<div class="flex items-center gap-1 border-r border-outline-variant/30 pr-2">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors relative" title="الإشعارات">
+<span class="material-symbols-outlined text-lg">notifications</span>
+<span class="absolute top-1.5 left-1.5 w-2 h-2 rounded-full bg-error"></span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" id="open-settings-tune" title="إعدادات الحوكمة والخزنة">
+<span class="material-symbols-outlined text-lg">tune</span>
+</button>
+</div>
+<!-- Profile Avatar -->
+<div class="flex items-center gap-2 cursor-pointer pr-1">
+<img class="w-8 h-8 rounded-full border border-outline-variant/40 object-cover" data-alt="A professional Arab digital marketing agency executive wearing a tailored modern suit in a high-tech corporate office studio. Natural ambient lighting, crisp photographic portrait style with cool blue reflections, sharp contrast and sleek professional authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVwnM2cA1csOAWBcFW-CnCYeuSSrGi91UcNN3PhkrcZJCKhR-M_yt__HDSBzKRGIeAAjhi3nBsj6fnohRYLirgXEO4jJqqbrSPx5A_GYuQmlZRk2mvVFXtMw_2Vl4UkPadVkpdrjgp9IKRUgneiS-ZMOvTKCGQ9gwHoHWsuaQcPsf3D5wou4Rx2FsWaqhpqz0zfNWnYWyrkcBq2KvPTVJTEWPBpyFJiAHkenInmnH6Fb0jRU1JsVLwogKG91SUCKKIIV_xnLqelscG"/>
+</div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- MAIN WORKSPACE STAGE                                                      -->
+<!-- ========================================================================= -->
+<main class="mr-64 pt-20 pb-12 px-8 min-h-screen bg-surface-container-low/60 transition-all">
+<div class="max-w-7xl mx-auto space-y-6">
+<!-- Breadcrumbs & Stage Title Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/25 shadow-sm">
+<div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant mb-1 font-medium">
+<span>لوحة التحكم</span>
+<span class="material-symbols-outlined text-xs">chevron_left</span>
+<span class="text-primary font-semibold">تحليلات الأداء والإسناد التسويقي الشامل</span>
+</div>
+<h1 class="text-2xl font-bold font-headline text-on-surface tracking-tight">مسار الأداء والإسناد التسويقي من الصرف إلى الإيرادات</h1>
+<p class="text-xs text-on-surface-variant mt-1">تتبع مؤشرات تحويل الميزانيات الإعلانية إلى تدفقات نقدية وعقود بيعية موثقة بنظام الحساب الموحد</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 text-xs bg-surface-container px-3 py-2 rounded-xl text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-base">verified_user</span>
+<span>نموذج إسناد معتمد (MTA v4.2)</span>
+</div>
+<button class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-inverse-surface text-inverse-on-surface hover:bg-inverse-surface/90 transition-colors shadow-sm" onclick="document.getElementById('settings-drawer').classList.remove('translate-x-full'); document.getElementById('drawer-overlay').classList.remove('hidden');">
+<span class="material-symbols-outlined text-sm">vpn_key</span>
+<span>فتح إعدادات العلامة والخزنة</span>
+</button>
+</div>
+</div>
+<!-- ======================================================================= -->
+<!-- SECTION 1: End-to-End Agency Attribution & Conversion Funnel Cards      -->
+<!-- ======================================================================= -->
+<section class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<h2 class="text-base font-bold font-headline text-on-surface">قمع التحويل المالي التكاملي (Attribution Funnel)</h2>
+<span class="text-xs text-on-surface-variant font-normal">| قياس كفاءة كل مرحلة في رحلة المشتري</span>
+</div>
+<span class="text-xs text-outline font-label">تحديث تلقائي كل 15 دقيقة</span>
+</div>
+<!-- 5 Connected Funnel Step Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3.5 relative">
+<!-- Step 1: Ad Spend -->
+<div class="relative bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/30 shadow-sm flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div class="flex items-center justify-between mb-3">
+<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">المرحلة 01</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-base">payments</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant font-medium">إجمالي الإنفاق الإعلاني</p>
+<p class="text-xl font-extrabold text-on-surface mt-1 tracking-tight font-headline">84,320 <span class="text-xs font-medium text-on-surface-variant">د.إ</span></p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between text-[11px]">
+<span class="text-on-surface-variant">الميزانية المستهلكة:</span>
+<span class="font-bold text-primary">94.2%</span>
+</div>
+<div class="hidden lg:block absolute -left-2.5 top-1/2 -translate-y-1/2 z-10 text-outline-variant">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</div>
+</div>
+<!-- Step 2: Total Leads & CPL -->
+<div class="relative bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/30 shadow-sm flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div class="flex items-center justify-between mb-3">
+<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">المرحلة 02</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-base">contacts</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant font-medium">إجمالي الليدز المسجلة</p>
+<p class="text-xl font-extrabold text-on-surface mt-1 tracking-tight font-headline">1,240 <span class="text-xs font-medium text-on-surface-variant">ليد</span></p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between text-[11px]">
+<span class="text-on-surface-variant">تكلفة الليد (CPL):</span>
+<span class="font-bold text-on-surface">68 د.إ</span>
+</div>
+<div class="hidden lg:block absolute -left-2.5 top-1/2 -translate-y-1/2 z-10 text-outline-variant">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</div>
+</div>
+<!-- Step 3: Qualified CPQL -->
+<div class="relative bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/30 shadow-sm flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div class="flex items-center justify-between mb-3">
+<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">المرحلة 03</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-base">check_circle</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant font-medium">الليدز المؤهلة للبيع (CPQL)</p>
+<p class="text-xl font-extrabold text-on-surface mt-1 tracking-tight font-headline">418 <span class="text-xs font-medium text-on-surface-variant">مؤهل</span></p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between text-[11px]">
+<span class="text-on-surface-variant">تكلفة المؤهل (CPQL):</span>
+<span class="font-bold text-primary">201.7 د.إ</span>
+</div>
+<div class="hidden lg:block absolute -left-2.5 top-1/2 -translate-y-1/2 z-10 text-outline-variant">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</div>
+</div>
+<!-- Step 4: Opportunities -->
+<div class="relative bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/30 shadow-sm flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div class="flex items-center justify-between mb-3">
+<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">المرحلة 04</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-base">handshake</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant font-medium">الفرص البيعية الجادة</p>
+<p class="text-xl font-extrabold text-on-surface mt-1 tracking-tight font-headline">142 <span class="text-xs font-medium text-on-surface-variant">فرصة</span></p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between text-[11px]">
+<span class="text-on-surface-variant">معدل تحويل التأهيل:</span>
+<span class="font-bold text-on-surface">34.0%</span>
+</div>
+<div class="hidden lg:block absolute -left-2.5 top-1/2 -translate-y-1/2 z-10 text-outline-variant">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</div>
+</div>
+<!-- Step 5: Revenue & ROAS -->
+<div class="relative bg-surface-container-lowest rounded-2xl p-4 border-2 border-primary/40 shadow-sm flex flex-col justify-between bg-gradient-to-b from-surface-container-lowest to-surface-container-low">
+<div class="flex items-center justify-between mb-3">
+<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-primary text-on-primary">الإغلاق النهائي 05</span>
+<div class="w-7 h-7 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-base">monetization_on</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant font-medium">الإيرادات المتولدة المحققة</p>
+<p class="text-xl font-extrabold text-primary mt-1 tracking-tight font-headline">628,400 <span class="text-xs font-medium text-on-surface-variant">د.إ</span></p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/30 flex items-center justify-between text-[11px]">
+<span class="text-on-surface-variant">العائد ROAS:</span>
+<span class="font-black text-xs text-primary px-1.5 py-0.5 bg-primary-fixed rounded">7.45x</span>
+</div>
+</div>
+</div>
+<!-- Methodology Note Callout -->
+<div class="p-3.5 bg-surface-container-lowest rounded-xl border border-outline-variant/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl mt-0.5">info</span>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+<strong class="font-bold text-on-surface">ملاحظة نموذج الإسناد:</strong>
+            تُحسب البيانات بناءً على نموذج الإسناد متعدد اللمسات (Multi-Touch Attribution) مع ربط بيانات نقاط البيع ونظام CRM الشريك. الأرقام لأغراض المحاكاة والتوضيح فقط.
+          </p>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- SECTION 2: Platform & Channel Conversion Efficiency Breakdown Table    -->
+<!-- ======================================================================= -->
+<section class="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+<div class="p-5 border-b border-outline-variant/20 flex flex-col md:flex-row md:items-center justify-between gap-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">table_chart</span>
+</div>
+<div>
+<h3 class="text-base font-bold font-headline text-on-surface">مقارنة كفاءة التحويل عبر المنصات والقنوات</h3>
+<p class="text-xs text-on-surface-variant">تحليل معمق للأداء الإعلاني ومتوسط تكلفة الاستحواذ ومعدل إغلاق المبيعات</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">file_download</span>
+<span>تصدير CSV</span>
+</button>
+<button class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span>تخصيص الأعمدة</span>
+</button>
+</div>
+</div>
+<!-- Dense Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-right text-xs">
+<thead class="bg-surface-container-low text-on-surface-variant border-b border-outline-variant/20 font-semibold font-label">
+<tr>
+<th class="py-3 px-4">القناة والمنصة</th>
+<th class="py-3 px-4">الإنفاق (د.إ)</th>
+<th class="py-3 px-4">عدد الليدز</th>
+<th class="py-3 px-4">تكلفة الليد CPL</th>
+<th class="py-3 px-4">المؤهلين (CPQL)</th>
+<th class="py-3 px-4">معدل التأهيل</th>
+<th class="py-3 px-4">الصفقات المغلقة</th>
+<th class="py-3 px-4">معدل الإغلاق</th>
+<th class="py-3 px-4">الإيرادات المحققة</th>
+<th class="py-3 px-4">العائد ROAS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/15 font-medium">
+<!-- Row 1: Instagram Ads -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined text-base">photo_camera</span>
+</div>
+<div>
+<span class="font-bold text-on-surface block">Instagram Ads</span>
+<span class="text-[10px] text-outline">Meta Business Suite</span>
+</div>
+</td>
+<td class="py-3.5 px-4 font-headline text-on-surface font-semibold">38,200</td>
+<td class="py-3.5 px-4">580</td>
+<td class="py-3.5 px-4 text-on-surface">65.8 د.إ</td>
+<td class="py-3.5 px-4 font-bold text-primary">195</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-semibold">33.6%</span>
+</td>
+<td class="py-3.5 px-4 font-bold text-on-surface">68</td>
+<td class="py-3.5 px-4 text-on-surface font-semibold">11.7%</td>
+<td class="py-3.5 px-4 font-bold font-headline text-on-surface">278,000 د.إ</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-bold">7.27x</span>
+</td>
+</tr>
+<!-- Row 2: TikTok Spark Ads -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-secondary font-bold">
+<span class="material-symbols-outlined text-base">videocam</span>
+</div>
+<div>
+<span class="font-bold text-on-surface block">TikTok Ads &amp; Spark</span>
+<span class="text-[10px] text-outline">TikTok For Business</span>
+</div>
+</td>
+<td class="py-3.5 px-4 font-headline text-on-surface font-semibold">24,500</td>
+<td class="py-3.5 px-4">390</td>
+<td class="py-3.5 px-4 text-on-surface">62.8 د.إ</td>
+<td class="py-3.5 px-4 font-bold text-primary">112</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-semibold">28.7%</span>
+</td>
+<td class="py-3.5 px-4 font-bold text-on-surface">34</td>
+<td class="py-3.5 px-4 text-on-surface font-semibold">8.7%</td>
+<td class="py-3.5 px-4 font-bold font-headline text-on-surface">152,400 د.إ</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-bold">6.22x</span>
+</td>
+</tr>
+<!-- Row 3: WhatsApp Leads Direct -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined text-base">chat</span>
+</div>
+<div>
+<span class="font-bold text-on-surface block">WhatsApp Direct CTWA</span>
+<span class="text-[10px] text-outline">Meta Cloud API</span>
+</div>
+</td>
+<td class="py-3.5 px-4 font-headline text-on-surface font-semibold">9,420</td>
+<td class="py-3.5 px-4">165</td>
+<td class="py-3.5 px-4 text-on-surface">57.0 د.إ</td>
+<td class="py-3.5 px-4 font-bold text-primary">71</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-semibold">43.0%</span>
+</td>
+<td class="py-3.5 px-4 font-bold text-on-surface">26</td>
+<td class="py-3.5 px-4 text-on-surface font-semibold">15.7%</td>
+<td class="py-3.5 px-4 font-bold font-headline text-on-surface">114,000 د.إ</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-bold">12.10x</span>
+</td>
+</tr>
+<!-- Row 4: Google Search Intent -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-secondary font-bold">
+<span class="material-symbols-outlined text-base">travel_explore</span>
+</div>
+<div>
+<span class="font-bold text-on-surface block">Google Search Intent</span>
+<span class="text-[10px] text-outline">Google Ads Certified</span>
+</div>
+</td>
+<td class="py-3.5 px-4 font-headline text-on-surface font-semibold">12,200</td>
+<td class="py-3.5 px-4">105</td>
+<td class="py-3.5 px-4 text-on-surface">116.1 د.إ</td>
+<td class="py-3.5 px-4 font-bold text-primary">40</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-semibold">38.1%</span>
+</td>
+<td class="py-3.5 px-4 font-bold text-on-surface">14</td>
+<td class="py-3.5 px-4 text-on-surface font-semibold">13.3%</td>
+<td class="py-3.5 px-4 font-bold font-headline text-on-surface">84,000 د.إ</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-bold">6.88x</span>
+</td>
+</tr>
+</tbody>
+<!-- Summary Footing -->
+<tfoot class="bg-surface-container font-bold text-on-surface border-t border-outline-variant/30">
+<tr>
+<td class="py-3 px-4">الإجمالي الكلي للقنوات (الموحد)</td>
+<td class="py-3 px-4 font-headline">84,320 د.إ</td>
+<td class="py-3 px-4">1,240</td>
+<td class="py-3 px-4">68.0 د.إ</td>
+<td class="py-3 px-4 text-primary">418</td>
+<td class="py-3 px-4">33.7%</td>
+<td class="py-3 px-4">142</td>
+<td class="py-3 px-4">11.4%</td>
+<td class="py-3 px-4 font-headline text-primary">628,400 د.إ</td>
+<td class="py-3 px-4">
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-bold">7.45x</span>
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</section>
+<!-- Contextual Performance Highlights Bento Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1: Lead Quality Velocity -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl border border-outline-variant/25 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface-variant">سرعة الاستجابة الأولية لليدز (SLA)</span>
+<span class="material-symbols-outlined text-primary text-lg">bolt</span>
+</div>
+<div class="my-3">
+<span class="text-2xl font-extrabold font-headline text-on-surface">18 دقيقة</span>
+<span class="text-xs text-primary mr-2 font-medium">↑ تحسن 42% عن Q1</span>
+</div>
+<p class="text-[11px] text-outline">ارتباط مباشر بارتفاع معدل إغلاق WhatsApp من 9% إلى 15.7%.</p>
+</div>
+<!-- Card 2: Creative Wearout Alert -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl border border-outline-variant/25 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface-variant">كفاءة وتآكل المواد الإبداعية</span>
+<span class="material-symbols-outlined text-secondary text-lg">auto_awesome_motion</span>
+</div>
+<div class="my-3">
+<span class="text-2xl font-extrabold font-headline text-on-surface">86%</span>
+<span class="text-xs text-on-surface-variant mr-2 font-medium">حالة إيجابية</span>
+</div>
+<p class="text-[11px] text-outline">تم تجديد 12 فيديو قصير على TikTok لمنع تشبع الجمهور المستهدف.</p>
+</div>
+<!-- Card 3: System Security & API Linkage -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl border border-outline-variant/25 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface-variant">حالة الربط البرمجي السحابي والآمان</span>
+<span class="material-symbols-outlined text-primary text-lg">security</span>
+</div>
+<div class="my-3 flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+<span class="text-lg font-bold text-on-surface font-headline">جميع الرموز مشفرة AES-256</span>
+</div>
+<p class="text-[11px] text-outline">شهادة التوافق والربط مع الخزنة نشطة وصالحة لغاية نوفمبر 2025.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- ========================================================================= -->
+<!-- DRAWER OVERLAY BACKDROP                                                   -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs z-50 transition-opacity" id="drawer-overlay" onclick="closeDrawer()"></div>
+<!-- ========================================================================= -->
+<!-- SETTINGS & GOVERNANCE DRAWER (Slide-over Drawer on the Left)              -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 left-0 bottom-0 w-full max-w-md md:max-w-lg bg-surface-container-lowest z-50 shadow-2xl border-r border-outline-variant/30 flex flex-col justify-between overflow-hidden transition-transform duration-300" id="settings-drawer">
+<!-- Drawer Header -->
+<div class="p-5 border-b border-outline-variant/25 bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-inverse-surface text-inverse-on-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">admin_panel_settings</span>
+</div>
+<div>
+<h2 class="text-base font-bold font-headline text-on-surface">إعدادات العلامة وحوكمة الوكالة</h2>
+<p class="text-[11px] text-on-surface-variant font-label">Agency Settings, Brand Kit &amp; Secret Vault</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-outline transition-colors" onclick="closeDrawer()" title="إغلاق النافذة">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<!-- Drawer Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-5 space-y-6">
+<!-- SECTION A: Brand Kit -->
+<section class="space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-bold text-on-surface flex items-center gap-1.5 uppercase font-label">
+<span class="material-symbols-outlined text-primary text-base">palette</span>
+            Section A: حقيبة الهوية البصرية للعميل (Brand Kit)
+          </h3>
+<span class="text-[10px] text-outline">Urban Life Dubai</span>
+</div>
+<div class="bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/20 space-y-3">
+<!-- Official Color Swatches -->
+<div>
+<label class="text-[11px] text-on-surface-variant font-medium block mb-1.5">الألوان المعتمدة للحملات:</label>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1.5 bg-surface-container-lowest px-2 py-1 rounded-lg border border-outline-variant/20">
+<span class="w-4 h-4 rounded" style="background-color: #101828;"></span>
+<span class="text-[11px] font-mono text-on-surface">#101828</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-lowest px-2 py-1 rounded-lg border border-outline-variant/20">
+<span class="w-4 h-4 rounded" style="background-color: #2563EB;"></span>
+<span class="text-[11px] font-mono text-on-surface">#2563EB</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-lowest px-2 py-1 rounded-lg border border-outline-variant/20">
+<span class="w-4 h-4 rounded" style="background-color: #0D9488;"></span>
+<span class="text-[11px] font-mono text-on-surface">#0D9488</span>
+</div>
+</div>
+</div>
+<!-- Official Typography & Assets -->
+<div class="grid grid-cols-2 gap-2 pt-2 border-t border-outline-variant/20 text-xs">
+<div>
+<span class="text-[11px] text-on-surface-variant block">الخط العربي الرسمي:</span>
+<span class="font-bold text-on-surface font-headline">Cairo (كود 700 / 400)</span>
+</div>
+<div>
+<span class="text-[11px] text-on-surface-variant block">شعارات المتجر:</span>
+<span class="font-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                SVG عالي الدقة (3 ملفات)
+              </span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION B: Approval & Publishing Policies -->
+<section class="space-y-3">
+<h3 class="text-xs font-bold text-on-surface flex items-center gap-1.5 uppercase font-label">
+<span class="material-symbols-outlined text-primary text-base">policy</span>
+          Section B: سياسات الاعتماد ومسار النشر (Approval SLA)
+        </h3>
+<div class="bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/20 space-y-2.5 text-xs">
+<!-- Policy Rule 1 -->
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-base mt-0.5">verified</span>
+<p class="text-on-surface leading-relaxed">
+<strong class="font-bold text-on-surface">قاعدة الميزانيات المرتفعة:</strong>
+              أي منشور تتجاوز ميزانيته الترويجية <strong>2,000 د.إ</strong> يتطلب موافقة مزدوجة (مدير حسابات الوكالة + مسؤول التسويق لدى العميل).
+            </p>
+</div>
+<!-- Policy Rule 2 SLA -->
+<div class="flex items-start gap-2.5 pt-2 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-secondary text-base mt-0.5">schedule</span>
+<p class="text-on-surface leading-relaxed">
+<strong class="font-bold text-on-surface">اتفاقية مستوى الخدمة (SLA):</strong>
+              وقت الاستجابة المعتمد <strong>4 ساعات</strong> للمحتوى العاجل وحملات Flash Sales.
+            </p>
+</div>
+</div>
+</section>
+<!-- SECTION C: Team Roles & Permissions -->
+<section class="space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-bold text-on-surface flex items-center gap-1.5 uppercase font-label">
+<span class="material-symbols-outlined text-primary text-base">group</span>
+            Section C: فريق العمل والأدوار (Roles &amp; Permissions)
+          </h3>
+<span class="text-[10px] text-primary font-bold cursor-pointer hover:underline">+ دعوة عضو</span>
+</div>
+<div class="space-y-2">
+<!-- Member 1 -->
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-xs">
+                طع
+              </div>
+<div>
+<p class="text-xs font-bold text-on-surface">م. طارق العريان</p>
+<p class="text-[10px] text-on-surface-variant">مدير الوكالة - Agency Owner</p>
+</div>
+</div>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed">صلاحية كاملة</span>
+</div>
+<!-- Member 2 -->
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">
+                رس
+              </div>
+<div>
+<p class="text-xs font-bold text-on-surface">ريم السويدي</p>
+<p class="text-[10px] text-on-surface-variant">مدير المحتوى - Content Lead</p>
+</div>
+</div>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">إنشاء واعتماد أولي</span>
+</div>
+<!-- Member 3 -->
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center font-bold text-xs">
+                عم
+              </div>
+<div>
+<p class="text-xs font-bold text-on-surface">عمر المنصوري</p>
+<p class="text-[10px] text-on-surface-variant">منسق إعلانات - Media Buyer</p>
+</div>
+</div>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">إدارة الميزانيات</span>
+</div>
+</div>
+</section>
+<!-- SECTION D: Secret Vault & API Tokens -->
+<section class="space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-bold text-on-surface flex items-center gap-1.5 uppercase font-label">
+<span class="material-symbols-outlined text-primary text-base">lock</span>
+            Section D: خزنة المفاتيح والربط السحابي الآمن (Secret Vault)
+          </h3>
+<span class="text-[10px] text-outline font-mono">AES-256</span>
+</div>
+<div class="space-y-2.5">
+<!-- Token 1: Meta Graph API -->
+<div class="p-3 bg-inverse-surface text-inverse-on-surface rounded-xl space-y-1.5 shadow-sm">
+<div class="flex items-center justify-between text-xs">
+<span class="font-bold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                Meta Graph API Token
+              </span>
+<span class="text-[10px] text-inverse-on-surface/60">v19.0 Cloud SDK</span>
+</div>
+<div class="flex items-center justify-between bg-surface-variant/10 px-2.5 py-1.5 rounded-lg font-mono text-xs">
+<span class="tracking-widest">••••••••••••••••••••••••</span>
+<div class="flex items-center gap-1.5 text-[10px]">
+<span class="text-secondary-fixed-dim">مشفر AES-256</span>
+<span class="material-symbols-outlined text-xs">verified</span>
+</div>
+</div>
+<p class="text-[10px] text-inverse-on-surface/50">متصل ومُشفر عبر بروتوكول آمن | بدون إظهار المفاتيح السرية</p>
+</div>
+<!-- Token 2: TikTok Marketing API -->
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/20 space-y-1.5">
+<div class="flex items-center justify-between text-xs">
+<span class="font-bold text-on-surface flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                TikTok Marketing API
+              </span>
+<span class="text-[10px] text-primary font-semibold">صالح حتى نوفمبر 2025</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest px-2.5 py-1.5 rounded-lg border border-outline-variant/20 font-mono text-xs text-outline">
+<span class="tracking-widest">••••••••••••••••••••••••</span>
+<span class="material-symbols-outlined text-xs text-primary">sync</span>
+</div>
+<p class="text-[10px] text-outline">تم التوثيق والمصادقة المزدوجة بنجاح مع سيرفرات سنغافورة.</p>
+</div>
+<!-- Token 3: WhatsApp Cloud Secret -->
+<div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/20 space-y-1.5">
+<div class="flex items-center justify-between text-xs">
+<span class="font-bold text-on-surface flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                WhatsApp Cloud Secret
+              </span>
+<span class="text-[10px] text-on-surface-variant">Webhook Active</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest px-2.5 py-1.5 rounded-lg border border-outline-variant/20 font-mono text-xs text-outline">
+<span class="tracking-widest">••••••••••••••••••••••••</span>
+<span class="material-symbols-outlined text-xs text-primary">lock_clock</span>
+</div>
+<p class="text-[10px] text-outline">مُشفر وآمن، يتم تجديد مفاتيح الجلسة دورياً كل 90 يوماً.</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="p-4 border-t border-outline-variant/20 bg-surface-container-low flex items-center justify-between">
+<button class="px-4 py-2 text-xs font-semibold rounded-xl bg-surface-container-highest text-on-surface hover:bg-surface-variant transition-colors" onclick="closeDrawer()">
+        إغلاق اللوحة
+      </button>
+<button class="px-5 py-2 text-xs font-bold rounded-xl bg-primary text-on-primary hover:bg-primary/90 transition-all shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">save</span>
+<span>حفظ سياسات الحوكمة</span>
+</button>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- Micro-interactions Script                                                 -->
+<!-- ========================================================================= -->
+<script>
+    const drawer = document.getElementById('settings-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    const toggleBtn = document.getElementById('toggle-settings-btn');
+    const tuneBtn = document.getElementById('open-settings-tune');
+
+    function openDrawer() {
+      drawer.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+    }
+
+    function closeDrawer() {
+      drawer.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+    if (tuneBtn) tuneBtn.addEventListener('click', openDrawer);
+
+    // Initial state: Drawer open as per prompt requirements for visibility
+    // Can be closed seamlessly via overlay or close buttons
+    drawer.classList.remove('-translate-x-full');
+  </script>
+</body></html>

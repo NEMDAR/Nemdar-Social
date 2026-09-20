@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+<html class="h-full" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>نِمدار سوشيال NEMDAR | مساحة إدارة الحملات الإعلانية والميزانيات</title>
+<!-- Google Fonts: Cairo for Arabic SaaS typography and Inter for English tokens -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=Public+Sans:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim as required -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed-dim": "#b4c5ff",
+            "error-container": "#ffdad6",
+            "secondary-container": "#acbfff",
+            "on-secondary-fixed": "#00174b",
+            "on-surface": "#191b23",
+            "on-tertiary-fixed-variant": "#7d2d00",
+            "on-error": "#ffffff",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "surface-bright": "#faf8ff",
+            "tertiary-fixed": "#ffdbcd",
+            "secondary": "#495c95",
+            "surface-container-high": "#e7e7f3",
+            "on-primary-fixed-variant": "#003ea8",
+            "surface-dim": "#d9d9e5",
+            "on-secondary-fixed-variant": "#31447b",
+            "tertiary": "#943700",
+            "inverse-on-surface": "#f0f0fb",
+            "outline-variant": "#c3c6d7",
+            "secondary-fixed": "#dbe1ff",
+            "surface-variant": "#e1e2ed",
+            "surface-container-highest": "#e1e2ed",
+            "on-primary-container": "#eeefff",
+            "tertiary-container": "#bc4800",
+            "primary": "#004ac6",
+            "on-background": "#191b23",
+            "background": "#faf8ff",
+            "on-primary-fixed": "#00174b",
+            "on-secondary-container": "#394c84",
+            "error": "#ba1a1a",
+            "inverse-surface": "#2e3039",
+            "surface-container": "#ededf9",
+            "on-primary": "#ffffff",
+            "surface": "#faf8ff",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#b4c5ff",
+            "tertiary-fixed-dim": "#ffb596",
+            "on-tertiary-container": "#ffede6",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#434655",
+            "on-tertiary-fixed": "#360f00",
+            "primary-fixed-dim": "#b4c5ff",
+            "primary-container": "#2563eb",
+            "outline": "#737686",
+            "primary-fixed": "#dbe1ff",
+            "surface-container-low": "#f3f3fe",
+            "surface-tint": "#0053db"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {},
+          "fontFamily": {
+            "headline": ["Cairo", "Inter", "sans-serif"],
+            "display": ["Cairo", "Inter", "sans-serif"],
+            "body": ["Cairo", "Inter", "sans-serif"],
+            "label": ["Public Sans", "Cairo", "sans-serif"]
+          },
+          "fontSize": {}
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Cairo', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f3f3fe;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c3c6d7;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #737686;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface h-full min-h-screen flex flex-row overflow-x-hidden antialiased">
+<!-- ==================== SHARED COMPONENT: SideNavBar (RTL Right Sidebar) ==================== -->
+<aside class="fixed top-0 right-0 h-screen w-64 z-40 bg-inverse-surface border-l border-outline-variant/20 shadow-sm flex flex-col justify-between p-4 select-none">
+<!-- Header / Brand Section -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2 pt-1">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-2xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex flex-col overflow-hidden">
+<span class="font-headline text-base font-bold text-inverse-on-surface tracking-tight truncate leading-tight">نِمدار سوشيال NEMDAR</span>
+<span class="text-xs text-outline-variant truncate">وكالة رقمية متكاملة</span>
+</div>
+</div>
+<!-- Demo Workspace Tag & Client Quick Pill -->
+<div class="bg-surface-container-highest/10 rounded-xl p-2.5 border border-outline-variant/10 text-xs flex flex-col gap-1">
+<div class="flex items-center justify-between text-inverse-on-surface/90">
+<span class="font-medium truncate">عميل تجريبي / علامة تجارية</span>
+<span class="material-symbols-outlined text-sm text-outline-variant" data-icon="check_circle">check_circle</span>
+</div>
+<span class="text-[11px] text-outline-variant truncate">مجموعة الفطيم القابضة</span>
+</div>
+<!-- Navigation Tabs (8 items as in JSON) -->
+<nav class="flex flex-col gap-1 mt-1">
+<!-- Tab 0: نظرة عامة -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm font-body" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="dashboard">dashboard</span>
+<span>نظرة عامة</span>
+</a>
+<!-- Tab 1: العملاء والحسابات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm font-body" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="supervised_user_circle">supervised_user_circle</span>
+<span>العملاء والحسابات</span>
+</a>
+<!-- Tab 2: استوديو المحتوى -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm font-body" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="auto_fix_high">auto_fix_high</span>
+<span>استوديو المحتوى</span>
+</a>
+<!-- Tab 3: تقويم النشر -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm font-body" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="calendar_month">calendar_month</span>
+<span>تقويم النشر</span>
+</a>
+<!-- Tab 4: الحملات الإعلانية (ACTIVE MATCH FOR THIS SCREEN) -->
+<a class="bg-primary text-on-primary font-medium rounded-xl px-3 py-2.5 flex items-center gap-3 transition-colors text-sm shadow-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="campaign" data-weight="fill" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-semibold">الحملات الإعلانية</span>
+<span class="mr-auto w-2 h-2 rounded-full bg-secondary-fixed"></span>
+</a>
+<!-- Tab 5: الرسائل واللييدز -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm font-body" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="forum">forum</span>
+<span>الرسائل واللييدز</span>
+</a>
+<!-- Tab 6: التحليلات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm font-body" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="analytics">analytics</span>
+<span>التحليلات</span>
+</a>
+<!-- Tab 7: الإعدادات -->
+<a class="text-inverse-on-surface/80 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-sm font-body" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span>الإعدادات</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Footer -->
+<div class="flex flex-col gap-2 pt-3 border-t border-outline-variant/15">
+<a class="text-inverse-on-surface/75 hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-xl px-3 py-2 flex items-center gap-3 transition-colors text-xs font-body" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="manage_accounts">manage_accounts</span>
+<span>فريق العمل والحساب</span>
+</a>
+<!-- Compact Agency User Card -->
+<div class="flex items-center gap-2.5 px-2 py-1.5 rounded-lg bg-surface-container-highest/5">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-xs">
+          NM
+        </div>
+<div class="flex flex-col overflow-hidden leading-tight">
+<span class="text-xs font-semibold text-inverse-on-surface truncate">م. ناصر المنصوري</span>
+<span class="text-[10px] text-outline-variant truncate">مدير العمليات الإعلانية</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- ==================== MAIN CONTENT WRAPPER ==================== -->
+<div class="mr-64 flex-1 flex flex-col min-w-0">
+<!-- ==================== SHARED COMPONENT: TopNavBar ==================== -->
+<header class="fixed top-0 left-0 right-64 h-16 z-30 bg-surface-container-lowest border-b border-outline-variant/30 flex items-center justify-between px-6 shadow-none">
+<!-- Right/Leading in RTL: Client Selector & Scope Badge -->
+<div class="flex items-center gap-4">
+<!-- Client Indicator Hierarchical Badge -->
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-xl border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="domain">domain</span>
+<div class="flex items-center gap-1.5 text-xs font-medium">
+<span class="text-on-surface-variant">مجموعة الفطيم القابضة</span>
+<span class="text-outline-variant text-[10px] font-sans">/</span>
+<span class="text-primary font-bold">أوربان لايف دبي</span>
+</div>
+<span class="material-symbols-outlined text-outline text-base cursor-pointer" data-icon="unfold_more">unfold_more</span>
+</div>
+<!-- Simulation Banner Pill -->
+<div class="hidden xl:flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-medium border border-secondary-container">
+<span class="material-symbols-outlined text-sm" data-icon="info">info</span>
+<span>بيانات توضيحية - محاكاة إدارة الميزانيات الإعلانية بدون خصم فعلي</span>
+</div>
+</div>
+<!-- Left/Trailing in RTL: Actions, Filters, Profile -->
+<div class="flex items-center gap-3">
+<!-- Date Range Filter Selector -->
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium text-on-surface-variant bg-surface-container hover:bg-surface-container-high transition-colors border border-outline-variant/20">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span>نطاق التاريخ: آخر 30 يوماً</span>
+<span class="material-symbols-outlined text-xs" data-icon="expand_more">expand_more</span>
+</button>
+<!-- Icon Actions from JSON -->
+<div class="flex items-center gap-1 text-on-surface-variant">
+<button class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-surface-container-low transition-colors relative" title="التنبيهات">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="absolute top-2 left-2 w-2 h-2 rounded-full bg-error"></span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-surface-container-low transition-colors" title="التخصيص والفلترة المتقدمة">
+<span class="material-symbols-outlined text-xl" data-icon="tune">tune</span>
+</button>
+</div>
+<!-- Primary CTA: Create New Campaign -->
+<button class="flex items-center gap-2 bg-primary hover:bg-primary-container text-on-primary px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm active:scale-[0.98]">
+<span class="material-symbols-outlined text-base" data-icon="add_circle">add_circle</span>
+<span>إنشاء حملة إعلانية جديدة</span>
+</button>
+<!-- Profile Avatar -->
+<div class="w-9 h-9 rounded-full bg-surface-container-highest border border-outline-variant/40 flex items-center justify-center overflow-hidden cursor-pointer" title="صورة الملف الشخصي للمدير التنفيذي">
+<span class="material-symbols-outlined text-outline" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- ==================== MAIN WORKSPACE BODY ==================== -->
+<main class="mt-16 p-6 space-y-6 max-w-[1440px] w-full mx-auto">
+<!-- Breadcrumb & Workspace Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+<div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant font-medium mb-1">
+<span>لوحة التحكم</span>
+<span class="text-outline-variant">/</span>
+<span>إدارة الإعلانات المتقدمة</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-semibold">مساحة الميزانيات والعمليات</span>
+</div>
+<h1 class="text-2xl font-extrabold text-on-surface tracking-tight">مساحة إدارة الحملات الإعلانية والميزانيات</h1>
+</div>
+<div class="flex items-center gap-2 text-xs">
+<span class="px-2.5 py-1 bg-surface-container-lowest border border-outline-variant/30 rounded-lg text-on-surface-variant font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+            3 قنوات إعلانية متصلة
+          </span>
+<button class="px-3 py-1 bg-surface-container-lowest border border-outline-variant/30 rounded-lg text-on-surface hover:bg-surface-container-low transition-colors font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="sync">sync</span>
+            مزامنة البيانات
+          </button>
+</div>
+</div>
+<!-- ==================== SECTION 1: TOP PERFORMANCE STRIP (4 KEY METRICS) ==================== -->
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+<!-- Metric 1: Total Spend vs Approved Budget -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/30 shadow-none hover:shadow-sm transition-shadow">
+<div class="flex items-start justify-between">
+<div class="text-xs font-semibold text-on-surface-variant">إجمالي الصرف الفعلي</div>
+<div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+</div>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-2xl font-black text-on-surface font-headline">54,210</span>
+<span class="text-xs text-on-surface-variant font-medium">د.إ</span>
+</div>
+<div class="mt-3">
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant mb-1">
+<span>من أصل 80,000 د.إ ميزانية معتمدة</span>
+<span class="font-bold text-primary">67.7%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 67.7%"></div>
+</div>
+</div>
+</div>
+<!-- Metric 2: Cost Per Lead (CPL) -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/30 shadow-none hover:shadow-sm transition-shadow">
+<div class="flex items-start justify-between">
+<div class="text-xs font-semibold text-on-surface-variant">تكلفة الليد (CPL)</div>
+<div class="w-8 h-8 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="person_search">person_search</span>
+</div>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-2xl font-black text-on-surface font-headline">43.5</span>
+<span class="text-xs text-on-surface-variant font-medium">د.إ</span>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-xs">
+<span class="flex items-center text-primary font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="trending_down">trending_down</span>
+              -12.4%
+            </span>
+<span class="text-outline text-[11px]">مقارنة بالشهر السابق (مستهدف: 50 د.إ)</span>
+</div>
+</div>
+<!-- Metric 3: Cost Per Qualified Lead (CPQL) -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/30 shadow-none hover:shadow-sm transition-shadow">
+<div class="flex items-start justify-between">
+<div class="text-xs font-semibold text-on-surface-variant">تكلفة الليد المؤهل (CPQL)</div>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="verified_user">verified_user</span>
+</div>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-2xl font-black text-on-surface font-headline">129.8</span>
+<span class="text-xs text-on-surface-variant font-medium">د.إ</span>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-xs">
+<span class="flex items-center text-primary font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="trending_down">trending_down</span>
+              -8.2%
+            </span>
+<span class="text-outline text-[11px]">كفاءة تصفية متزايدة من استوديو المحتوى</span>
+</div>
+</div>
+<!-- Metric 4: Qualified Leads Count -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/30 shadow-none hover:shadow-sm transition-shadow">
+<div class="flex items-start justify-between">
+<div class="text-xs font-semibold text-on-surface-variant">عدد الليدز المؤهلة للبيع</div>
+<div class="w-8 h-8 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="contact_phone">contact_phone</span>
+</div>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-2xl font-black text-primary font-headline">418</span>
+<span class="text-xs text-on-surface-variant font-medium">ليد مؤهل</span>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-xs">
+<span class="flex items-center text-primary font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+              +28 ليد جديد
+            </span>
+<span class="text-outline text-[11px]">تم تحويل 84 ليد لصفقات مبيعات</span>
+</div>
+</div>
+</section>
+<!-- ==================== SECTION 2: CAMPAIGNS DATA TABLE ==================== -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden shadow-none">
+<!-- Table Header Bar -->
+<div class="p-4 border-b border-outline-variant/20 flex flex-col md:flex-row md:items-center justify-between gap-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="table_chart">table_chart</span>
+<h2 class="text-base font-bold text-on-surface">جدول الحملات النشطة والمجدولة</h2>
+<span class="text-xs px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium">3 حملات مراقبة</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="relative">
+<input class="text-xs bg-surface-container-low border border-outline-variant/30 rounded-xl pr-8 pl-3 py-1.5 w-48 focus:outline-none focus:border-primary text-on-surface" placeholder="بحث عن حملة..." type="text"/>
+<span class="material-symbols-outlined text-sm absolute right-2.5 top-2 text-outline" data-icon="search">search</span>
+</div>
+<button class="text-xs font-semibold px-3 py-1.5 border border-outline-variant/30 rounded-xl hover:bg-surface-container-low text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+              تصفية
+            </button>
+<button class="text-xs font-semibold px-3 py-1.5 border border-outline-variant/30 rounded-xl hover:bg-surface-container-low text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+              تصدير
+            </button>
+</div>
+</div>
+<!-- Table Responsive Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-right border-collapse text-xs">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant border-b border-outline-variant/20">
+<th class="py-3 px-4 font-bold">اسم الحملة</th>
+<th class="py-3 px-4 font-bold">المنصة والحساب الإعلاني</th>
+<th class="py-3 px-4 font-bold">الهدف التسويقي</th>
+<th class="py-3 px-4 font-bold">الميزانية اليومية / الإجمالية (AED)</th>
+<th class="py-3 px-4 font-bold">تواريخ البدء والانتهاء</th>
+<th class="py-3 px-4 font-bold">نقطة تفتيش الاعتماد</th>
+<th class="py-3 px-4 font-bold">حالة الحملة</th>
+<th class="py-3 px-4 font-bold text-center">الإجراءات</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/15 text-on-surface">
+<!-- ROW 1 (ACTIVE / SELECTED) -->
+<tr class="bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer border-r-4 border-r-primary">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<div>
+<div class="font-bold text-on-surface text-sm">حملة صيف دبي 2025 - أوربان لايف</div>
+<div class="text-[10px] text-outline font-sans">ID: #NEM-DUBAI-8821</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-[11px]">
+                      M
+                    </div>
+<div>
+<div class="font-semibold text-xs">Meta Ads</div>
+<div class="text-[10px] text-on-surface-variant">Instagram &amp; FB</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-primary font-medium text-[11px] inline-block">
+                    توليد عملاء محتملين (Leads)
+                  </span>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-bold text-xs">1,200 د.إ <span class="text-[10px] font-normal text-outline">/ يومياً</span></div>
+<div class="text-[11px] text-on-surface-variant">إجمالي: 36,000 د.إ</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-medium text-xs">1 - 30 يونيو 2025</div>
+<div class="text-[10px] text-outline">متبقي 18 يوماً</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-surface-container-high text-primary font-semibold text-[11px]">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="verified">verified</span>
+                    معتمد من العميل ✓
+                  </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-bold text-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    نشطة
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-center">
+<button class="w-7 h-7 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors inline-flex items-center justify-center" title="تعديل الحملة">
+<span class="material-symbols-outlined text-base" data-icon="edit_note">edit_note</span>
+</button>
+</td>
+</tr>
+<!-- ROW 2 (PENDING BUDGET) -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<div>
+<div class="font-bold text-on-surface text-sm">إطلاق خط العطور الحصري</div>
+<div class="text-[10px] text-outline font-sans">ID: #NEM-PERF-4019</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md bg-inverse-surface text-inverse-on-surface flex items-center justify-center font-bold text-[11px]">
+                      TT
+                    </div>
+<div>
+<div class="font-semibold text-xs">TikTok Ads Manager</div>
+<div class="text-[10px] text-on-surface-variant">UrbanLife Perfumes UAE</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-secondary font-medium text-[11px] inline-block">
+                    تفاعل وزيارات فيديو
+                  </span>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-bold text-xs">800 د.إ <span class="text-[10px] font-normal text-outline">/ يومياً</span></div>
+<div class="text-[11px] text-outline">مخطط: 16,000 د.إ</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-medium text-xs">15 - 30 يوليو 2025</div>
+<div class="text-[10px] text-outline">مجدولة</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-error-container text-on-error-container font-semibold text-[11px]">
+<span class="material-symbols-outlined text-xs" data-icon="warning">warning</span>
+                    بانتظار تدقيق الميزانية ⚠️
+                  </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-bold text-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                    معلقة
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-center">
+<button class="w-7 h-7 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors inline-flex items-center justify-center" title="تعديل الحملة">
+<span class="material-symbols-outlined text-base" data-icon="edit_note">edit_note</span>
+</button>
+</td>
+</tr>
+<!-- ROW 3 (GOOGLE RETARGETING) -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<div>
+<div class="font-bold text-on-surface text-sm">إعادة استهداف زوار الموقع (Retargeting)</div>
+<div class="text-[10px] text-outline font-sans">ID: #NEM-GGL-1102</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-[11px]">
+                      G
+                    </div>
+<div>
+<div class="font-semibold text-xs">Google Ads</div>
+<div class="text-[10px] text-on-surface-variant">Search &amp; Performance Max</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-primary font-medium text-[11px] inline-block">
+                    تحويلات ومبيعات
+                  </span>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-bold text-xs">500 د.إ <span class="text-[10px] font-normal text-outline">/ يومياً</span></div>
+<div class="text-[11px] text-on-surface-variant">مستمر شهرياً</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-medium text-xs">حملة دائمة مستمرة</div>
+<div class="text-[10px] text-outline">تجديد آلي للموازنة</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-surface-container-high text-primary font-semibold text-[11px]">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="verified">verified</span>
+                    معتمد ✓
+                  </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-bold text-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    نشطة
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-center">
+<button class="w-7 h-7 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors inline-flex items-center justify-center" title="تعديل الحملة">
+<span class="material-symbols-outlined text-base" data-icon="edit_note">edit_note</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ==================== SECTION 3: SELECTED CAMPAIGN INSPECTOR & INTERACTIVE EDITOR ==================== -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-6 space-y-6">
+<!-- Inspector Title Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-outline-variant/20 gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-xl" data-icon="tune">tune</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-lg font-bold text-on-surface">تفاصيل ومحرر الحملة المحددة: حملة صيف دبي 2025</h3>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-primary/10 text-primary">نشطة الآن</span>
+</div>
+<p class="text-xs text-on-surface-variant">تعديل شرائح الاستهداف، المتغيرات الإعلانية، موازنة الصرف وتتبع روابط UTM</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-xs font-semibold px-3 py-2 bg-surface-container hover:bg-surface-container-high rounded-xl text-on-surface transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+              معاينة الإعلان المباشر
+            </button>
+<button class="text-xs font-bold px-4 py-2 bg-primary text-on-primary hover:bg-primary-container rounded-xl transition-colors shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="save">save</span>
+              حفظ التعديلات التوضيحية
+            </button>
+</div>
+</div>
+<!-- 2-Column Split: Audience & Creatives Matrix (Left) + Budget & Checkpoint (Right) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column (7 cols): Target Audience & Creatives Matrix -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Target Audience Card -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="group">group</span>
+<h4 class="text-xs font-bold text-on-surface">الجمهور المستهدف (Target Audience)</h4>
+</div>
+<span class="text-[11px] text-outline">تقدير الحجم: 1.4M - 1.8M شخص</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+<div class="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/20">
+<span class="text-on-surface-variant text-[11px] block mb-1">الموقع الجغرافي:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-medium">الإمارات (دبي)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-medium">الإمارات (أبوظبي)</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/20">
+<span class="text-on-surface-variant text-[11px] block mb-1">الفئة العمرية والجنس:</span>
+<div class="font-bold text-on-surface">22 - 48 سنة (رجال ونساء)</div>
+<div class="text-[10px] text-outline">اللغات: العربية والإنجليزية</div>
+</div>
+<div class="md:col-span-2 bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/20">
+<span class="text-on-surface-variant text-[11px] block mb-1">الاهتمامات والسلوكيات الشرائية:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed text-[11px] font-medium">أزياء فاخرة (Luxury Fashion)</span>
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed text-[11px] font-medium">تسوق مراكز تجارية</span>
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed text-[11px] font-medium">مشتريات عبر الإنترنت</span>
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed text-[11px] font-medium">دبي مول ومول الإمارات</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Creative Variants Matrix -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="view_carousel">view_carousel</span>
+<h4 class="text-xs font-bold text-on-surface">مصفوفة المتغيرات الإعلانية (A/B Testing Creatives)</h4>
+</div>
+<span class="text-[11px] px-2 py-0.5 rounded bg-primary/10 text-primary font-bold">الاختبار مكتمل</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Variant A (Winner) -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl border-2 border-primary relative flex flex-col justify-between">
+<div class="absolute -top-2.5 left-3 bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-xs" data-icon="emoji_events">emoji_events</span>
+                    النسخة الفائزة (+50% تحويل)
+                  </div>
+<div>
+<div class="flex items-center justify-between text-xs font-bold text-on-surface mb-1">
+<span>النسخة A: فيديو ريلز ديناميكي</span>
+<span class="font-sans text-primary">Reels 9:16</span>
+</div>
+<p class="text-[11px] text-on-surface-variant line-clamp-2 mb-2">استعراض أزياء صيفية سريعة مع مؤثرات صوتية تفاعلية ودعوة واضحة لاتخاذ إجراء.</p>
+</div>
+<div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between text-xs">
+<div>
+<span class="text-outline text-[10px] block">معدل التحويل (CVR)</span>
+<span class="text-base font-extrabold text-primary font-headline">4.2%</span>
+</div>
+<div class="text-left">
+<span class="text-outline text-[10px] block">تكلفة الليد</span>
+<span class="text-xs font-bold text-on-surface">36.2 د.إ</span>
+</div>
+</div>
+</div>
+<!-- Variant B -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant/30 flex flex-col justify-between opacity-85">
+<div>
+<div class="flex items-center justify-between text-xs font-bold text-on-surface mb-1">
+<span>النسخة B: صورة متتابعة كاورسيل</span>
+<span class="font-sans text-outline">Carousel 1:1</span>
+</div>
+<p class="text-[11px] text-on-surface-variant line-clamp-2 mb-2">كتالوج من 5 شرائح لعروض الصيف مع أسعار المنتجات المباشرة.</p>
+</div>
+<div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between text-xs">
+<div>
+<span class="text-outline text-[10px] block">معدل التحويل (CVR)</span>
+<span class="text-base font-bold text-on-surface-variant font-headline">2.8%</span>
+</div>
+<div class="text-left">
+<span class="text-outline text-[10px] block">تكلفة الليد</span>
+<span class="text-xs font-bold text-on-surface">54.0 د.إ</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Landing Page & UTM Tracking Generator -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="link">link</span>
+<h4 class="text-xs font-bold text-on-surface">صفحة الهبوط ومولد معلمات التتبع (UTM Tracking)</h4>
+</div>
+<button class="text-[11px] text-primary font-semibold hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="content_copy">content_copy</span>
+                  نسخ الرابط المكتمل
+                </button>
+</div>
+<!-- Full URL Field -->
+<div class="bg-surface-container-lowest p-2.5 rounded-lg border border-outline-variant/30 flex items-center justify-between font-mono text-[11px] text-on-surface-variant overflow-x-auto">
+<span class="text-primary select-all">https://urbanlife.ae/summer2025?utm_source=nemdar_meta&amp;utm_campaign=summer25</span>
+<span class="material-symbols-outlined text-xs text-outline cursor-pointer ml-2" data-icon="open_in_new">open_in_new</span>
+</div>
+<!-- UTM Pills Generator -->
+<div class="grid grid-cols-3 gap-2 text-[11px]">
+<div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+<span class="text-outline block text-[10px]">utm_source:</span>
+<span class="font-bold text-on-surface">nemdar_meta</span>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+<span class="text-outline block text-[10px]">utm_medium:</span>
+<span class="font-bold text-on-surface">paid_social_reels</span>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+<span class="text-outline block text-[10px]">utm_campaign:</span>
+<span class="font-bold text-on-surface">summer25</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (5 cols): Interactive Budget Slider & Approval Checkpoint -->
+<div class="lg:col-span-5 space-y-6 flex flex-col justify-between">
+<!-- Interactive Budget Slider & Input -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="tune">tune</span>
+<h4 class="text-xs font-bold text-on-surface">المحرر التفاعلي للميزانية اليومية</h4>
+</div>
+<span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">تحكم فوري</span>
+</div>
+<!-- Currency Numerical Input -->
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant mb-1.5">الميزانية اليومية المقترحة (درهم إماراتي):</label>
+<div class="relative">
+<input class="w-full text-lg font-bold font-headline bg-surface-container-lowest border border-outline-variant/30 rounded-xl px-4 py-2.5 text-on-surface focus:outline-none focus:border-primary" id="budgetInput" max="5000" min="200" step="50" type="number" value="1200"/>
+<span class="absolute left-4 top-3 text-xs font-bold text-outline">AED / يوم</span>
+</div>
+</div>
+<!-- Interactive Range Slider -->
+<div>
+<div class="flex justify-between text-[11px] text-outline mb-1 font-sans">
+<span>200 د.إ</span>
+<span class="font-bold text-primary">1,200 د.إ (الحالي)</span>
+<span>5,000 د.إ</span>
+</div>
+<input class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" id="budgetSlider" max="5000" min="200" step="50" type="range" value="1200"/>
+</div>
+<!-- Budget Forecast Dynamic Card -->
+<div class="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/20 space-y-2 text-xs">
+<div class="flex justify-between items-center text-[11px]">
+<span class="text-on-surface-variant">الإنفاق الشهري المتوقع:</span>
+<span class="font-bold text-on-surface font-headline" id="monthlyForecast">36,000 د.إ</span>
+</div>
+<div class="flex justify-between items-center text-[11px]">
+<span class="text-on-surface-variant">تقدير الليدز المحتملة (شهرياً):</span>
+<span class="font-bold text-primary font-headline" id="leadsForecast">820 - 950 ليد</span>
+</div>
+</div>
+<!-- Disclaimer Notification as requested -->
+<div class="bg-secondary-fixed/40 border border-secondary-container p-3 rounded-xl flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-base mt-0.5" data-icon="info">info</span>
+<p class="text-[11px] text-on-secondary-fixed leading-relaxed">
+<strong>تنبيه توضيحي:</strong> تعديل تصميمي توضيحي - لا يتم إجراء أي سحب مالي فعلي أو تغيير بحساب البطاقة الائتمانية دون اعتماد دورة الفوترة الرسمية.
+                </p>
+</div>
+</div>
+<!-- Launch Approval Checkpoint (Sign-off checklist) -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="fact_check">fact_check</span>
+<h4 class="text-xs font-bold text-on-surface">نقطة تفتيش الاعتماد والأمان (Launch Approval)</h4>
+</div>
+<span class="material-symbols-outlined text-primary text-base" data-icon="shield">shield</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">
+                فحص معايير الجودة وموافقة العميل الإلزامية قبل بث الحملة على الشبكات الإعلانية:
+              </p>
+<!-- Checklist Items -->
+<div class="space-y-2 text-xs">
+<!-- Item 1 -->
+<label class="flex items-center gap-2.5 p-2 bg-surface-container-lowest rounded-lg border border-outline-variant/20 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-0 border-outline-variant" type="checkbox"/>
+<span class="text-[11px] font-medium text-on-surface">موافقة العميل المكتوبة على الميزانية والمحتوى الإبداعي</span>
+<span class="mr-auto text-[10px] text-primary font-bold">معتمد ✓</span>
+</label>
+<!-- Item 2 -->
+<label class="flex items-center gap-2.5 p-2 bg-surface-container-lowest rounded-lg border border-outline-variant/20 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-0 border-outline-variant" type="checkbox"/>
+<span class="text-[11px] font-medium text-on-surface">صلاحيات البيكسل وربط CAPI مع خوادم المتجر</span>
+<span class="mr-auto text-[10px] text-primary font-bold">نشط 100%</span>
+</label>
+<!-- Item 3 -->
+<label class="flex items-center gap-2.5 p-2 bg-surface-container-lowest rounded-lg border border-outline-variant/20 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-0 border-outline-variant" type="checkbox"/>
+<span class="text-[11px] font-medium text-on-surface">مطابقة السياسات الإعلانية وتوافق معايير Meta التجارية</span>
+<span class="mr-auto text-[10px] text-primary font-bold">متوافق</span>
+</label>
+</div>
+<!-- Sign-off Metadata Button -->
+<div class="pt-2">
+<button class="w-full py-2.5 bg-surface-container-high hover:bg-surface-variant text-on-surface rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base text-primary" data-icon="assignment_turned_in">assignment_turned_in</span>
+                  تصدير تقرير الاعتماد النهائي للعميل (PDF)
+                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Workspace Footer Info Strip -->
+<footer class="text-center py-4 text-xs text-outline flex items-center justify-center gap-3">
+<span>نِمدار سوشيال NEMDAR © 2025</span>
+<span>•</span>
+<span>بيئة عمل إدارة الحملات الإعلانية والميزانيات</span>
+<span>•</span>
+<span class="text-primary font-medium">جلسة آمنة - مشفرة بنظام SOC-2</span>
+</footer>
+</main>
+</div>
+<!-- Inline Interaction Script for Budget Slider and Inputs -->
+<script>
+    const budgetInput = document.getElementById('budgetInput');
+    const budgetSlider = document.getElementById('budgetSlider');
+    const monthlyForecast = document.getElementById('monthlyForecast');
+    const leadsForecast = document.getElementById('leadsForecast');
+
+    function updateCalculations(val) {
+      const numVal = parseInt(val, 10) || 0;
+      const monthly = numVal * 30;
+      monthlyForecast.innerText = monthly.toLocaleString('ar-EG') + ' د.إ';
+
+      // Estimate leads based on approximate 40 AED per lead
+      const minLeads = Math.round(monthly / 45);
+      const maxLeads = Math.round(monthly / 38);
+      leadsForecast.innerText = minLeads.toLocaleString('ar-EG') + ' - ' + maxLeads.toLocaleString('ar-EG') + ' ليد';
+    }
+
+    if(budgetSlider && budgetInput) {
+      budgetSlider.addEventListener('input', (e) => {
+        budgetInput.value = e.target.value;
+        updateCalculations(e.target.value);
+      });
+
+      budgetInput.addEventListener('input', (e) => {
+        budgetSlider.value = e.target.value;
+        updateCalculations(e.target.value);
+      });
+    }
+  </script>
+</body></html>
