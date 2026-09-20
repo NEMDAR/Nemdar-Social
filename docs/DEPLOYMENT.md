@@ -1,0 +1,47 @@
+# نشر نسخة UAT مستقلة
+
+المستودع: NEMDAR/Nemdar-Social. لا تستخدم تطبيق Factory أو OrgOS القائم ولا قاعدة بياناتهما.
+
+## محلياً
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+python -m server.manage init --email YOUR_EMAIL
+npm start
+```
+
+افتح http://localhost:8080 بنفس اسم المضيف، وليس 127.0.0.1، لأن APP_ORIGIN يجب أن يطابق Origin تماماً. كلمة المرور تدخل تفاعلياً ولا تظهر في السجل. لا توجد بيانات دخول افتراضية أو تسجيل عام.
+
+## Docker / Coolify
+
+1. تطبيق Dockerfile مستقل من الفرع main، منفذ داخلي 8080.
+2. قرص دائم عند `/app/data`، بملكية uid 10001.
+3. اضبط `APP_ORIGIN` على أصل HTTPS النهائي بدون شرطة أخيرة.
+4. اضبط `DATABASE_PATH=/app/data/workspace.db`.
+5. خزنة الأسرار اختيارية: اضبط `VAULT_KEY` إلى مفتاح عشوائي 32 بايت ممثّل في 64 حرف hex. أدخله في إعدادات الأسرار في Coolify. لا تحفظه في الريبو أو سجل محادثة. لا تغيّره بعد حفظ الأسرار دون ترحيل التشفير؛ تدوير المفتاح غير منفذ بعد.
+6. بعد تشغيل الحاوية، من Terminal التفاعلي: `python -m server.manage init --email YOUR_EMAIL` لإنشاء المدير مرة واحدة.
+7. مرر الزيارات عبر HTTPS reverse proxy. لا تعرّض منفذ Waitress مباشرة للإنترنت.
+8. فحص الحياة: `/api/health`. باقي بيانات API تحتاج جلسة دخول.
+
+باستخدام Compose محلياً:
+
+```sh
+docker compose up -d --build
+docker compose exec social python -m server.manage init --email YOUR_EMAIL
+```
+
+خادم التطوير WSGI في `npm start` للاستخدام المحلي فقط. صورة Docker تستخدم Waitress. SQLite مخصص لنسخة وكالة واحدة وحاوية كاتبة واحدة؛ لا تستخدم عدة replicas على نفس الملف.
+
+## النسخ الاحتياطي والاستعادة
+
+```sh
+python -m server.manage backup --output /secure-backups/social-2026-09-20.db
+```
+
+يتضمن النسخ ملفات الوسائط والأسرار المشفرة والجلسات. احفظ النسخ خارج مسار الويب، واحتفظ بمفتاح الخزنة منفصلاً. للاستعادة: أوقف الحاوية، استبدل قاعدة البيانات من النسخة المتسقة مع حذف ملفات WAL/SHM القديمة بعد الإيقاف، أعد الملكية uid 10001، ثم شغّل واختبر. ألغِ الجلسات المستعادة قبل فتح الخدمة للمستخدمين. تم اختبار إعادة فتح قاعدة البيانات؛ سيناريو الاستعادة على VPS لم يُنفذ.
+
+## حالة النشر في هذه الجولة
+
+تم إعداد Dockerfile وCompose واختبار الخادم محلياً. لم يُنشأ تطبيق Coolify ولم يُغيَّر أي تطبيق قائم. محاولة قراءة المشاريع عبر `NEMDAR | Coolify Canonical Control Plane` لم تبدأ تنفيذًا: موصل n8n رفض نوع trigger الحالي. يلزم إصلاح نقطة الاستدعاء أو استخدام واجهة Coolify المعتمدة. لم يتم إنشاء مسار بديل لتجاوز هذا القيد.

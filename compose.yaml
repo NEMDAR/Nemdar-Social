@@ -1,0 +1,18 @@
+services:
+  social:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      APP_ORIGIN: ${APP_ORIGIN:-http://localhost:8080}
+      VAULT_KEY: ${VAULT_KEY:-}
+      DATABASE_PATH: /app/data/workspace.db
+    volumes:
+      - social-data:/app/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+volumes:
+  social-data:

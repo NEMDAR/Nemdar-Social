@@ -2,3 +2,9 @@ node_modules/
 .env*
 !.env.example
 *.zip
+data/
+__pycache__/
+*.pyc
+.venv/
+*.db
+*.sqlite
