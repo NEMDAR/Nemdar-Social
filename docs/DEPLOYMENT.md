@@ -75,3 +75,5 @@ python -m server.manage backup --output /secure-backups/social-2026-09-20.db
 نُشر commit `040c13d8b7c32bc91e4877aee7822e5bd1724870` أولياً عبر deployment `tqtykekdtwvgdbe3xd7ykqze`. انتهى النشر بحالة `finished` والتطبيق `running:healthy`، وأعاد `/api/health` النسخة `0.5.0`. بقي `/api/state` محمياً وأعاد 401 بدون جلسة. لم يُدخل أي Page Access Token ولم يُجر نشر حي على Facebook أثناء التحقق.
 
 التصحيح النهائي لعلامة Schema نُشر من commit `64d3f0d9da94a67870d3adb856dccf896e1a2de1` عبر deployment `tdczgi1myhmhd4hu9hn0dzth`، وانتهى كذلك بحالة `finished` والتطبيق `running:healthy`. تحقق HTTP من ظهور واجهة ربط Facebook، وبقاء صفحة الدخول متاحة، وبقاء بيانات الحالة محمية بدون جلسة.
+
+نُشر Tutorial الربط من commit `409813aac1d406847c0c6f19ce052ac46f7d6ba1` عبر deployment `tqqbunedmujm1jksoe4fbtua`. انتهى النشر بحالة `finished` واستقرت الخدمة على `running:healthy`. أعاد ملف Tutorial العام 200 واحتوى العنوان والصلاحيات المتوقعة، وظل `/api/state` يعيد 401 بدون جلسة.
