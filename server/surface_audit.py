@@ -21,7 +21,7 @@ class PageParser(HTMLParser):
   attrs={str(k).lower():str(v or '') for k,v in attrs};tag=tag.lower()
   if tag=='title':self._title=True
   if tag=='meta':
-   key=(attrs.get('name') or attrs.get('property')).lower();value=attrs.get('content','').strip()
+   key=(attrs.get('name') or attrs.get('property') or '').lower();value=attrs.get('content','').strip()
    if key=='description' and not self.description:self.description=value[:500]
    if key=='og:title' and not self.og_title:self.og_title=value[:300]
    if key=='og:description' and not self.og_description:self.og_description=value[:500]
