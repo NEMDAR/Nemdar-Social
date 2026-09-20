@@ -2,7 +2,7 @@ import json,os,tempfile,time,unittest
 from unittest.mock import patch
 from pathlib import Path
 from server.core import Store,Problem
-from server.facebook import connect,disconnect,metadata,FacebookPages,send_target
+from server.facebook import connect,disconnect,metadata,FacebookPages,send_target,graph_photo
 from server.dispatch import Dispatcher,NotSent,Uncertain
 from server.vault_key import initialize
 
@@ -42,9 +42,34 @@ class FacebookTests(unittest.TestCase):
   self.link();self.job();adapter=FacebookPages(self.store,lambda *args:{})
   worker=Dispatcher(self.store,{'Facebook':adapter});worker.run_one(job_id='j');self.assertFalse(worker.run_one(job_id='j'))
   with self.store.db() as db:self.assertEqual(db.execute('SELECT state FROM dispatch_jobs').fetchone()[0],'unknown')
- def test_attachments_never_silently_dropped(self):
-  self.link();adapter=FacebookPages(self.store,lambda *args:self.fail('Network must not be called'))
-  with self.assertRaises(NotSent):adapter.publish({**self.post,'mediaIds':['image']},self.account,'j')
+ def test_single_image_is_uploaded_as_photo(self):
+  self.link();image_id='image'
+  with self.store.db() as db:
+   self.store.put(db,'media',{'id':image_id,'clientId':'c','name':'cover.jpg','mime':'image/jpeg'})
+   db.execute('INSERT INTO blobs VALUES(?,?,?)',(image_id,b'\xff\xd8\xffdata','image/jpeg'))
+  calls=[]
+  adapter=FacebookPages(self.store,lambda *args:self.fail('Feed transport must not be called'),lambda *args:(calls.append(args) or {'post_id':'123_789'}))
+  self.assertEqual(adapter.publish({**self.post,'mediaIds':[image_id]},self.account,'j'),'123_789')
+  self.assertEqual(calls[0][0],'123/photos');self.assertEqual(calls[0][3],{'message':'Hello'});self.assertEqual(calls[0][-2],'image/jpeg')
+ def test_unsupported_or_multiple_attachments_never_silently_drop(self):
+  self.link();adapter=FacebookPages(self.store,lambda *args:self.fail('Network must not be called'),lambda *args:self.fail('Upload must not be called'))
+  with self.assertRaises(NotSent):adapter.publish({**self.post,'mediaIds':['one','two']},self.account,'j')
+  with self.store.db() as db:
+   self.store.put(db,'media',{'id':'video','clientId':'c','name':'clip.mp4','mime':'video/mp4'});db.execute('INSERT INTO blobs VALUES(?,?,?)',('video',b'data','video/mp4'))
+  with self.assertRaises(NotSent):adapter.publish({**self.post,'mediaIds':['video']},self.account,'j')
+ def test_photo_transport_uses_multipart_and_bearer_header(self):
+  captured={}
+  class Response:
+   def __enter__(self):return self
+   def __exit__(self,*_):pass
+   def read(self,_):return b'{"post_id":"123_456"}'
+  class Opener:
+   def open(self,request,timeout):captured.update(request=request,timeout=timeout);return Response()
+  with patch('server.facebook.build_opener',return_value=Opener()):
+   result=graph_photo('123/photos','private-token','v25.0',{'message':'Caption'},'photo.jpg','image/jpeg',b'\xff\xd8\xffdata')
+  request=captured['request'];self.assertEqual(result['post_id'],'123_456');self.assertEqual(captured['timeout'],30)
+  self.assertEqual(request.get_header('Authorization'),'Bearer private-token');self.assertIn('multipart/form-data',request.get_header('Content-type'))
+  self.assertIn(b'Caption',request.data);self.assertIn(b'photo.jpg',request.data);self.assertNotIn(b'private-token',request.data)
  def test_exact_target_and_send_permissions(self):
   self.link();self.job();worker=Dispatcher(self.store,{'Facebook':FacebookPages(self.store,lambda *args:{'id':'123_456'})})
   self.assertFalse(worker.run_one(job_id='unrelated'))

@@ -1,5 +1,5 @@
-"""Opt-in Facebook Page text publishing. No credentials or responses are logged."""
-import json,os,re,time
+"""Opt-in Facebook Page publishing. No credentials or responses are logged."""
+import json,os,re,time,secrets
 from urllib.request import Request,build_opener,HTTPRedirectHandler
 from urllib.error import HTTPError
 from urllib.parse import urlencode
@@ -21,6 +21,27 @@ def graph(method,path,token,version,params):
    result=json.loads(response.read(1024*1024))
  except HTTPError as error:
   # Only explicit provider validation/auth refusals are safe to retry.
+  try:code=json.loads(error.read(65536)).get('error',{}).get('code')
+  except Exception:code=None
+  if error.code in (400,401,403) and code in (10,100,190,200):raise NotSent() from None
+  raise Uncertain() from None
+ except Exception:raise Uncertain() from None
+ if not isinstance(result,dict) or 'error' in result:raise Uncertain()
+ return result
+
+def graph_photo(path,token,version,fields,filename,mime,data):
+ if not re.fullmatch(r'v[0-9]{1,2}\.0',version):raise Problem('إصدار Graph API غير صالح')
+ if mime not in ('image/jpeg','image/png') or not data:raise NotSent()
+ boundary='----nemdar-'+secrets.token_hex(16)
+ parts=[]
+ for name,value in fields.items():
+  parts.append((f'--{boundary}\r\nContent-Disposition: form-data; name="{name}"\r\n\r\n{value}\r\n').encode())
+ safe_name=re.sub(r'[^A-Za-z0-9._-]','_',filename)[:120] or 'image'
+ parts.extend([(f'--{boundary}\r\nContent-Disposition: form-data; name="source"; filename="{safe_name}"\r\nContent-Type: {mime}\r\n\r\n').encode(),data,f'\r\n--{boundary}--\r\n'.encode()])
+ request=Request('https://graph.facebook.com/'+version+'/'+path,data=b''.join(parts),method='POST',headers={'Authorization':'Bearer '+token,'Content-Type':'multipart/form-data; boundary='+boundary})
+ try:
+  with build_opener(NoRedirect()).open(request,timeout=30) as response:result=json.loads(response.read(1024*1024))
+ except HTTPError as error:
   try:code=json.loads(error.read(65536)).get('error',{}).get('code')
   except Exception:code=None
   if error.code in (400,401,403) and code in (10,100,190,200):raise NotSent() from None
@@ -81,7 +102,7 @@ def disconnect(store,user,account_id):
  return store.state(user)
 
 class FacebookPages:
- def __init__(self,store,transport=graph):self.store,self.transport=store,transport
+ def __init__(self,store,transport=graph,photo_transport=graph_photo):self.store,self.transport,self.photo_transport=store,transport,photo_transport
  def connection(self,account):
   with self.store.db() as db:row=db.execute('SELECT * FROM page_connections WHERE account_id=? AND client_id=?',(account['id'],account['clientId'])).fetchone()
   return dict(row) if row else None
@@ -91,15 +112,26 @@ class FacebookPages:
   except Problem:return False
   return bool(c and c['expires']>time.time())
  def publish(self,post,account,idempotency_key):
-  # Graph feed has no assumed idempotency support. Ambiguous outcomes never retry.
-  if post.get('mediaIds') or not post.get('body','').strip():raise NotSent()
+  # Graph publishing has no assumed idempotency support. Ambiguous outcomes never retry.
+  media_ids=post.get('mediaIds') or []
+  if len(media_ids)>1 or not post.get('body','').strip():raise NotSent()
   c=self.connection(account)
   if not c or c['expires']<=time.time():raise NotSent()
   try:token=AESGCM(key()).decrypt(c['cipher'][:12],c['cipher'][12:],('facebook:'+account['clientId']+':'+account['id']).encode()).decode()
   except Exception:raise NotSent() from None
-  result=self.transport('POST',c['page_id']+'/feed',token,c['version'],{'message':post['body']})
-  receipt=result.get('id')
-  if not isinstance(receipt,str) or not re.fullmatch(r'[0-9]+_[0-9]+',receipt):raise Uncertain()
+  if media_ids:
+   with self.store.db() as db:
+    media=self.store.entity(db,media_ids[0],'media')
+    if media['clientId']!=account['clientId'] or media['mime'] not in ('image/jpeg','image/png'):raise NotSent()
+    row=db.execute('SELECT data,mime FROM blobs WHERE id=?',(media['id'],)).fetchone()
+    if not row:raise NotSent()
+    data,mime=row['data'],row['mime']
+   result=self.photo_transport(c['page_id']+'/photos',token,c['version'],{'message':post['body']},media['name'],mime,data)
+   receipt=result.get('post_id') or result.get('id')
+  else:
+   result=self.transport('POST',c['page_id']+'/feed',token,c['version'],{'message':post['body']})
+   receipt=result.get('id')
+  if not isinstance(receipt,str) or not re.fullmatch(r'[0-9]+(?:_[0-9]+)?',receipt):raise Uncertain()
   return receipt
 
 def send_target(store,user,p):
@@ -111,7 +143,12 @@ def send_target(store,user,p):
   if not job:raise Problem('المهمة غير موجودة',404)
   store.require(user,job['client_id']);account=store.entity(db,job['account_id'],'accounts');post=store.entity(db,job['post_id'],'posts')
   if account['platform']!='Facebook':raise Problem('الإرسال متاح لصفحات فيسبوك فقط')
-  if post.get('mediaIds'):raise Problem('هذا الإصدار ينشر النص فقط؛ لن يتم إسقاط المرفقات')
+  media_ids=post.get('mediaIds') or []
+  if len(media_ids)>1:raise Problem('نشر Facebook الحالي يدعم صورة واحدة فقط لكل منشور')
+  if media_ids:
+   media=store.entity(db,media_ids[0],'media')
+   if media['clientId']!=job['client_id']:raise Problem('الملف يتبع عميلاً آخر',403)
+   if media['mime'] not in ('image/jpeg','image/png'):raise Problem('نشر Facebook الحالي يدعم صورة JPEG أو PNG واحدة؛ الفيديو وWebP غير مفعّلين')
   if job['due']>time.time():raise Problem('موعد النشر لم يحن بعد')
   if job['state'] not in ('queued','blocked'):raise Problem('المهمة ليست جاهزة؛ لا يُعاد إرسال الناجح أو غير المؤكد')
  adapter=FacebookPages(store)
