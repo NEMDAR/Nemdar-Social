@@ -1,4 +1,5 @@
 FROM python:3.12-slim
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 DATABASE_PATH=/app/data/workspace.db PORT=8080
 COPY requirements.txt .
@@ -12,3 +13,4 @@ USER app
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/api/health',timeout=3)"
 CMD ["python", "-m", "server.production"]
+
