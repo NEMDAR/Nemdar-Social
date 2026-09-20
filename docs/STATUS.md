@@ -39,6 +39,8 @@
 
 لم يُجر اختبار حي على صفحة Facebook، ولم يُرسل أي محتوى. الاختبارات الخارجية تستبدل Graph API بنقل محلي قابل للتحكم. نُشرت v0.5 أولياً عبر deployment `tqtykekdtwvgdbe3xd7ykqze` بحالة `finished` والتطبيق `running:healthy`؛ أعاد فحص HTTPS النسخة `0.5.0`، وظل `/api/state` يعيد 401 بدون جلسة.
 
+نُشر التصحيح النهائي عبر deployment `tdczgi1myhmhd4hu9hn0dzth` بحالة `finished` والتطبيق `running:healthy`. ظهر كود واجهة Facebook عبر HTTPS، وبقيت صفحة الدخول متاحة وحالة التطبيق محمية.
+
 ## المراجع التقنية المستخدمة
 
 - https://docs.python.org/3/library/hashlib.html

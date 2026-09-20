@@ -73,3 +73,5 @@ python -m server.manage backup --output /secure-backups/social-2026-09-20.db
 ## نشر v0.5 على UAT
 
 نُشر commit `040c13d8b7c32bc91e4877aee7822e5bd1724870` أولياً عبر deployment `tqtykekdtwvgdbe3xd7ykqze`. انتهى النشر بحالة `finished` والتطبيق `running:healthy`، وأعاد `/api/health` النسخة `0.5.0`. بقي `/api/state` محمياً وأعاد 401 بدون جلسة. لم يُدخل أي Page Access Token ولم يُجر نشر حي على Facebook أثناء التحقق.
+
+التصحيح النهائي لعلامة Schema نُشر من commit `64d3f0d9da94a67870d3adb856dccf896e1a2de1` عبر deployment `tdczgi1myhmhd4hu9hn0dzth`، وانتهى كذلك بحالة `finished` والتطبيق `running:healthy`. تحقق HTTP من ظهور واجهة ربط Facebook، وبقاء صفحة الدخول متاحة، وبقاء بيانات الحالة محمية بدون جلسة.
