@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {displayMetricValue,presentAuditReport,presentScore,validateAuditUrls} from '../src/audit.js';
+import {displayMetricValue,presentAuditReport,presentDeltaItem,presentMaturity,presentPerformanceCard,presentRecommendation,presentScore,validateAuditUrls} from '../src/audit.js';
 
 test('audit links require valid http URLs',()=>{
  assert.deepEqual(validateAuditUrls({website:'https://example.com'}),{website:'https://example.com/'});
@@ -48,4 +48,53 @@ test('null performance score is rendered as an explanation not a zero',()=>{
  assert.equal(presentScore(null),'—');
  assert.equal(presentScore(undefined),'—');
  assert.equal(presentScore(67),'67%');
+});
+
+test('maturity journey locks attributed unless the report level is attributed',()=>{
+ const insights=presentMaturity('insights');
+ assert.deepEqual(insights.map(stage=>[stage.id,stage.state]),[
+  ['surface','completed'],['verified','completed'],['insights','current'],['attributed','locked']
+ ]);
+ const attributed=presentMaturity('attributed');
+ assert.equal(attributed.at(-1).state,'current');
+ assert.ok(attributed.slice(0,3).every(stage=>stage.state==='completed'));
+});
+
+test('performance KPI card uses unavailable copy instead of zero or red score',()=>{
+ const missing=presentPerformanceCard(null,'لا توجد مقاييس أداء');
+ assert.equal(missing.available,false);
+ assert.equal(missing.display,'غير متاح حالياً');
+ assert.match(missing.explanation,/لا توجد مقاييس أداء/);
+ const ready=presentPerformanceCard(81);
+ assert.equal(ready.available,true);
+ assert.equal(ready.display,'81%');
+});
+
+test('delta presentation never invents growth from unknown or lost measurement',()=>{
+ assert.equal(presentDeltaItem({kind:'newly_measured'}).changeLabel,'تم قياسه لأول مرة');
+ assert.equal(presentDeltaItem({kind:'measurement_lost'}).changeLabel,'القياس غير متاح حالياً');
+ assert.equal(presentDeltaItem({kind:'numeric',absolute:12,percent:10}).changeLabel,'+12 (+10%)');
+});
+
+test('recommendation CTA is mapped from engine ids and not generated',()=>{
+ const rec=presentRecommendation({id:'rec_sync_insights',priority:2,title:'زامن Insights للمنصة',detail:'شغّل المزامنة',route:'connectors',evidenceIds:['ev:1']});
+ assert.equal(rec.ctaLabel,'مزامنة Insights');
+ assert.equal(rec.route,'connectors');
+ assert.equal(rec.priorityLabel,'أولوية متوسطة');
+});
+
+test('presentAuditReport exposes performance card and grouped sections without changing scores',()=>{
+ const view=presentAuditReport({
+  level:'insights',
+  scores:{coverageScore:55,confidenceScore:60,performanceScore:null,performanceExplanation:'لا توجد مقاييس أداء'},
+  metrics:[{id:'reach',title:'Reach',status:'observed',value:100,displayValue:'100',section:'performance',sectionTitle:'الأداء'}],
+  layers:[{id:'platform_insights',name:'Platform Insights',status:'ready'}],
+  recommendations:[{id:'rec_connect',title:'اربط',route:'connectors',priority:1}]
+ });
+ assert.equal(view.performanceDisplay,'—');
+ assert.equal(view.performanceCard.display,'غير متاح حالياً');
+ assert.equal(view.metricSections[0].title,'الأداء');
+ assert.equal(view.maturity.find(stage=>stage.state==='current').id,'insights');
+ assert.equal(view.layers[0].statusLabel,'جاهز');
+ assert.equal(view.recommendations[0].ctaLabel,'ربط حساب');
 });
