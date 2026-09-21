@@ -6,7 +6,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 PLATFORMS=['Facebook','Instagram','WhatsApp Business','Threads','YouTube','LinkedIn','Pinterest','TikTok','X','Google Business Profile']
-COLLECTIONS=['clients','brands','accounts','posts','leads','campaigns','media','assessments','audit','secrets']
+COLLECTIONS=['clients','brands','accounts','posts','leads','campaigns','media','assessments','insights','audit','secrets']
 ROLES=['admin','editor','reviewer','viewer']
 ASSESSMENT_SOURCES=['website','instagram','facebook','tiktok','linkedin','youtube','googleBusiness']
 class Problem(Exception):
