@@ -2,7 +2,7 @@
 import json,mimetypes,os,secrets,sys,traceback,hashlib
 from http.cookies import SimpleCookie
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs,urlparse
 from server.core import Store,Problem
 ROOT=Path(__file__).resolve().parents[1]
 class App:
@@ -32,7 +32,8 @@ class App:
     except (ValueError,UnicodeDecodeError):raise Problem('البيانات غير صالحة')
     if not isinstance(body,dict):raise Problem('البيانات غير صالحة')
    cookie_flags='; Path=/; HttpOnly; SameSite=Strict'+('; Secure' if self.secure else '')
-   if path=='/api/health' and method=='GET':payload={'ok':True,'version':'0.8.0'}
+   qs=parse_qs(env.get('QUERY_STRING',''),keep_blank_values=True)
+   if path=='/api/health' and method=='GET':payload={'ok':True,'version':'0.9.0'}
    elif path=='/api/setup' and method=='POST':
     configured=os.environ.get('BOOTSTRAP_TOKEN_HASH','')
     supplied=body.get('token','')
@@ -74,6 +75,15 @@ class App:
     elif path=='/api/insights/sync' and method=='POST':
      from server.insights import sync_account
      payload=sync_account(self.store,user,body)
+    elif path=='/api/audit' and method=='GET':
+     from server.audit_engine import get_current
+     payload=get_current(self.store,user,(qs.get('clientId') or [None])[0])
+    elif path=='/api/audit/history' and method=='GET':
+     from server.audit_engine import get_history
+     payload=get_history(self.store,user,(qs.get('clientId') or [None])[0])
+    elif path=='/api/audit/run' and method=='POST':
+     from server.audit_engine import run_audit
+     payload=run_audit(self.store,user,body.get('clientId'))
     elif path=='/api/action' and method=='POST':
      if not isinstance(body.get('payload'),dict):raise Problem('بيانات الإجراء غير صالحة')
      payload=self.store.mutate(user,body.get('action'),body['payload'],body.get('revision'))

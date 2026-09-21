@@ -8,84 +8,237 @@ export const auditSources=[
  {key:'googleBusiness',label:'Google Business',hint:'https://maps.google.com/...'}
 ];
 
-const connectionActive=c=>c.status==='identity_verified';
-const list=value=>Array.isArray(value)?value:[];
-const metric=(group,name,status,value,confidence,source)=>({group,name,status,value,confidence,source});
+export const evidenceStatusLabel={
+ observed:'مرصود',
+ inferred:'مستنتج',
+ unknown:'غير معروف',
+ unavailable:'غير متاح',
+ stale:'قديم',
+ zero:'صفر مرصود'
+};
 
-function operationalEvidence(workspace,verified){
- const posts=list(workspace.posts),jobs=list(workspace.jobs),leads=list(workspace.leads),campaigns=list(workspace.campaigns),media=list(workspace.media),insights=list(workspace.insights);
- const publishedPosts=posts.filter(post=>['published','partial'].includes(post.status));
- const scheduledPosts=posts.filter(post=>post.status==='scheduled');
- const terminalJobs=jobs.filter(job=>['published','failed','unknown'].includes(job.state));
- const successfulJobs=terminalJobs.filter(job=>job.state==='published');
- const qualifiedLeads=leads.filter(lead=>lead.status==='qualified');
- const completeLeads=leads.filter(lead=>lead.status!=='incomplete');
- const approvedCampaigns=campaigns.filter(campaign=>campaign.status==='approved');
- const documentedMedia=media.filter(item=>String(item.alt||'').trim()&&String(item.rights||'').trim());
- const deliveryRate=terminalJobs.length?Math.round(successfulJobs.length/terminalJobs.length*100):null;
- const insightSnapshots=insights.filter(snapshot=>['available','partial'].includes(snapshot.status)&&snapshot.metrics&&Object.keys(snapshot.metrics).length);
- const insightTotal=name=>insightSnapshots.reduce((sum,snapshot)=>sum+(Number(snapshot.metrics?.[name]?.value)||0),0);
- const insightAvailable=name=>insightSnapshots.some(snapshot=>Number.isFinite(Number(snapshot.metrics?.[name]?.value)));
- const insightValues=Object.fromEntries(['reach','impressions','engagements','followers','profileViews','websiteClicks','videoViews'].map(name=>[name,insightAvailable(name)?insightTotal(name):null]));
- return {verified,posts,jobs,leads,campaigns,media,insights,insightSnapshots,insightValues,publishedPosts,scheduledPosts,terminalJobs,successfulJobs,qualifiedLeads,completeLeads,approvedCampaigns,documentedMedia,deliveryRate};
+export const auditLevelLabel={
+ surface:'SURFACE AUDIT · READ ONLY',
+ verified:'VERIFIED AUDIT',
+ insights:'INSIGHTS AUDIT',
+ attributed:'ATTRIBUTED AUDIT'
+};
+
+export const auditLevelTitle={
+ surface:'تحليل سطحي من الروابط العامة فقط — بدون أي وصول للحسابات.',
+ verified:'تم تأكيد هوية حساب واحد على الأقل؛ التقرير يوضح بدقة ما أصبح موثّقًا وما زال يحتاج Insights.',
+ insights:'توفرت أدلة Insights حديثة. الأرقام المعروضة مرصودة من المنصة وليست تقديرات.',
+ attributed:'قياس التحويل والإيراد موثّق من Analytics وCRM.'
+};
+
+export const MATURITY_STAGES=[
+ {id:'surface',label:'Surface',title:'الروابط العامة'},
+ {id:'verified',label:'Verified',title:'هوية موثّقة'},
+ {id:'insights',label:'Insights',title:'قياس المنصة'},
+ {id:'attributed',label:'Attributed',title:'إسناد التحويل'}
+];
+
+export const layerStatusLabel={
+ ready:'جاهز',
+ limited:'محدود',
+ empty:'فارغ',
+ locked:'مقفل',
+ stale:'قديم'
+};
+
+export const layerTitle={
+ public_surface:'السطح العام',
+ verified_identity:'الهوية الموثّقة',
+ nemdar_operations:'تشغيل NEMDAR',
+ platform_insights:'قياس المنصات',
+ revenue_attribution:'إسناد الإيراد'
+};
+
+export const provenanceSourceLabel={
+ 'assessment.urls':'روابط التقييم',
+ 'surface_collector':'فحص الموقع العام',
+ 'connections':'اتصال موثّق',
+ 'page_connections':'Facebook Connection',
+ 'instagram_connections':'Instagram Connection',
+ 'meta_graph_api':'Meta Graph API',
+ 'nemdar_store':'تشغيل NEMDAR',
+ 'dispatch_jobs':'إيصال النشر',
+ 'analytics_crm':'Analytics + CRM',
+ 'ad_account':'حساب إعلاني'
+};
+
+export const deltaKindLabel={
+ numeric:'مقارنة رقمية',
+ newly_measured:'تم قياسه لأول مرة',
+ measurement_lost:'القياس غير متاح حالياً',
+ became_stale:'أصبح قديماً',
+ incompatible:'غير قابل للمقارنة',
+ unchanged:'بدون تغيير'
+};
+
+export const recommendationCta={
+ rec_connect:{label:'ربط حساب',icon:'link'},
+ rec_renew:{label:'تجديد التفويض',icon:'autorenew'},
+ rec_content:{label:'إنشاء محتوى',icon:'edit_note'},
+ rec_first_publish:{label:'متابعة النشر',icon:'send'},
+ rec_publish_fail:{label:'مراجعة فشل النشر',icon:'error'},
+ rec_site_analytics:{label:'إعداد Analytics',icon:'analytics'},
+ rec_leads:{label:'فتح الليدز',icon:'contacts'},
+ rec_campaigns:{label:'مراجعة الحملات',icon:'campaign'},
+ rec_sync_insights:{label:'مزامنة Insights',icon:'sync'},
+ rec_refresh_insights:{label:'تحديث Insights',icon:'refresh'},
+ rec_insights_denied:{label:'فتح ربط المنصات',icon:'link_off'},
+ rec_conversion:{label:'مراجعة التقييم',icon:'monitoring'}
+};
+
+export const improvementLabel={
+ add_source_url:'أضف مصدرًا',
+ connect_account:'ربط حساب',
+ add_website_and_social:'أضف الموقع والقنوات',
+ add_website:'أضف الموقع',
+ create_content_cycle:'إنشاء محتوى',
+ investigate_publishing:'مراجعة النشر',
+ review_campaigns:'مراجعة الحملات',
+ record_leads:'تسجيل ليدز',
+ renew_connection:'تجديد التفويض'
+};
+
+const MEASURED=new Set(['observed','inferred']);
+const LEVEL_ORDER=['surface','verified','insights','attributed'];
+
+export function displayMetricValue(metric={}){
+ const status=metric.status;
+ if(status==='observed'||status==='inferred'||status==='stale'){
+  if(metric.displayValue!=null&&metric.displayValue!=='')return String(metric.displayValue);
+  if(metric.value===0||metric.value==='0')return '0';
+  if(metric.value==null||metric.value==='')return metric.explanation||'—';
+  return String(metric.value);
+ }
+ return metric.explanation||metric.displayValue||'غير متاح للقياس';
 }
 
-function recommendations({connected,website,evidence}){
- const items=[];
- if(!connected.length)items.push({priority:1,title:'اربط حسابًا واحدًا للتحقق',detail:'الربط الحالي يؤكد هوية الحساب ويفتح طبقة بيانات التشغيل داخل NEMDAR؛ لا ينشر أو يحذف تلقائيًا.',route:'connectors'});
- if(connected.length&&!evidence.posts.length)items.push({priority:1,title:'أنشئ أول دورة محتوى موثّقة',detail:'أضف مسودة، راجعها، اعتمدها ثم جدولها حتى يبدأ التقرير المتقدم بقياس انتظام التشغيل.',route:'content'});
- if(connected.length&&evidence.posts.length&&!evidence.publishedPosts.length)items.push({priority:1,title:'أكمل أول نشر موثّق',detail:`يوجد ${evidence.posts.length} عنصر محتوى لكن لا توجد نتيجة نشر ناجحة أو جزئية مسجلة حتى الآن.`,route:'queue'});
- if(website?.status==='available'&&!website.signals?.analytics)items.push({priority:2,title:'فعّل قياس الموقع',detail:'لم يكتشف الفحص العام Analytics؛ أضف أداة قياس ثم أعد التقييم لإثبات مسار التحويل.',route:'audit'});
- if(connected.length&&!evidence.leads.length)items.push({priority:2,title:'اربط مرحلة الليدز بالتشغيل',detail:'لا توجد ليدز داخل مساحة العميل؛ سجّل المصدر وأدلة BANT قبل حساب جودة التحويل.',route:'leads'});
- if(connected.length&&evidence.campaigns.length&&!evidence.approvedCampaigns.length)items.push({priority:3,title:'راجع خطط الحملات',detail:`هناك ${evidence.campaigns.length} خطة بدون اعتماد ميزانية مسجل. الاعتماد لا يشغّل إعلانًا ولا يخصم مبلغًا.`,route:'campaigns'});
- if(connected.length&&!evidence.insightSnapshots.length)items.push({priority:3,title:'زامن Insights للمنصة',detail:'التحقق من الهوية وحده لا يوفر Reach أو Impressions. شغّل مزامنة القراءة من شاشة ربط المنصات.',route:'connectors'});
- return items.sort((a,b)=>a.priority-b.priority).slice(0,4);
+export function presentScore(value){
+ return value==null||Number.isNaN(Number(value))?'—':`${Math.round(Number(value))}%`;
 }
 
-export function buildAuditReport(assessment,accounts=[],connections=[],workspace={}){
- const urls=assessment?.urls||{};
- const snapshots=assessment?.snapshots||{};
- const sources=auditSources.map(source=>({...source,url:urls[source.key]||'',present:Boolean(urls[source.key]),snapshot:snapshots[source.key]||null}));
- const present=sources.filter(source=>source.present);
- const inspected=sources.filter(source=>source.snapshot?.status==='available');
- const website=sources.find(source=>source.key==='website')?.snapshot;
- const connected=connections.filter(connection=>connectionActive(connection)&&accounts.some(account=>account.id===connection.account_id));
- const expired=connections.filter(connection=>connection.status==='expired'&&accounts.some(account=>account.id===connection.account_id));
- const level=connected.length?'verified':'surface';
- const evidence=operationalEvidence(workspace,level==='verified');
- const contentStatus=level==='verified'&&evidence.posts.length?'available':'unknown';
- const deliveryStatus=level==='verified'&&evidence.terminalJobs.length?'available':level==='verified'&&evidence.jobs.length?'inferred':'unknown';
- const leadStatus=level==='verified'&&evidence.leads.length?'available':'unknown';
- const campaignStatus=level==='verified'&&evidence.campaigns.length?'available':'unknown';
- const platformInsightStatus=level==='verified'&&evidence.insightSnapshots.length?'available':'unknown';
- const insight=evidence.insightValues;
- const metrics=[
-  metric('الحضور الرقمي','القنوات الموجودة','available',`${present.length} من ${auditSources.length} مصادر أُضيفت للتقييم`,'عالٍ','الروابط التي أدخلها العميل'),
-  metric('الهوية','قابلية اكتشاف الهوية العامة',connected.length||inspected.length?'available':present.length?'inferred':'unknown',connected.length?`${connected.length} حساب تم التحقق من هويته عبر المنصة`:inspected.length?`تمت قراءة العنوان والوصف العام من ${inspected.length} مصدر`:'الروابط محفوظة لكن المصادر لم تسمح بالقراءة العامة',connected.length?'عالٍ':inspected.length?'عالٍ':'منخفض',connected.length?'اتصال موثّق':'Public Collector'),
-  metric('رحلة العميل','ترابط القنوات والـCTA',website?.status==='available'&&present.length>1?'available':urls.website&&present.length>1?'inferred':'unknown',website?.status==='available'?`الموقع: ${website.signals?.whatsApp?'WhatsApp ظاهر':'WhatsApp غير مكتشف'} · ${website.signals?.forms||0} نموذج · ${website.signals?.socialLinks||0} رابط سوشيال`:urls.website&&present.length>1?'الموقع موجود لكن القراءة العامة لم تكتمل':'أضف الموقع وقناة سوشيال واحدة على الأقل',website?.status==='available'?'عالٍ':urls.website?'متوسط':'غير متاح','Public website scan'),
-  metric('الموقع','جاهزية التحويل والقياس',website?.status==='available'?'available':'unknown',website?.status==='available'?`${website.signals?.mobileViewport?'Mobile ✓':'Mobile غير مكتشف'} · ${website.signals?.analytics?'Tracking ✓':'Tracking غير مكتشف'} · ${website.signals?.structuredData?'Structured Data ✓':'Structured Data غير مكتشف'}`:urls.website?'تعذرت قراءة الموقع من الخادم':'لم يُضف موقع',website?.status==='available'?'عالٍ':'غير متاح','HTML public signals'),
-  metric('التشغيل','دورة المحتوى داخل NEMDAR',contentStatus,contentStatus==='available'?`${evidence.posts.length} محتوى · ${evidence.publishedPosts.length} منشور/نجاح جزئي · ${evidence.scheduledPosts.length} مجدول`:'لا توجد دورة محتوى موثّقة متاحة في وضع التقرير الحالي',contentStatus==='available'?'عالٍ':'غير متاح','First-party workflow data'),
-  metric('التشغيل','موثوقية تسليم النشر',deliveryStatus,deliveryStatus==='available'?`${evidence.successfulJobs.length} نجاح من ${evidence.terminalJobs.length} نتيجة نهائية · ${evidence.deliveryRate}%`:deliveryStatus==='inferred'?`${evidence.jobs.length} مهمة موجودة لكن لا توجد نتائج نهائية كافية`:'لا توجد نتائج إرسال موثقة يمكن قياسها',deliveryStatus==='available'?'عالٍ':deliveryStatus==='inferred'?'متوسط':'غير متاح','Dispatch receipts'),
-  metric('الأداء','Reach · Impressions · Saves',platformInsightStatus,platformInsightStatus==='available'?`${insight.reach===null?'Reach غير متاح':'Reach '+insight.reach.toLocaleString('ar-AE')} · ${insight.impressions===null?'Impressions غير متاح':'Impressions '+insight.impressions.toLocaleString('ar-AE')} · Saves غير متاح في ملخص الحساب`:connected.length?'تم التحقق من الهوية، لكن Insights لم تُزامن أو لم تسمح بها Meta':'غير متاح من الروابط العامة',platformInsightStatus==='available'?'عالٍ':'غير متاح',platformInsightStatus==='available'?'Meta Graph API snapshot':'يتطلب مزامنة Insights للقراءة'),
-  metric('الأداء','التفاعل الموثّق',platformInsightStatus,platformInsightStatus==='available'?(insight.engagements===null?'Snapshot متاح لكن Metric التفاعل غير متاحة لهذا الحساب':`${insight.engagements.toLocaleString('ar-AE')} تفاعل خلال نطاق الـSnapshot`):'لا نستخدم أرقامًا مستخرجة بشكل غير موثوق من صفحة الملف الشخصي',platformInsightStatus==='available'?'عالٍ':'غير متاح',platformInsightStatus==='available'?'Meta Graph API snapshot':'يتطلب بيانات منصة موثوقة'),
-  metric('الجمهور','العمر والموقع وأوقات النشاط','unknown','لن نخمن بيانات الجمهور من المتابعين أو التعليقات','غير متاح','يتطلب موصل Insights للقراءة'),
-  metric('الحملات','جاهزية خطط الحملات',campaignStatus,campaignStatus==='available'?`${evidence.campaigns.length} خطة · ${evidence.approvedCampaigns.length} ميزانية معتمدة · إنفاق فعلي غير متاح`:'لا توجد خطط حملات موثقة في التقرير المتقدم',campaignStatus==='available'?'عالٍ':'غير متاح','First-party campaign plans'),
-  metric('الإعلانات','Spend · CTR · CPL · ROAS','unknown','لا يُعرض الإنفاق المخطط كأنه إنفاق فعلي','غير متاح','يتطلب ربط Ad Account للقراءة'),
-  metric('الليدز','جودة وتأهيل الليدز',leadStatus,leadStatus==='available'?`${evidence.qualifiedLeads.length} مؤهل من ${evidence.leads.length} · ${evidence.completeLeads.length} مكتمل القرار`:'لا توجد بيانات ليدز موثقة في التقرير المتقدم',leadStatus==='available'?'عالٍ':'غير متاح','NEMDAR CRM · BANT evidence'),
-  metric('التحويل','Conversion Rate · Revenue','unknown',evidence.leads.length?'الليدز موجودة لكن لا يوجد ربط إيراد أو مصدر تحويل مثبت':'لا يمكن إثبات التحويل من بيانات السوشيال العامة','غير متاح','يتطلب Analytics + CRM attribution'),
-  metric('الأمان','حالة الاتصال',connected.length?'available':'unknown',connected.length?`${connected.length} اتصال صالح · قراءة الهوية مؤكدة${expired.length?` · ${expired.length} منتهي`:''}`:expired.length?`${expired.length} اتصال منتهي ويحتاج تجديد`:'لم تمنح NEMDAR أي صلاحية للحسابات حتى الآن',connected.length?'عالٍ':'غير متاح','سجل الاتصالات')
- ];
- const known=metrics.filter(metric=>metric.status==='available').length;
- const inferred=metrics.filter(metric=>metric.status==='inferred').length;
- const unknown=metrics.filter(metric=>metric.status==='unknown').length;
- const layers=[
-  {name:'Public Surface',status:inspected.length?'ready':'limited',detail:`${inspected.length} من ${present.length} مصدر تمت قراءته`},
-  {name:'Verified Identity',status:connected.length?'ready':'locked',detail:connected.length?`${connected.length} اتصال موثّق`:'يحتاج ربط حساب'},
-  {name:'NEMDAR Operations',status:connected.length&&(evidence.posts.length||evidence.leads.length||evidence.campaigns.length)?'ready':connected.length?'empty':'locked',detail:connected.length?`${evidence.posts.length} محتوى · ${evidence.leads.length} ليد · ${evidence.campaigns.length} حملة`:'تُفتح بعد التحقق'},
-  {name:'Platform Insights',status:evidence.insightSnapshots.length?'ready':'locked',detail:evidence.insightSnapshots.length?`${evidence.insightSnapshots.length} Snapshot موثّق · آخر مزامنة ${evidence.insightSnapshots.map(item=>item.syncedAt).sort().at(-1)||''}`:'Reach والجمهور تحتاج صلاحيات قراءة منفصلة'},
-  {name:'Revenue Attribution',status:'locked',detail:'يحتاج Analytics + CRM attribution'}
- ];
- return {level,sources,present,inspected,connected,expired,metrics,known,inferred,unknown,evidence,layers,recommendations:recommendations({connected,website,evidence}),observedAt:snapshots.observedAt||'',coverage:Math.round((known+inferred*.45)/metrics.length*100)};
+export function presentPerformanceCard(score,explanation=''){
+ if(score==null||Number.isNaN(Number(score))){
+  return {available:false,display:'غير متاح حالياً',explanation:explanation||'لا توجد مقاييس أداء مرصودة وقابلة للمقارنة. المقاييس الناقصة لا تخفّض درجة الأداء.'};
+ }
+ return {available:true,display:`${Math.round(Number(score))}%`,explanation:explanation||'أداء مرصود من الأدلة المتاحة.'};
+}
+
+export function presentMaturity(level){
+ const current=LEVEL_ORDER.includes(level)?level:'surface';
+ const idx=LEVEL_ORDER.indexOf(current);
+ return MATURITY_STAGES.map((stage,i)=>({
+  ...stage,
+  state:i<idx?'completed':i===idx?'current':'locked'
+ }));
+}
+
+export function groupMetricsBySection(metrics=[]){
+ const groups=[];
+ const index=new Map();
+ for(const metric of metrics){
+  const key=metric.section||metric.group||'other';
+  if(!index.has(key)){
+   const group={id:key,title:metric.sectionTitle||metric.group||'مقاييس',metrics:[]};
+   index.set(key,group);
+   groups.push(group);
+  }
+  index.get(key).metrics.push(metric);
+ }
+ return groups;
+}
+
+export function presentSourceLabel(source=''){
+ return provenanceSourceLabel[source]||source||'';
+}
+
+export function presentDeltaItem(item={}){
+ const kind=item.kind||'unchanged';
+ let change=deltaKindLabel[kind]||kind;
+ if(kind==='numeric'){
+  const abs=item.absolute;
+  const pct=item.percent;
+  const absText=abs==null?'':`${abs>0?'+':''}${abs}`;
+  const pctText=pct==null?'':` (${pct>0?'+':''}${pct}%)`;
+  change=absText+pctText||'مقارنة رقمية';
+ }else if(kind==='newly_measured'){
+  change='تم قياسه لأول مرة';
+ }else if(kind==='measurement_lost'){
+  change='القياس غير متاح حالياً';
+ }
+ return {...item,kindLabel:deltaKindLabel[kind]||kind,changeLabel:change};
+}
+
+export function presentRecommendation(item={}){
+ const cta=recommendationCta[item.id]||{label:'فتح',icon:'arrow_back'};
+ const priority=Number(item.priority)||3;
+ return {
+  ...item,
+  priorityLabel:priority===1?'أولوية عالية':priority===2?'أولوية متوسطة':'متابعة',
+  priorityClass:priority===1?'high':priority===2?'medium':'low',
+  ctaLabel:cta.label,
+  ctaIcon:cta.icon,
+  route:item.route||'audit',
+  why:item.detail||'',
+  evidenceLabel:(item.evidenceIds||[]).length?`أدلة: ${item.evidenceIds.length}`:''
+ };
+}
+
+export function presentAuditReport(report){
+ if(!report||typeof report!=='object')return null;
+ const scores=report.scores||{};
+ const metrics=(report.metrics||[]).map(metric=>{
+  const status=metric.status||'unknown';
+  const value=displayMetricValue(metric);
+  const source=metric.provenance?.source||metric.source||'';
+  return {
+   ...metric,
+   status,
+   name:metric.title||metric.name,
+   group:metric.sectionTitle||metric.group,
+   value,
+   numericValue:MEASURED.has(status)||status==='stale'?metric.value:null,
+   statusLabel:evidenceStatusLabel[status]||evidenceStatusLabel.unknown,
+   provenanceLabel:presentSourceLabel(source),
+   freshnessLabel:metric.freshness?.label||'',
+   explanation:metric.explanation||'',
+   actionLabel:improvementLabel[metric.improvementAction]||''
+  };
+ });
+ const coverageScore=scores.coverageScore??report.coverage??null;
+ const confidenceScore=scores.confidenceScore??null;
+ const performanceScore=scores.performanceScore??null;
+ const performanceExplanation=scores.performanceExplanation||'';
+ return {
+  ...report,
+  level:report.level||'surface',
+  levelLabel:auditLevelLabel[report.level]||auditLevelLabel.surface,
+  metrics,
+  metricSections:groupMetricsBySection(metrics),
+  maturity:presentMaturity(report.level||'surface'),
+  scores:{
+   coverageScore,
+   confidenceScore,
+   performanceScore,
+   performanceExplanation
+  },
+  coverageDisplay:presentScore(coverageScore),
+  confidenceDisplay:presentScore(confidenceScore),
+  performanceDisplay:presentScore(performanceScore),
+  performanceCard:presentPerformanceCard(performanceScore,performanceExplanation),
+  recommendations:(report.recommendations||[]).map(presentRecommendation),
+  layers:(report.layers||[]).map(layer=>({
+   ...layer,
+   title:layerTitle[layer.id]||layer.name,
+   statusLabel:layerStatusLabel[layer.status]||layer.status
+  })),
+  delta:(report.delta||[]).map(presentDeltaItem),
+  sources:report.sources||[]
+ };
 }
 
 export function validateAuditUrls(urls){

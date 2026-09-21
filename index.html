@@ -1,1 +1,59 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>نِمدار سوشيال — مساحة العمل</title><link rel="stylesheet" href="src/app.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"></head><body><a class="skip" href="#main">انتقل للمحتوى</a><aside><div class="logo"><b>ن</b><div>نِمدار سوشيال<small>NEMDAR SOCIAL</small></div></div><p class="side-label">مساحة الوكالة</p><nav id="nav" aria-label="القائمة الرئيسية"></nav><div class="side-bottom"><span class="dot"></span> مساحة العمل<br><small>حسابات وصلاحيات منفصلة</small><a href="design-preview.html">مرجع التصميم ↗</a></div></aside><section class="workspace"><header><label>العميل والعلامة<select id="client" aria-label="العميل النشط"></select></label><span class="badge">نسخة تشغيل تجريبية</span><button id="export">تصدير البيانات ↓</button><button id="logout">خروج</button></header><div class="notice">البيانات محفوظة على الخادم. النشر والإعلانات الخارجية متوقفة لحين تهيئة تطبيقات المنصات وربط الحسابات.</div><main id="main" tabindex="-1"></main></section><dialog id="dialog" aria-labelledby="dialog-title"></dialog><div id="toast" role="status" aria-live="polite"></div><script type="module" src="src/app.js"></script></body></html>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>نِمدار سوشيال — مساحة العمل</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
+<link rel="stylesheet" href="src/app.css">
+</head>
+<body>
+<a class="skip" href="#main">انتقل للمحتوى</a>
+<button type="button" class="nav-toggle" id="nav-toggle" aria-controls="sidebar" aria-expanded="false" aria-label="فتح القائمة">
+  <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+</button>
+<div class="nav-backdrop" id="nav-backdrop" hidden></div>
+<aside id="sidebar">
+  <div class="brand">
+    <b>ن</b>
+    <div>نِمدار سوشيال NEMDAR<small>وكالة رقمية متكاملة</small></div>
+  </div>
+  <div class="side-scope">
+    <span>البيئة الحالية</span>
+    <strong id="side-client">—</strong>
+  </div>
+  <nav id="nav" aria-label="القائمة الرئيسية"></nav>
+  <div class="side-bottom">
+    <div class="side-user">
+      <span class="side-avatar" id="side-avatar" aria-hidden="true">ن</span>
+      <div>
+        <strong id="side-user-name"></strong>
+        <small id="side-user-role"></small>
+      </div>
+    </div>
+  </div>
+</aside>
+<section class="workspace">
+  <header>
+    <div class="top-context">
+      <span class="material-symbols-outlined" aria-hidden="true">corporate_fare</span>
+      <label>العميل والعلامة<select id="client" aria-label="العميل النشط"></select></label>
+    </div>
+    <span class="chip"><span class="chip-dot"></span>نسخة تشغيل تجريبية</span>
+    <div class="top-actions">
+      <button type="button" id="export" class="ghost">تصدير البيانات</button>
+      <button type="button" id="logout">خروج</button>
+    </div>
+  </header>
+  <div class="workspace-banner">البيانات محفوظة على الخادم. النشر والإعلانات الخارجية متوقفة لحين تهيئة تطبيقات المنصات وربط الحسابات.</div>
+  <main id="main" tabindex="-1"></main>
+</section>
+<dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

@@ -48,6 +48,8 @@ class Store:
    instagram_schema(db)
    from server.dispatch import ensure_schema
    ensure_schema(db)
+   from server.audit_engine import ensure_schema as audit_schema
+   audit_schema(db)
    from server.dispatch import enqueue
    for row in db.execute("SELECT data FROM entities WHERE kind='posts' AND id NOT IN (SELECT post_id FROM dispatch_jobs)").fetchall():
     post=json.loads(row[0])
@@ -258,6 +260,9 @@ class Store:
     db.execute('DELETE FROM vault WHERE id=?',(id,));db.execute('DELETE FROM entities WHERE id=?',(id,));obj=None
    else:raise Problem('إجراء غير معروف')
    if obj is not None: self.put(db,kind,obj);id=obj['id']
+   if action=='assessment':
+    from server.audit_engine import persist_from_db
+    persist_from_db(self,db,user,cid)
    self.put(db,'audit',{'id':uid(),'clientId':cid,'action':action,'entityId':id,'actor':user['name'],'at':timestamp()})
    db.execute("UPDATE meta SET value=value+1 WHERE key='revision'")
   return self.state(user)
