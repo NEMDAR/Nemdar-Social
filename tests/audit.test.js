@@ -28,15 +28,18 @@ test('verified audit uses first-party operations without relabelling them as pla
   jobs:[{state:'published'},{state:'failed'},{state:'published'}],
   leads:[{status:'qualified'},{status:'incomplete'}],
   campaigns:[{status:'approved'},{status:'draft'}],
-  media:[]
+  media:[],
+  insights:[{status:'partial',syncedAt:'2026-09-21T00:00:00Z',metrics:{reach:{value:120},engagements:{value:15}}}]
  };
  const report=buildAuditReport({urls:{instagram:'https://instagram.com/example'}},accounts,connections,workspace);
  assert.equal(report.evidence.deliveryRate,67);
  assert.match(report.metrics.find(metric=>metric.name==='دورة المحتوى داخل NEMDAR').value,/2 محتوى/);
  assert.match(report.metrics.find(metric=>metric.name==='موثوقية تسليم النشر').value,/67%/);
  assert.match(report.metrics.find(metric=>metric.name==='جودة وتأهيل الليدز').value,/1 مؤهل من 2/);
- assert.equal(report.metrics.find(metric=>metric.name.includes('Reach')).status,'unknown');
+ assert.equal(report.metrics.find(metric=>metric.name.includes('Reach')).status,'available');
+ assert.match(report.metrics.find(metric=>metric.name.includes('Reach')).value,/120/);
  assert.equal(report.layers.find(layer=>layer.name==='NEMDAR Operations').status,'ready');
+ assert.equal(report.layers.find(layer=>layer.name==='Platform Insights').status,'ready');
 });
 
 test('surface audit keeps internal operations locked until identity is verified',()=>{
