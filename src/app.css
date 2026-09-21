@@ -99,7 +99,7 @@ a:hover{color:var(--primary-container)}
 .nav-backdrop{position:fixed;inset:0;background:#191b2366;z-index:45}
 
 /* Sidebar */
-aside{position:fixed;right:0;top:0;bottom:0;width:var(--sidebar-width);background:var(--inverse-surface);color:var(--inverse-on-surface);padding:16px;display:flex;flex-direction:column;z-index:50;border-left:1px solid color-mix(in srgb,var(--outline-variant) 20%,transparent);box-shadow:var(--shadow-sm)}
+aside{position:fixed;right:0;top:0;bottom:0;width:var(--sidebar-width);background:var(--inverse-surface);color:var(--inverse-on-surface);padding:16px;display:flex;flex-direction:column;z-index:50;border-left:1px solid color-mix(in srgb,var(--outline-variant) 20%,transparent);box-shadow:var(--shadow-sm);overflow:hidden}
 .brand{display:flex;align-items:center;gap:12px;color:var(--inverse-on-surface);font-weight:800;font-size:16px;padding:4px 8px 4px 0;letter-spacing:-.02em;line-height:1.25}
 .brand b,.brand-mark{display:grid;place-items:center;background:var(--primary);color:var(--on-primary);border-radius:var(--radius);width:40px;height:40px;font-size:22px;flex:0 0 40px;box-shadow:var(--shadow-sm)}
 .brand small{display:block;font-size:11px;font-weight:500;color:color-mix(in srgb,var(--inverse-on-surface) 60%,transparent);letter-spacing:0;margin-top:2px}
@@ -109,13 +109,13 @@ aside{position:fixed;right:0;top:0;bottom:0;width:var(--sidebar-width);backgroun
 .side-scope{margin:16px 0 12px;padding:10px;background:color-mix(in srgb,var(--surface-variant) 10%,transparent);border:1px solid color-mix(in srgb,var(--outline-variant) 15%,transparent);border-radius:var(--radius)}
 .side-scope span{display:block;font-size:11px;color:color-mix(in srgb,var(--inverse-on-surface) 70%,transparent);margin-bottom:6px}
 .side-scope strong{display:block;font-size:12px;font-weight:700;color:var(--inverse-on-surface);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-nav{display:grid;gap:4px;overflow:auto;padding:4px 0}
-nav a{color:color-mix(in srgb,var(--inverse-on-surface) 80%,transparent);display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius);font-size:14px;font-weight:500;transition:background var(--ease),color var(--ease)}
+nav{display:grid;gap:2px;overflow:auto;padding:4px 0;flex:1;min-height:0}
+nav a{color:color-mix(in srgb,var(--inverse-on-surface) 80%,transparent);display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:var(--radius);font-size:13.5px;font-weight:500;transition:background var(--ease),color var(--ease)}
 nav a .material-symbols-outlined{font-size:20px}
 nav a:hover{background:color-mix(in srgb,var(--surface-variant) 10%,transparent);color:var(--inverse-on-surface)}
 nav a.active{background:var(--primary);color:var(--on-primary);font-weight:700;box-shadow:var(--shadow-sm)}
 nav a.active .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
-.side-bottom{margin-top:auto;padding-top:12px;display:grid;gap:8px}
+.side-bottom{margin-top:auto;padding-top:12px;display:grid;gap:8px;flex-shrink:0}
 .side-link{display:flex;align-items:center;gap:12px;color:color-mix(in srgb,var(--inverse-on-surface) 80%,transparent);padding:8px 12px;border-radius:var(--radius);font-size:13px}
 .side-link:hover{background:color-mix(in srgb,var(--surface-variant) 10%,transparent);color:var(--inverse-on-surface)}
 .side-user{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius)}
@@ -170,7 +170,7 @@ input:hover,select:hover,textarea:hover{border-color:var(--outline)}
 input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 16%,transparent);outline:0}
 input:disabled,select:disabled,textarea:disabled,input[readonly]{background:var(--surface-low);color:var(--on-surface-variant)}
 textarea{min-height:130px;resize:vertical}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
 .account-icon{width:40px;height:40px;background:var(--primary-fixed);color:var(--primary);border-radius:10px;display:grid;place-items:center;font-weight:800;margin-bottom:12px}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .actions button{font-size:12px;padding:7px 12px}
@@ -416,8 +416,10 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--primary)}
  aside{transform:translateX(110%);transition:transform .2s ease}
  body.nav-open aside{transform:none}
  .workspace{margin-right:0}
- header{padding:12px 16px 12px 16px;padding-right:56px;flex-wrap:wrap}
- .chip{display:none}
+ header{padding:10px 12px 10px 12px;padding-right:56px;flex-wrap:nowrap;gap:8px}
+ .chip,#export,.workspace-banner{display:none}
+ .top-context{min-width:0}
+ header label,header select{max-width:100%;width:100%}
  main{padding:18px 16px 32px}
  .page-header,.heading{padding:16px;flex-direction:column}
  .unlock-panel{flex-direction:column;align-items:flex-start}
